@@ -42,8 +42,8 @@ const getArticleList = () => {
   listArticle(param.value, ({data}) => {
     console.log(data)
     articles.value = data.articles;
-    currentPage.value = data.currentPage;
-    totalPage.value = data.totalPageCount;
+    //currentPage.value = data.currentPage;
+    //totalPage.value = data.totalPageCount;
   },
   (error) => {
     console.log(error)

@@ -1,5 +1,6 @@
 import { localAxios } from "@/util/http-commons";
 
+
 const local = localAxios();  // axios instance
 
 const url = "/board"
