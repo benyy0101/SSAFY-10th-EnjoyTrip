@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,7 +60,6 @@ public class BoardRestController {
         System.out.println(bDto);
         boardService.writeArticle(bDto);
         
-        // return "redirect:/board/boardMain";
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
     
@@ -93,9 +93,20 @@ public class BoardRestController {
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
     
+    @ApiOperation(value="정보 공유 글 삭제", notes = "여행 정보 리뷰를 삭제한다.")
+   	@ApiResponse(code = 200, message="success")
+    @DeleteMapping("/{articleNo}")
+    public ResponseEntity<String> deleteReviewBoard(@PathVariable int articleNo) {
+    	logger.debug("get.....articleNo:{}", articleNo);
+    	boardService.deleteArticle(articleNo);
+
+        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    }
+    
+    // 변경해야 함!
     @ApiOperation(value="여행 정보 리뷰 리스트", notes = "여행 정보 리뷰를 보여준다.")
 	@ApiResponse(code = 200, message="success")
-    @PostMapping("/listReviews")
+    @GetMapping("/listReviews")
     public ResponseEntity<?> listReviewsBoard(@ModelAttribute Map<String, String> map) {
         List<BoardDto> boardDto = boardService.listArticle(map);
         if(boardDto!=null) {
