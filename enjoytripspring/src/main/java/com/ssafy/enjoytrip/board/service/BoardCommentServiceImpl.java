@@ -1,7 +1,6 @@
 package com.ssafy.enjoytrip.board.service;
 
 import java.sql.SQLException;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,35 +10,24 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.enjoytrip.MyException;
-import com.ssafy.enjoytrip.board.model.dao.BoardDao;
-import com.ssafy.enjoytrip.board.model.dto.BoardDto;
+import com.ssafy.enjoytrip.board.model.dao.BoardCommentDao;
+import com.ssafy.enjoytrip.board.model.dto.BoardCommentDto;
 import com.ssafy.enjoytrip.util.PageNavigation;
 import com.ssafy.enjoytrip.util.SizeConstant;
 
-@Service("BoardService")
+@Service("BoardCommentService")
 @Repository
-public class BoardServiceImpl implements BoardService {
+public class BoardCommentServiceImpl implements BoardCommentService {
 
 	@Autowired
-	private BoardDao boardDao;
-
-	public BoardServiceImpl(BoardDao boardDao) {
-		this.boardDao = boardDao;
+	private BoardCommentDao boardCommentDao;
+	
+	public BoardCommentServiceImpl(BoardCommentDao boardCommentDao) {
+		this.boardCommentDao = boardCommentDao;
 	}
-
+	
 	@Override
-	public void writeArticle(BoardDto boardDto) {
-		try {
-			boardDao.writeArticle(boardDto);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			
-		}
-	}
-
-	@Override
-	public List<BoardDto> listArticle(Map<String, String> map) {
-
+	public List<BoardCommentDto> listComment(Map<String, String> map) {
 		try {
 			Map<String, Object> param = new HashMap<String, Object>();
 			String key = map.get("key");
@@ -51,17 +39,15 @@ public class BoardServiceImpl implements BoardService {
 			int start = pgNo * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE;
 			param.put("start", start);
 			param.put("listsize", SizeConstant.LIST_SIZE);
-			return boardDao.listArticle(param);
+			return boardCommentDao.listComment(param);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new MyException("listArticle 처리 중 오류 발생!!!");
-
+			throw new MyException("listComment 처리 중 오류 발생!");
 		}
 	}
 
 	@Override
 	public PageNavigation makePageNavigation(Map<String, String> map) {
-		
 		try {
 			PageNavigation pageNavigation = new PageNavigation();
 
@@ -71,7 +57,7 @@ public class BoardServiceImpl implements BoardService {
 
 			pageNavigation.setCurrentPage(currentPage);
 			pageNavigation.setNaviSize(naviSize);
-			int totalCount = boardDao.getTotalArticleCount(map);
+			int totalCount = boardCommentDao.getTotalCommentCount(map);
 			pageNavigation.setTotalCount(totalCount);
 			int totalPageCount = (totalCount - 1) / sizePerPage + 1;
 			pageNavigation.setTotalPageCount(totalPageCount);
@@ -80,53 +66,39 @@ public class BoardServiceImpl implements BoardService {
 			boolean endRange = (totalPageCount - 1) / naviSize * naviSize < currentPage;
 			pageNavigation.setEndRange(endRange);
 			pageNavigation.makeNavigator();
-
 			return pageNavigation;
-			
 		} catch (Exception e) {
-			throw new MyException("makePageNavigation 처리 중 오류 발생!!!");
+			throw new MyException("makePageNavigation 처리 중 오류 발생!");
 		}
-		
 	}
 
 	@Override
-	public BoardDto getArticle(int articleNo) {
+	public void writeComment(BoardCommentDto boardCommentDto) {
 		try {
-			return boardDao.getArticle(articleNo);
-		} catch (Exception e) {
+			boardCommentDao.writeComment(boardCommentDto);
+		}catch(SQLException e) {
 			e.printStackTrace();
-			throw new MyException("getArticle 처리 중 오류 발생!!!");
+			throw new MyException("writeComment 처리 중 오류 발생!");
 		}
 	}
 
 	@Override
-	public void updateHit(int articleNo) {
-		
+	public void modifyComment(BoardCommentDto boardCommentDto) {
 		try {
-			boardDao.updateHit(articleNo);
-		} catch (Exception e) {
-			throw new MyException("updateHit 처리 중 오류 발생!!!");
+			boardCommentDao.modifyComment(boardCommentDto);
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new MyException("modifyComment 처리 중 오류 발생!");
 		}
 	}
 
 	@Override
-	public void modifyArticle(BoardDto boardDto) {
-		
+	public void deleteComment(int commentNo) {
 		try {
-			boardDao.modifyArticle(boardDto);
-		} catch (Exception e) {
-			throw new MyException("modifyArticle 처리 중 오류 발생!!!");
+			boardCommentDao.deleteComment(commentNo);
+		}catch(SQLException e) {
+			e.printStackTrace();
+			throw new MyException("modifyComment 처리 중 오류 발생!");
 		}
 	}
-
-	@Override
-	public void deleteArticle(int articleNo) {
-		
-		try {
-			boardDao.deleteArticle(articleNo);
-		} catch (Exception e) {
-			throw new MyException("deleteArticle 처리 중 오류 발생!!!");
-		}
-	}
-
 }
