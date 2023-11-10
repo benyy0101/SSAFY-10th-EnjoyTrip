@@ -1,5 +1,8 @@
 package com.ssafy.enjoytrip.board.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -7,12 +10,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.enjoytrip.board.model.dto.BoardDto;
+import com.ssafy.enjoytrip.board.service.BoardCommentService;
 import com.ssafy.enjoytrip.board.service.BoardService;
 import com.ssafy.enjoytrip.member.model.dto.MemberDto;
 
@@ -55,5 +62,46 @@ public class BoardRestController {
         // return "redirect:/board/boardMain";
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
-	
+    
+    @ApiOperation(value="정보 공유 글 조회", notes = "여행 정보 리뷰를 조회한다.")
+   	@ApiResponse(code = 200, message="success")
+    @GetMapping("/{articleNo}")
+    public ResponseEntity<?> getReviewBoard(@PathVariable int articleNo) {
+    	logger.debug("get.....articleNo:{}", articleNo);
+        BoardDto board = boardService.getArticle(articleNo);
+        System.out.println(board);
+        
+        if(board != null) {
+        	return new ResponseEntity<BoardDto>(board, HttpStatus.OK);
+        }
+        else {
+        	return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        }
+    }
+    
+    @ApiOperation(value="정보 공유 수정", notes = "여행 정보 리뷰를 수정한다.")
+   	@ApiResponse(code = 200, message="success")
+    @PutMapping("/updateReview")
+    public ResponseEntity<String> updateReviewBoard(@ModelAttribute BoardDto bDto, @ApiIgnore HttpSession session) {
+
+        MemberDto mDto = (MemberDto) session.getAttribute("loginUser");
+        System.out.println(mDto);
+        bDto.setUserId("ssafy");
+        System.out.println(bDto);
+        boardService.modifyArticle(bDto);
+        
+        return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    }
+    
+    @ApiOperation(value="여행 정보 리뷰 리스트", notes = "여행 정보 리뷰를 보여준다.")
+	@ApiResponse(code = 200, message="success")
+    @PostMapping("/listReviews")
+    public ResponseEntity<?> listReviewsBoard(@ModelAttribute Map<String, String> map) {
+        List<BoardDto> boardDto = boardService.listArticle(map);
+        if(boardDto!=null) {
+        	return new ResponseEntity<List<BoardDto>>(boardDto, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+		}
+    }
 }
