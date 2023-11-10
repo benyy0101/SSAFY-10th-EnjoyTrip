@@ -2,11 +2,12 @@
 
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
-    <div class="container-fluid">
+    <div class="container-fluid flex">
       <router-link :to="{ name: 'main' }" class="navbar-brand">
-        <img src="@/assets/ssafy_logo.png" class="rounded mx-auto d-block" alt="..." />
+        <!-- <img src="@/assets/main_logo.png" class="mx-auto d-block" alt="..." height="100"/> -->
+        <div>임시 LOGO</div>
       </router-link>
-      <button
+      <!-- <button
         class="navbar-toggler"
         type="button"
         data-bs-toggle="collapse"
@@ -16,22 +17,18 @@
         aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
-      </button>
+      </button> -->
       <div class="collapse navbar-collapse" id="navbarScroll">
         <ul
           class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
-          style="--bs-scroll-height: 100px"
         >
           <li class="nav-item">
-            <a class="nav-link" href="#">마이캠퍼스</a>
+            <a class="nav-link" href="#">길찾기</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">강의실</a>
+            <router-link :to="{ name: 'board' }" class="nav-link">자유 게시판</router-link>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">커뮤니티</a>
-          </li>
-          <li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
               href="#"
@@ -47,13 +44,7 @@
               <li><hr class="dropdown-divider" /></li>
               <li><a class="dropdown-item" href="#">학사규정</a></li>
             </ul>
-          </li>
-          <li class="nav-item">
-            <router-link :to="{ name: 'board' }" class="nav-link">게시판</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link :to="{ name: 'estations' }" class="nav-link">전기차충전소</router-link>
-          </li>
+          </li> -->
         </ul>
         <form class="d-flex" role="search">
           <input

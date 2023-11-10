@@ -1,4 +1,5 @@
 <script setup>
+import { registArticle, modifyArticle } from "@/api/board";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -14,7 +15,6 @@ const article = ref({
   subject: "",
   content: "",
   userId: "",
-  userName: "",
   hit: 0,
   registerTime: "",
 });
@@ -63,11 +63,27 @@ function onSubmit() {
 
 function writeArticle() {
   console.log("글등록하자!!", article.value);
+  registArticle(article.value,
+  ({data}) =>{
+    console.log("regist.....................sucess, data: ", data);
+  },
+  err => {
+    console.log(err)
+  }
+  )
    // API 호출
 }
 
 function updateArticle() {
   console.log(article.value.articleNo + "번글 수정하자!!", article.value);
+  modifyArticle(article.value,
+  ({data}) =>{
+    console.log("regist.....................sucess, data: ", data);
+  },
+  err => {
+    console.log(err)
+  }
+  )
    // API 호출
 }
 

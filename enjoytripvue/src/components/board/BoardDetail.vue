@@ -36,6 +36,7 @@ function onDeleteArticle() {
   // API 호출
   deleteArticle();
 }
+
 </script>
 
 <template>
