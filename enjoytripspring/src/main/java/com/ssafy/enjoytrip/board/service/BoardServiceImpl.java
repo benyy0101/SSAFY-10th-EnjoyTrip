@@ -33,13 +33,11 @@ public class BoardServiceImpl implements BoardService {
 			boardDao.writeArticle(boardDto);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			
 		}
 	}
 
 	@Override
 	public List<BoardDto> listArticle(Map<String, String> map) {
-
 		try {
 			Map<String, Object> param = new HashMap<String, Object>();
 			String key = map.get("key");
@@ -54,14 +52,13 @@ public class BoardServiceImpl implements BoardService {
 			return boardDao.listArticle(param);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new MyException("listArticle 처리 중 오류 발생!!!");
+			throw new MyException("listArticle 처리 중 오류 발생!");
 
 		}
 	}
 
 	@Override
 	public PageNavigation makePageNavigation(Map<String, String> map) {
-		
 		try {
 			PageNavigation pageNavigation = new PageNavigation();
 
@@ -84,7 +81,7 @@ public class BoardServiceImpl implements BoardService {
 			return pageNavigation;
 			
 		} catch (Exception e) {
-			throw new MyException("makePageNavigation 처리 중 오류 발생!!!");
+			throw new MyException("makePageNavigation 처리 중 오류 발생!");
 		}
 		
 	}
@@ -95,38 +92,35 @@ public class BoardServiceImpl implements BoardService {
 			return boardDao.getArticle(articleNo);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new MyException("getArticle 처리 중 오류 발생!!!");
+			throw new MyException("getArticle 처리 중 오류 발생!");
 		}
 	}
 
 	@Override
 	public void updateHit(int articleNo) {
-		
 		try {
 			boardDao.updateHit(articleNo);
 		} catch (Exception e) {
-			throw new MyException("updateHit 처리 중 오류 발생!!!");
+			throw new MyException("updateHit 처리 중 오류 발생!");
 		}
 	}
 
 	@Override
 	public void modifyArticle(BoardDto boardDto) {
-		
 		try {
 			boardDao.modifyArticle(boardDto);
 		} catch (Exception e) {
-			throw new MyException("modifyArticle 처리 중 오류 발생!!!");
+			throw new MyException("modifyArticle 처리 중 오류 발생!");
 		}
 	}
 
 	@Override
 	public void deleteArticle(int articleNo) {
-		
 		try {
 			boardDao.deleteArticle(articleNo);
 		} catch (Exception e) {
-			throw new MyException("deleteArticle 처리 중 오류 발생!!!");
+			e.printStackTrace();
+			throw new MyException("deleteArticle 처리 중 오류 발생!");
 		}
 	}
-
 }
