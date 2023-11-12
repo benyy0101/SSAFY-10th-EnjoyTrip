@@ -1,5 +1,6 @@
 <script setup>
 defineProps({ article: Object });
+//console.log("Item.................", article);
 </script>
 
 <template>
@@ -13,7 +14,7 @@ defineProps({ article: Object });
         {{ article.subject }}
       </router-link>
     </td>
-    <td>{{ article.userName }}</td>
+    <td>{{ article.userId }}</td>
     <td>{{ article.hit }}</td>
     <td>{{ article.registerTime }}</td>
   </tr>

@@ -15,7 +15,7 @@
     	where articleNo = #{articleNo}
     </select>
     
-    <select id="listArticle" parameterType="Map" resultType="BoardDto">
+    <select id="listArticle" resultType="BoardDto">
     	select *
     	from board
     	order by articleNo

@@ -10,4 +10,14 @@ import TheHeadingNavbar from "@/components/layout/TheHeadingNavbar.vue";
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+@font-face {
+    font-family: 'Orbit-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/Orbit-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+* {
+  font-family: Orbit-Regular;
+}
+</style>

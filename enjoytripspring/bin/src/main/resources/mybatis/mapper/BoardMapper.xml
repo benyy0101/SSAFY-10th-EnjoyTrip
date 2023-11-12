@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.enjoytrip.board.model.dao.BoardDao">
+    
+    <insert id="writeArticle" parameterType="BoardDto">
+        insert into board(userId, subject, content, hit) 
+        values(#{userId},#{subject}, #{content}, #{hit})
+    </insert>
+    
+    <select id="getArticle" parameterType="int" resultType="BoardDto">
+    	select *
+    	from board
+    	where articleNo = #{articleNo}
+    </select>
+    
+    <select id="listArticle" parameterType="Map" resultType="BoardDto">
+    	select *
+    	from board
+    	order by articleNo
+    </select>
+    
+    <update id="modifyArticle" parameterType="BoardDto">
+    	update board set subject=#{subject}, content=#{content}, registerTime=now()
+    	where articleNo=#{articleNo}
+    </update>
+    
+    <delete id="deleteArticle" parameterType="int">
+    	delete from board
+    	where articleNo=#{articleNo}
+    </delete>
+    
+    <update id="updateHit" parameterType="int">
+    	update board set hit=hit+1 where articleNo=#{articleNo}
+    </update>
+</mapper>

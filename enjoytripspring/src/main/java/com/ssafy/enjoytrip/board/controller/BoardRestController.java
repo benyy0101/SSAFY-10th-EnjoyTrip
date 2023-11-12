@@ -9,15 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.enjoytrip.board.model.dto.BoardDto;
 import com.ssafy.enjoytrip.board.service.BoardCommentService;
@@ -43,6 +35,8 @@ public class BoardRestController {
 		this.boardService = boardService;
 	}
 
+
+
 	/**
 	 * ResponseEntity 응답 코드 + 응답 데이터를 전송하기 위한 객체
 	 */
@@ -50,13 +44,13 @@ public class BoardRestController {
 	// ${root}/board/insertReview
     @ApiOperation(value="정보 공유 등록", notes = "여행 정보 리뷰를 등록한다.")
 	@ApiResponse(code = 200, message="success")
-    @PostMapping("/insertReview")
-    public ResponseEntity<String> insertReviewBoard(@ModelAttribute BoardDto bDto, @ApiIgnore HttpSession session) {
+    @PostMapping
+    public ResponseEntity<String> insertReviewBoard(@RequestBody BoardDto bDto, @ApiIgnore HttpSession session) {
 
         MemberDto mDto = (MemberDto) session.getAttribute("loginUser");
-        System.out.println(mDto);
+        //System.out.println(mDto);
         // userId, subject, content 입력
-        bDto.setUserId("ssafy");
+        //bDto.setUserId("ssafy");
         System.out.println(bDto);
         boardService.writeArticle(bDto);
         
@@ -81,8 +75,8 @@ public class BoardRestController {
     
     @ApiOperation(value="정보 공유 수정", notes = "여행 정보 리뷰를 수정한다.")
    	@ApiResponse(code = 200, message="success")
-    @PutMapping("/updateReview")
-    public ResponseEntity<String> updateReviewBoard(@ModelAttribute BoardDto bDto, @ApiIgnore HttpSession session) {
+    @PutMapping
+    public ResponseEntity<String> updateReviewBoard(@RequestBody BoardDto bDto, @ApiIgnore HttpSession session) {
 
         MemberDto mDto = (MemberDto) session.getAttribute("loginUser");
         System.out.println(mDto);
@@ -102,17 +96,18 @@ public class BoardRestController {
 
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
-    
-    // 변경해야 함!
+
     @ApiOperation(value="여행 정보 리뷰 리스트", notes = "여행 정보 리뷰를 보여준다.")
-	@ApiResponse(code = 200, message="success")
-    @GetMapping("/listReviews")
-    public ResponseEntity<?> listReviewsBoard(@ModelAttribute Map<String, String> map) {
-        List<BoardDto> boardDto = boardService.listArticle(map);
+    @ApiResponse(code = 200, message="success")
+    @GetMapping
+    public ResponseEntity<?> listReviewsBoard() {
+        List<BoardDto> boardDto = boardService.listArticle();
+        logger.debug("boardDto......................{}: ", boardDto);
         if(boardDto!=null) {
-        	return new ResponseEntity<List<BoardDto>>(boardDto, HttpStatus.OK);
-		}else {
-			return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
-		}
+            return new ResponseEntity<List<BoardDto>>(boardDto, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+        }
     }
+
 }
