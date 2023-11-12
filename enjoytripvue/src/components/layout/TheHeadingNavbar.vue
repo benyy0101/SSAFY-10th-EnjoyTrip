@@ -19,14 +19,14 @@
         <span class="navbar-toggler-icon"></span>
       </button> -->
       <div class="collapse navbar-collapse" id="navbarScroll">
-        <ul
-          class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
-        >
+        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
           <li class="nav-item">
             <a class="nav-link" href="#">길찾기</a>
           </li>
           <li class="nav-item">
-            <router-link :to="{ name: 'board' }" class="nav-link">자유 게시판</router-link>
+            <router-link :to="{ name: 'board' }" class="nav-link"
+              >자유 게시판</router-link
+            >
           </li>
           <!-- <li class="nav-item dropdown">
             <a
@@ -45,6 +45,14 @@
               <li><a class="dropdown-item" href="#">학사규정</a></li>
             </ul>
           </li> -->
+        </ul>
+
+        <ul class="navbar-nav me-2 my-lg-0">
+          <li class="nav-item">
+            <router-link :to="{ name: 'signup' }" class="nav-link"
+              >회원가입</router-link
+            >
+          </li>
         </ul>
         <form class="d-flex" role="search">
           <input
