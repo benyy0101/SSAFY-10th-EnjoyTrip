@@ -49,6 +49,11 @@
 
         <ul class="navbar-nav me-2 my-lg-0">
           <li class="nav-item">
+            <router-link :to="{ name: 'login' }" class="nav-link"
+              >로그인</router-link
+            >
+          </li>
+          <li class="nav-item">
             <router-link :to="{ name: 'signup' }" class="nav-link"
               >회원가입</router-link
             >
