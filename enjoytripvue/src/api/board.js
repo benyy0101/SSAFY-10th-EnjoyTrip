@@ -1,11 +1,10 @@
 import { localAxios } from "@/util/http-commons";
 
+const local = localAxios(); // axios instance
 
-const local = localAxios();  // axios instance
-
-const url = "/board"
+const url = "/board";
 function listArticle(param, success, fail) {
-  local.get(`${url}`, { params: param }).then(success).catch(fail);
+  local.get(`${url}`).then(success).catch(fail);
 }
 
 function detailArticle(articleno, success, fail) {

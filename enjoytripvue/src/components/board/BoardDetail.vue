@@ -19,7 +19,15 @@ const getArticle = () => {
   // const { articleno } = route.params;
   console.log(articleno + "번글 얻으러 가자!!!");
   // API 호출
-  detailArticle(articleno);
+  detailArticle(articleno,(res)=>{
+    console.log(res);
+    article.value = res.data;
+  },
+  (err)=>{
+    console.log(err);
+  }
+  );
+
 };
 
 function moveList() {
@@ -34,7 +42,8 @@ function onDeleteArticle() {
   // const { articleno } = route.params;
   console.log(articleno + "번글 삭제하러 가자!!!");
   // API 호출
-  deleteArticle();
+  deleteArticle(articleno);
+  moveList();
 }
 
 </script>
@@ -59,7 +68,7 @@ function onDeleteArticle() {
                 src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
               />
               <p>
-                <span class="fw-bold">안효인</span> <br />
+                <span class="fw-bold">{{article.userId}}</span> <br />
                 <span class="text-secondary fw-light">
                   {{ article.registerTime }}1 조회 : {{ article.hit }}
                 </span>

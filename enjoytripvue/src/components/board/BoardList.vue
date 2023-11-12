@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref} from "vue";
 import { useRouter } from "vue-router";
 import { listArticle } from "@/api/board";
 
@@ -16,7 +16,7 @@ const selectOption = ref([
   { text: "작성자아이디", value: "user_id" },
 ]);
 
-const articles = ref([]);
+const articles = ref(null);
 const currentPage = ref(1);
 const totalPage = ref(0);
 const { VITE_ARTICLE_LIST_SIZE } = import.meta.env;
@@ -26,22 +26,20 @@ const param = ref({
   key: "",
   word: "",
 });
-
-onMounted(() => {
-  getArticleList();
-});
+getArticleList();
 
 const changeKey = (val) => {
   console.log("BoarList에서 선택한 조건 : " + val);
   param.value.key = val;
 };
 
-const getArticleList = () => {
+function getArticleList() {
   console.log("서버에서 글목록 얻어오자!!!", param.value);
   // API 호출
-  listArticle(param.value, ({data}) => {
-    console.log(data)
-    articles.value = data.articles;
+  listArticle(param.value, (res) => {
+    console.log(res.data);
+    articles.value = res.data;
+    //console.log(articles.value);
     //currentPage.value = data.currentPage;
     //totalPage.value = data.totalPageCount;
   },

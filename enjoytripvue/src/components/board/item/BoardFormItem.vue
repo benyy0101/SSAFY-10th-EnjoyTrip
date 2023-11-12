@@ -1,5 +1,5 @@
 <script setup>
-import { registArticle, modifyArticle } from "@/api/board";
+import { registArticle, modifyArticle, detailArticle } from "@/api/board";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -23,6 +23,14 @@ if (props.type === "modify") {
   let { articleno } = route.params;
   console.log(articleno + "번글 얻어와서 수정할거야");
   // API 호출
+  detailArticle(articleno, (res)=>{
+    article.value = res.data;
+    console.log(article.value);
+  },
+  (err) =>{
+    console.log(err)
+  }
+  )
   isUseId.value = true;
 }
 
@@ -59,6 +67,7 @@ function onSubmit() {
   } else {
     props.type === "regist" ? writeArticle() : updateArticle();
   }
+  moveList();
 }
 
 function writeArticle() {
@@ -66,6 +75,7 @@ function writeArticle() {
   registArticle(article.value,
   ({data}) =>{
     console.log("regist.....................sucess, data: ", data);
+    moveList();
   },
   err => {
     console.log(err)

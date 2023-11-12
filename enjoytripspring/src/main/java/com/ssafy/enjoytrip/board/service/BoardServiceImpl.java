@@ -37,19 +37,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardDto> listArticle(Map<String, String> map) {
+	public List<BoardDto> listArticle() {
 		try {
-			Map<String, Object> param = new HashMap<String, Object>();
-			String key = map.get("key");
-			if ("userid".equals(key))
-				key = "b.user_id";
-			param.put("key", key == null ? "" : key);
-			param.put("word", map.get("word") == null ? "" : map.get("word"));
-			int pgNo = Integer.parseInt(map.get("pgno") == null ? "1" : map.get("pgno"));
-			int start = pgNo * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE;
-			param.put("start", start);
-			param.put("listsize", SizeConstant.LIST_SIZE);
-			return boardDao.listArticle(param);
+			return boardDao.listArticle();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new MyException("listArticle 처리 중 오류 발생!");

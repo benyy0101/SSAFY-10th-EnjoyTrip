@@ -8,7 +8,7 @@ import com.ssafy.enjoytrip.util.PageNavigation;
 
 public interface BoardService {
 
-	List<BoardDto> listArticle(Map<String, String> map);
+	List<BoardDto> listArticle();
 	PageNavigation makePageNavigation(Map<String, String> map);
 	BoardDto getArticle(int articleNo);
 	void updateHit(int articleNo);

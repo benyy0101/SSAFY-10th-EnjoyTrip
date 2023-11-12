@@ -12,7 +12,7 @@ import com.ssafy.enjoytrip.board.model.dto.BoardDto;
 public interface BoardDao {
 
 	void writeArticle(BoardDto boardDto) throws SQLException;
-	List<BoardDto> listArticle(Map<String, Object> param) throws SQLException;
+	List<BoardDto> listArticle() throws SQLException;
 	int getTotalArticleCount(Map<String, String> param) throws SQLException;
 	BoardDto getArticle(int articleNo) throws SQLException;
 	void updateHit(int articleNo) throws SQLException;
