@@ -10,9 +10,9 @@ import com.ssafy.enjoytrip.board.model.dto.BoardCommentDto;
 
 @Mapper
 public interface BoardCommentDao {
-	List<BoardCommentDto> listComment(Map<String, Object> param) throws SQLException;
+	List<BoardCommentDto> listComment(int articleNo) throws SQLException;
 	int getTotalCommentCount(Map<String, String> param) throws SQLException;
 	void writeComment(BoardCommentDto boardCommentDto) throws SQLException;
 	void modifyComment(BoardCommentDto boardCommentDto) throws SQLException;
-	void deleteComment(int commentNo) throws SQLException; 
+	void deleteComment(int articleNo, int commentNo) throws SQLException; 
 }

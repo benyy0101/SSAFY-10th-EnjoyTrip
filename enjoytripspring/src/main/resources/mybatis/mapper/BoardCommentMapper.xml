@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.enjoytrip.board.model.dao.BoardCommentDao">
+    
+    <insert id="writeComment" parameterType="BoardCommentDto">
+        insert into comment(articleNo, userId, commentContent) 
+        values(#{articleNo}, #{userId}, #{commentContent})
+    </insert>
+    
+    <select id="listComment" resultType="BoardCommentDto">
+    	select *
+    	from comment
+    	order by commentNo
+    </select>
+    
+    <update id="modifyComment" parameterType="BoardCommentDto">
+    	update comment set commentContent=#{commentContent}, commentRegisterTime=now()
+    	where commentNo=#{commentNo}
+    </update>
+    
+    <delete id="deleteComment" parameterType="int">
+    	delete from comment
+    	where commentNo=#{commentNo}
+    </delete>
+</mapper>
