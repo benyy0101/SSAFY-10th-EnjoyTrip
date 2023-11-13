@@ -3,6 +3,7 @@ import TheMainView from '../views/TheMainView.vue';
 import TheElectricChargingStation from '@/views/TheElectricChargingStation.vue';
 import TheSignUpView from '@/views/TheSignUpView.vue';
 import TheLoginView from '@/views/TheLoginView.vue';
+import TheMapView from '@/views/TheMapView.vue';
 // import TheBoardView from "../views/TheBoardView.vue";
 
 const router = createRouter({
@@ -17,6 +18,11 @@ const router = createRouter({
       path: '/estations',
       name: 'estations',
       component: TheElectricChargingStation,
+    },
+    {
+      path: '/map',
+      name: 'map',
+      component: TheMapView,
     },
     {
       path: '/board',

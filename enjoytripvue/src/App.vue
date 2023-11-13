@@ -1,23 +1,39 @@
 <script setup>
 import { RouterView } from "vue-router";
 import TheHeadingNavbar from "@/components/layout/TheHeadingNavbar.vue";
+import LoginModal from "@/components/board/item/LoginModal.vue";
+import {provide, ref, watch} from "vue";
+const stateLogin = ref(false);
+provide('stateLogin', stateLogin);
+
+watch(stateLogin, ()=>{
+  console.log(stateLogin.value)
+});
 </script>
 
 <template>
-  <div>
+  <div id="main">
     <TheHeadingNavbar></TheHeadingNavbar>
     <router-view></router-view>
+    <LoginModal v-show="stateLogin"></LoginModal>
   </div>
 </template>
 
 <style scoped>
 @font-face {
-    font-family: 'Orbit-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/Orbit-Regular.woff2') format('woff2');
-    font-weight: normal;
+    font-family: 'NPSfontBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/NPSfontBold.woff2') format('woff2');
+    font-weight: 700;
     font-style: normal;
 }
 * {
-  font-family: Orbit-Regular;
+  font-family: NPSfontBold;
 }
+
+#main{
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+
 </style>

@@ -1,4 +1,11 @@
-<script setup></script>
+<script setup>
+import {inject } from "vue";
+const stateLogin = inject('stateLogin');
+
+function toggleModal(){
+  stateLogin.value = !stateLogin.value;
+}
+</script>
 
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
@@ -49,8 +56,8 @@
 
         <ul class="navbar-nav me-2 my-lg-0">
           <li class="nav-item">
-            <router-link :to="{ name: 'login' }" class="nav-link"
-              >로그인</router-link
+            <button @click="toggleModal" class="nav-link"
+              >로그인</button
             >
           </li>
           <li class="nav-item">
