@@ -27,19 +27,9 @@ public class BoardCommentServiceImpl implements BoardCommentService {
 	}
 	
 	@Override
-	public List<BoardCommentDto> listComment(Map<String, String> map) {
+	public List<BoardCommentDto> listComment(int articleNo) {
 		try {
-			Map<String, Object> param = new HashMap<String, Object>();
-			String key = map.get("key");
-			if ("userid".equals(key))
-				key = "b.user_id";
-			param.put("key", key == null ? "" : key);
-			param.put("word", map.get("word") == null ? "" : map.get("word"));
-			int pgNo = Integer.parseInt(map.get("pgno") == null ? "1" : map.get("pgno"));
-			int start = pgNo * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE;
-			param.put("start", start);
-			param.put("listsize", SizeConstant.LIST_SIZE);
-			return boardCommentDao.listComment(param);
+			return boardCommentDao.listComment(articleNo);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new MyException("listComment 처리 중 오류 발생!");
@@ -66,6 +56,7 @@ public class BoardCommentServiceImpl implements BoardCommentService {
 			boolean endRange = (totalPageCount - 1) / naviSize * naviSize < currentPage;
 			pageNavigation.setEndRange(endRange);
 			pageNavigation.makeNavigator();
+			
 			return pageNavigation;
 		} catch (Exception e) {
 			throw new MyException("makePageNavigation 처리 중 오류 발생!");
@@ -93,9 +84,9 @@ public class BoardCommentServiceImpl implements BoardCommentService {
 	}
 
 	@Override
-	public void deleteComment(int commentNo) {
+	public void deleteComment(int articleNo, int commentNo) {
 		try {
-			boardCommentDao.deleteComment(commentNo);
+			boardCommentDao.deleteComment(articleNo, commentNo);
 		}catch(SQLException e) {
 			e.printStackTrace();
 			throw new MyException("modifyComment 처리 중 오류 발생!");
