@@ -1,7 +1,6 @@
 package com.ssafy.enjoytrip.board.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.enjoytrip.board.model.dto.BoardDto;
-import com.ssafy.enjoytrip.board.service.BoardCommentService;
 import com.ssafy.enjoytrip.board.service.BoardService;
 import com.ssafy.enjoytrip.member.model.dto.MemberDto;
 
