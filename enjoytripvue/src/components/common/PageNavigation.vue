@@ -10,7 +10,7 @@ const stateLogin = inject('stateLogin');
 
 function toggleModal(){
   stateLogin.value = !stateLogin.value;
-};
+}
 
 const startPage = computed(() => {
   return parseInt((props.currentPage - 1) / navigationSize) * navigationSize + 1;
@@ -45,7 +45,7 @@ function onPageChange(pg) {
   <div class="row">
     <ul class="pagination justify-content-center">
       <li class="page-item">
-        <a class="page-link" @click="onPageChange(1)">최신</a>
+        <a class="page-link" @click="onPageChange(1)">처음</a>
       </li>
       <li class="page-item">
         <a class="page-link" @click="onPageChange(startPage == 1 ? 1 : startPage - 1)">이전</a>
