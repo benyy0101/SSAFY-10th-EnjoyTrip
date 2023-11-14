@@ -2,6 +2,8 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { detailArticle, deleteArticle } from "@/api/board";
+import { listComment } from "@/api/comment";
+import CommentListItem from "@/components/board/item/CommentListItem.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -10,9 +12,11 @@ const router = useRouter();
 const { articleno } = route.params;
 
 const article = ref({});
+const comments = ref(null);
 
 onMounted(() => {
   getArticle();
+  getComment();
 });
 
 const getArticle = () => {
@@ -27,7 +31,19 @@ const getArticle = () => {
     console.log(err);
   }
   );
+};
 
+const getComment = () => {
+  console.log(articleno + "번글 얻으러 가자!!!");
+  // API 호출
+  listComment(articleno,(res)=>{
+    console.log(res);
+    comments.value = res.data;
+  },
+  (err)=>{
+    console.log(err);
+  }
+  );
 };
 
 function moveList() {
@@ -58,10 +74,10 @@ function onDeleteArticle() {
       </div>
       <div class="col-lg-10 text-start">
         <div class="row my-2">
-          <h2 class="text-secondary px-5">{{ article.articleNo }}. {{ article.subject }}</h2>
+          <h2 class="text-center px-5 mt-3">{{ article.subject }}</h2>
         </div>
         <div class="row">
-          <div class="col-md-8">
+          <div class="d-flex justify-content-end">
             <div class="clearfix align-content-center">
               <img
                 class="avatar me-2 float-md-start bg-light p-2"
@@ -70,12 +86,11 @@ function onDeleteArticle() {
               <p>
                 <span class="fw-bold">{{article.userId}}</span> <br />
                 <span class="text-secondary fw-light">
-                  {{ article.registerTime }}1 조회 : {{ article.hit }}
+                  {{ article.registerTime }} 조회 : {{ article.hit }}
                 </span>
               </p>
             </div>
           </div>
-          <div class="col-md-4 align-self-center text-end">댓글 : 17</div>
           <div class="divider mb-3"></div>
           <div class="text-secondary">
             {{ article.content }}
@@ -92,10 +107,30 @@ function onDeleteArticle() {
               글삭제
             </button>
           </div>
+          <div class="col-md-4 align-self-center">댓글</div>
+          <div class="mb-3 mt-3">
+            <textarea class="comment" v-model="article.commentContent" rows="2"></textarea>
+          </div>
+          <div class="text-end">
+            <button type="submit" class="btn btn-outline-primary">
+              댓글 작성
+            </button>
+          </div>
+          <div class="mb-3 mt-3">
+            <CommentListItem
+              v-for="comment in comments"
+              :key="comment.commentNo"
+              :comment="comment"
+            ></CommentListItem>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.comment{
+  width:60%;
+}
+</style>
