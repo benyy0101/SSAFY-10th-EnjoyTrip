@@ -2,7 +2,6 @@
 import { ref } from "vue";
 defineProps({ selectOption: Array });
 const emit = defineEmits(["onKeySelect"]);
-
 const key = ref("");
 
 const onSelect = () => {
@@ -24,4 +23,8 @@ const onSelect = () => {
   </select>
 </template>
 
-<style scoped></style>
+<style scoped>
+  select{
+    position:absolute;
+  }
+</style>
