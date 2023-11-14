@@ -30,22 +30,22 @@
 
 	<select id="getSido" resultMap="sido">
 		select
-		sidoCode, sidoName
+		sido_code, sido_name
 		from sido
 	</select>
 
 	<select id="getGugun" parameterType="int" resultMap="gugun">
 		select
-		sidoCode, gugunCode, gugunName
+		sido_code, gugun_code, gugun_name
 		from gugun
-		where sidoCode = #{sidoCode}
+		where sido_code = #{sido_code}
 	</select>
 
 	<select id="getMarker" parameterType="map" resultMap="marker">
 		select
-		contentTypeId, title, addr1, addr2, firstImage, readCount, latitude, longitude, sidoCode, gugunCode
+		content_type_id, title, addr1, addr2, first_image, readcount, latitude, longitude, sido_code, gugun_code
 		from attraction_info
-		where contentTypeId = #{contentTypeId} and sidoCode = #{sidoCode} and gugunCode = #{gugunCode}
+		where content_type_id = #{contentTypeId} and sido_code = #{sidoCode} and gugun_code = #{gugunCode}
 	</select>
 
 </mapper>

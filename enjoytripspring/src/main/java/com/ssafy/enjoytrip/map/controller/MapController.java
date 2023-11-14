@@ -43,6 +43,7 @@ public class MapController {
 		logger.debug("map.getSido...................sidoList:{}", sidoList);
 		
 		if (sidoList != null && !sidoList.isEmpty()) {
+			logger.debug("map.getSido...................sidoList:success");
 			return new ResponseEntity<List<SidoDto>>(sidoList, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
@@ -66,8 +67,9 @@ public class MapController {
 	
 	@ApiOperation(value="마커 정보 조회")
 	@GetMapping("/getMarker")
-	public ResponseEntity<?> getMarker(@RequestParam int contentTypeId, @RequestParam int sidoCode, @RequestParam int gugunCode) {
-		List<MarkerDto> markerList = mapService.getMarker(contentTypeId, sidoCode, gugunCode);
+	public ResponseEntity<?> getMarker(@RequestParam int content_type_id, @RequestParam int sido_code, @RequestParam int gugun_code) {
+		logger.debug("content.......................................:{}",content_type_id);
+		List<MarkerDto> markerList = mapService.getMarker(content_type_id, sido_code, gugun_code);
 		
 		logger.debug("map.getMarker...................markerList:{}", markerList);
 
