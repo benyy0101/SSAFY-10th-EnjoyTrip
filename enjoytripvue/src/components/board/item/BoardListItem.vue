@@ -1,12 +1,11 @@
 <script setup>
 defineProps({ article: Object });
-//console.log("Item.................", article);
 </script>
 
 <template>
   <tr class="text-center">
     <th scope="row">{{ article.articleNo }}</th>
-    <td class="text-start">
+    <td>
       <router-link
         :to="{ name: 'article-view', params: { articleno: article.articleNo } }"
         class="article-title link-dark"
