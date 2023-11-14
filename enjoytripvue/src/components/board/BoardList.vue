@@ -45,9 +45,8 @@ function getArticleList() {
   },
   (error) => {
     console.log(error)
-  }
-  );
-};
+  });
+}
 
 const onPageChange = (val) => {
   console.log(val + "번 페이지로 이동 준비 끝!!!");
