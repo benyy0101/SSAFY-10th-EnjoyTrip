@@ -1,8 +1,8 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { detailArticle, deleteArticle } from "@/api/board";
-import { listComment } from "@/api/comment";
+import { listComment, writeComment } from "@/api/comment";
 import CommentListItem from "@/components/board/item/CommentListItem.vue";
 
 const route = useRoute();
@@ -13,6 +13,13 @@ const { articleno } = route.params;
 
 const article = ref({});
 const comments = ref(null);
+const num = ref(0);
+
+const sendComment = ref({
+  articleNo: articleno,
+  userId: "",
+  commentContent: "",
+});
 
 onMounted(() => {
   getArticle();
@@ -23,26 +30,31 @@ const getArticle = () => {
   // const { articleno } = route.params;
   console.log(articleno + "번글 얻으러 가자!!!");
   // API 호출
-  detailArticle(articleno,(res)=>{
-    console.log(res);
-    article.value = res.data;
-  },
-  (err)=>{
-    console.log(err);
-  }
+  detailArticle(
+    articleno,
+    (res) => {
+      console.log(res);
+      article.value = res.data;
+    },
+    (err) => {
+      console.log(err);
+    }
   );
 };
 
 const getComment = () => {
   console.log(articleno + "번글 얻으러 가자!!!");
   // API 호출
-  listComment(articleno,(res)=>{
-    console.log(res);
-    comments.value = res.data;
-  },
-  (err)=>{
-    console.log(err);
-  }
+  listComment(
+    articleno,
+    (res) => {
+      console.log(res);
+      comments.value = res.data;
+      num.value = comments.value.length;
+    },
+    (err) => {
+      console.log(err);
+    }
   );
 };
 
@@ -62,6 +74,40 @@ function onDeleteArticle() {
   moveList();
 }
 
+const contentErrMsg = ref("");
+
+watch(
+  () => sendComment.value.commentContent,
+  (value) => {
+    let len = value.length;
+    if (len == 0) {
+      contentErrMsg.value = "댓글을 작성해주세요";
+    } else contentErrMsg.value = "";
+  },
+  { immediate: true }
+);
+
+function onSubmit() {
+  if (contentErrMsg.value) {
+    alert(contentErrMsg.value);
+  }else {
+    onSendComment();
+  }
+}
+
+function onSendComment() {
+  console.log("댓글 되나유");
+  sendComment.value.userId = article.value.userId;
+  writeComment(
+    sendComment.value,
+    ({ data }) => {
+      console.log("writeComment.....................success, data: ", data);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+}
 </script>
 
 <template>
@@ -84,7 +130,7 @@ function onDeleteArticle() {
                 src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
               />
               <p>
-                <span class="fw-bold">{{article.userId}}</span> <br />
+                <span class="fw-bold">{{ article.userId }}</span> <br />
                 <span class="text-secondary fw-light">
                   {{ article.registerTime }} 조회 : {{ article.hit }}
                 </span>
@@ -97,25 +143,46 @@ function onDeleteArticle() {
           </div>
           <div class="divider mt-3 mb-3"></div>
           <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-outline-primary mb-3" @click="moveList">
+            <button
+              type="button"
+              class="btn btn-outline-primary mb-3"
+              @click="moveList"
+            >
               글목록
             </button>
-            <button type="button" class="btn btn-outline-success mb-3 ms-1" @click="moveModify">
+            <button
+              type="button"
+              class="btn btn-outline-success mb-3 ms-1"
+              @click="moveModify"
+            >
               글수정
             </button>
-            <button type="button" class="btn btn-outline-danger mb-3 ms-1" @click="onDeleteArticle">
+            <button
+              type="button"
+              class="btn btn-outline-danger mb-3 ms-1"
+              @click="onDeleteArticle"
+            >
               글삭제
             </button>
           </div>
-          <div class="col-md-4 align-self-center">댓글</div>
-          <div class="mb-3 mt-3">
-            <textarea class="comment" v-model="article.commentContent" rows="2"></textarea>
-          </div>
-          <div class="text-end">
-            <button type="submit" class="btn btn-outline-primary">
-              댓글 작성
-            </button>
-          </div>
+          <div class="col-md-4 align-self-center">댓글 {{ num }}</div>
+          <form @submit.prevent="onSubmit">
+            <div class="mb-3 mt-3">
+              <a-textarea
+                :rows="3"
+                v-model="sendComment.commentContent"
+                placeholder="댓글을 입력해주세요"
+              ></a-textarea>
+            </div>
+            <div class="text-end">
+              <button
+                type="submit"
+                class="btn btn-outline-primary"
+              >
+                댓글 작성
+              </button>
+            </div>
+          </form>
           <div class="mb-3 mt-3">
             <CommentListItem
               v-for="comment in comments"
@@ -130,7 +197,7 @@ function onDeleteArticle() {
 </template>
 
 <style scoped>
-.comment{
-  width:60%;
+.comment {
+  width: 60%;
 }
 </style>
