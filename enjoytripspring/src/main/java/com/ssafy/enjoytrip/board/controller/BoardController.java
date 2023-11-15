@@ -23,17 +23,15 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/board") // 요청하는 자원(Domain)명을 붙인다. ==> /book이 이미 있어서 /rest로 함
 @Api(value="Board REST-ful위한 API", description = "정보 공유 게시판")
 @CrossOrigin({"*"})   // 다른 서버에서 AJax 
-public class BoardRestController {
-	private Logger logger = LoggerFactory.getLogger(BoardRestController.class);
+public class BoardController {
+	private Logger logger = LoggerFactory.getLogger(BoardController.class);
 	private BoardService boardService;
 
 	private static final String SUCCESS = "success";
 
-	public BoardRestController(BoardService boardService) {
+	public BoardController(BoardService boardService) {
 		this.boardService = boardService;
 	}
-
-
 
 	/**
 	 * ResponseEntity 응답 코드 + 응답 데이터를 전송하기 위한 객체
