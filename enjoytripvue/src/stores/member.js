@@ -19,7 +19,7 @@ export const useMemberStore = defineStore("memberStore", () => {
       loginUser,
       (response) => {
         // console.log("login ok!!!!", response.status);
-        // console.log("login ok!!!!", httpStatusCode.CREATE);
+        console.log("login ok!!!!", httpStatusCode.CREATE);
         if (response.status === httpStatusCode.CREATE) {
           let { data } = response;
           // console.log("data", data);

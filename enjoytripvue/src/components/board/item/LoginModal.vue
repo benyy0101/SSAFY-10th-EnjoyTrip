@@ -54,6 +54,10 @@ function onSubmit() {
 
 const loginMember = async () => {
   console.log("login 진행 중!!!");
+  login.value = {
+    userId: login.value.userId.trim(),
+    userPwd: login.value.userPwd.trim()
+  }
   await userLogin(login.value);
   let token = sessionStorage.getItem("accessToken");
   
