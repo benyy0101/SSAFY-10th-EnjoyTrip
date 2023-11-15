@@ -87,16 +87,16 @@ const loginMember = async () => {
     </a-space>
     <div class="formContainer">
       <form @submit.prevent="onSubmit">
-        <a-input v-model="login.userId" size="large" placeholder="아이디" class="idInput">
+        <a-input v-model:value="login.userId" size="large" placeholder="아이디" class="idInput">
           <template #prefix>
         <user-outlined />
       </template>
         </a-input>
-        <a-input type="password" v-model="login.userPwd" size="large" placeholder="비밀번호" class="pwdInput" @keyup.enter="onSubmit">
+        <a-input-password v-model:value="login.userPwd" size="large" placeholder="비밀번호" class="pwdInput" @keyup.enter="onSubmit">
           <template #prefix>
         <LockOutlined />
       </template>
-        </a-input>
+        </a-input-password>
         <a-flex :justify="'flex-end'" class="buttonWrapper">
           <button type="submit" @click.prevent="onSubmit" class="login">로그인</button>
         </a-flex>
