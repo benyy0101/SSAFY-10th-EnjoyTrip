@@ -247,8 +247,8 @@ const loadData = (selectedOptions) => {
   <a-space direction="horizontal">
     <div id="map" />
     <div class="cardSection">
-      <a-card title="어쩔건데">
-        <p>너가 뭘할수 있는데</p>
+      <a-card v-for="option in attInfo" :key="option.title">
+        <p>{{ option.title }}</p>
       </a-card>
     </div>
   </a-space>
@@ -269,6 +269,11 @@ const loadData = (selectedOptions) => {
   background-color: brown;
   padding: 1rem;
   border-radius: 0.8rem;
+  overflow-y: scroll;
+  
+}
+.cardSection::-webkit-scrollbar {
+  display: none;
 }
 
 .attOptions {

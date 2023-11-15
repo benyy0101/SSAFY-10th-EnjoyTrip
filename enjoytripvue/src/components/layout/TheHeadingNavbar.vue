@@ -17,10 +17,10 @@ function toggleModal(){
   <a-menu
         theme="dark"
         mode="horizontal"
-        :style="{ lineHeight: '64px' }"
+        :style="{ lineHeight: '64px'}"
       >
-        <a-menu-item key="1">핫플 찾기!</a-menu-item>
-        <a-menu-item key="2">여행계획</a-menu-item>
+        <a-menu-item key="1" class="menuItem">핫플 찾기!</a-menu-item>
+        <a-menu-item key="2" class="menuItem">여행계획</a-menu-item>
   </a-menu>
   </div>
   
@@ -56,6 +56,14 @@ function toggleModal(){
   display: flex;
   gap:5rem;
 }
+
+.site-layout-content {
+  min-height: 280px;
+  padding: 24px;
+  background: #abc9ff;
+}
+
+
 </style>
 
 

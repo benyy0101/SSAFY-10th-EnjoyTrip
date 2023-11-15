@@ -13,7 +13,7 @@ watch(stateLogin, ()=>{
 
 <template>
   <a-layout class="layout">
-    <TheHeadingNavbar></TheHeadingNavbar>
+    <TheHeadingNavbar class="navbar"></TheHeadingNavbar>
     <a-layout-content class="layoutContent">
       <router-view></router-view>
     <LoginModal v-show="stateLogin"></LoginModal>
@@ -39,11 +39,15 @@ watch(stateLogin, ()=>{
   width: 100vw;
 }
 
+.layout{
+  
+}
 .layoutContent{
-  background-color: aqua;
+  background-color: white;
+  min-height: 100vh;
 }
 
 .footer{
-  background-color: lime;
+  background-color: #f2eee5;
 }
 </style>
