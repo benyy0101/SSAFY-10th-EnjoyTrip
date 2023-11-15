@@ -1,7 +1,7 @@
 <script setup>
 import { RouterView } from "vue-router";
 import TheHeadingNavbar from "@/components/layout/TheHeadingNavbar.vue";
-import LoginModal from "@/components/board/item/LoginModal.vue";
+import LoginModal from "@/components/modal/LoginModal.vue";
 import {provide, ref, watch} from "vue";
 const stateLogin = ref(false);
 provide('stateLogin', stateLogin);
