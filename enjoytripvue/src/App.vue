@@ -12,11 +12,11 @@ watch(stateLogin, ()=>{
 </script>
 
 <template>
-  <div id="main">
+  <a-layout class="layout">
     <TheHeadingNavbar></TheHeadingNavbar>
     <router-view></router-view>
     <LoginModal v-show="stateLogin"></LoginModal>
-  </div>
+  </a-layout>
 </template>
 
 <style scoped>

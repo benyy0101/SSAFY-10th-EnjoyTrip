@@ -2,7 +2,7 @@
 
 <template>
   <div class="hero-bg-container">
-      <img src="@/assets/hero.jpeg" alt="" class="hero-bg">
+      <!-- <img src="@/assets/hero.jpeg" alt="" class="hero-bg">
     </div>
   <div class="hero-container">    
     <div class="searchbar-container">
@@ -10,7 +10,7 @@
       <div class="search-btn">
          검색하기
       </div>
-    </div>
+    </div> -->
   </div>
   
 </template>
