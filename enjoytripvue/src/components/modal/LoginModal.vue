@@ -87,12 +87,12 @@ const loginMember = async () => {
     </a-space>
     <div class="formContainer">
       <form @submit.prevent="onSubmit">
-        <a-input v-model:value="login.userId" size="large" placeholder="이메일 (example@gmail.com)" class="idInput">
+        <a-input v-model="login.userId" size="large" placeholder="아이디" class="idInput">
           <template #prefix>
         <user-outlined />
       </template>
         </a-input>
-        <a-input v-model:value="login.userPwd" size="large" placeholder="비밀번호" class="pwdInput" @keyup.enter="onSubmit">
+        <a-input type="password" v-model="login.userPwd" size="large" placeholder="비밀번호" class="pwdInput" @keyup.enter="onSubmit">
           <template #prefix>
         <LockOutlined />
       </template>
