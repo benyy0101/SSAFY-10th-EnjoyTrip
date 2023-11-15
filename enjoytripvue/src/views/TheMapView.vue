@@ -33,7 +33,9 @@ const positions = ref([]);
 const attInfo = ref([]);
 const value = ref();
 let map = "";
-watch(value,()=>{console.log(value)});
+watch(value, () => {
+  console.log(value);
+});
 //const gugunOption = ref([{ text: "구군선택", value: "" }]);
 // watch(sidoOption,()=>{
 //   console.log(sidoOption.value);
@@ -223,9 +225,8 @@ const loadData = (selectedOptions) => {
 </script>
 
 <template>
-  <a-space
-    class="searchContainer"
-  >
+  <div class="contentWrapper">
+    <a-space class="searchContainer">
     <div>지역</div>
     <a-cascader
       v-model:value="value"
@@ -241,41 +242,44 @@ const loadData = (selectedOptions) => {
       :options="attOption"
       class="attOptions"
     />
-</a-space>
+  </a-space>
 
-  <div>
-    <a-space direction="horizontal">
-      <div id="map"/>
-      
-      <div class="cardSection">
-        <a-card title="어쩔건데">
-          <p>너가 뭘할수 있는데</p>
-        </a-card>
-      </div>
-    </a-space>
+  <a-space direction="horizontal">
+    <div id="map" />
+    <div class="cardSection">
+      <a-card title="어쩔건데">
+        <p>너가 뭘할수 있는데</p>
+      </a-card>
+    </div>
+  </a-space>
   </div>
 </template>
 
 <style>
-
 #map {
   height: 80vh;
   width: 80vw;
-  
+  margin: 0 0 0 3rem;
+  border-radius: 0.8rem;
 }
 
-.cardSection{
+.cardSection {
   height: 80vh;
   width: 15vw;
   background-color: brown;
   padding: 1rem;
-  
-}
-.attOptions {
-  width:10rem;
+  border-radius: 0.8rem;
 }
 
-.searchContainer{
-  
+.attOptions {
+  width: 10rem;
 }
+
+.searchContainer {
+  margin: 1rem 2rem;
+  font-weight: 1000;
+  font-size: large;
+}
+
+
 </style>
