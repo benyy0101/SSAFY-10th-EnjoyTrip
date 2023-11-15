@@ -9,16 +9,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.enjoytrip.member.controller.MemberController;
+import com.ssafy.enjoytrip.exception.MyException;
 import com.ssafy.enjoytrip.member.model.dao.MemberDao;
 import com.ssafy.enjoytrip.member.model.dto.MemberDto;
 
 @Service
 public class MemberServiceImpl implements MemberService {
 
-	// private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//	private static MemberService memberService = new MemberServiceImpl();
-	
 	@Autowired
 	private MemberDao memberDao;
 	private Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
@@ -31,91 +28,49 @@ public class MemberServiceImpl implements MemberService {
 	public int idCheck(String userId){
 		try {
 			logger.debug("idCheck..................................:{}", userId);
+			MemberDto mDto = memberDao.userInfo(userId);
+			if(mDto == null) throw new MyException("해당 아이디는 사용하실 수 있습니다.");
 			return memberDao.idCheck(userId);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return -1;
 	}
 
 	@Override
-	public int joinMember(MemberDto memberDto){
+	public void joinMember(MemberDto memberDto){
 		try {
-			return memberDao.joinMember(memberDto);
+			logger.debug("joinMember..................................:{}", memberDto);
+			memberDao.joinMember(memberDto);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		return 0;
-	}
-
-	@Override
-	public MemberDto loginMember(String userId, String userPwd){
-		try {
-			MemberDto member = memberDao.getMemberById(userId);
-			if(member.getUserPwd() == userPwd) {
-				return member;
-			}
-			else {
-				return null;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	@Override
-	public MemberDto getMemberById(String userId){
-		try {
-			return memberDao.getMemberById(userId);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	@Override
-	public void updatePwdById(String curId, String newPwd) {
-		try {
-			memberDao.updatePwdById(curId, newPwd);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-	}
-
-	@Override
-	public void updateEmailById(String userId, String newEmailId, String newEmailDomain) {
-		try {
-			memberDao.updateEmailById(userId, newEmailId, newEmailDomain);
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	@Override
-	public void deleteUserById(String userId) {
-		try {
-			memberDao.deleteUserById(userId);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new MyException("회원가입 중 오류 발생!");
 		}
 	}
 
 	@Override
-	public String getPwdById(String curId) {
-		return null;
+	public void updateMember(MemberDto memberDto){
+		try {
+			logger.debug("updateMember..................................:{}", memberDto);
+			memberDao.updateMember(memberDto);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new MyException("회원 정보 수정 중 오류 발생!");
+		}
+	}
+	
+	@Override
+	public void deleteMember(String userId){
+		try {
+			logger.debug("deleteMember..................................:{}", userId);
+			memberDao.deleteMember(userId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new MyException("회원 정보 삭제 중 오류 발생!");
+		}
 	}
 
-	// Jwt 로그인을 위해 추가
+	// JWT 로그인을 위해 추가
 	@Override
 	public MemberDto login(MemberDto memberDto) throws Exception {
 		return memberDao.login(memberDto);

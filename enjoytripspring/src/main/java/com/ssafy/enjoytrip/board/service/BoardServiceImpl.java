@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.enjoytrip.MyException;
 import com.ssafy.enjoytrip.board.model.dao.BoardDao;
 import com.ssafy.enjoytrip.board.model.dto.BoardDto;
+import com.ssafy.enjoytrip.exception.MyException;
 import com.ssafy.enjoytrip.util.PageNavigation;
 import com.ssafy.enjoytrip.util.SizeConstant;
 
