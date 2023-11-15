@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import TheMainView from '../views/TheMainView.vue';
-import TheElectricChargingStation from '@/views/TheElectricChargingStation.vue';
 import TheSignUpView from '@/views/TheSignUpView.vue';
 import TheMapView from '@/views/TheMapView.vue';
 // import TheBoardView from "../views/TheBoardView.vue";
@@ -12,11 +11,6 @@ const router = createRouter({
       path: '/',
       name: 'main',
       component: TheMainView,
-    },
-    {
-      path: '/estations',
-      name: 'estations',
-      component: TheElectricChargingStation,
     },
     {
       path: '/map',
@@ -55,7 +49,6 @@ const router = createRouter({
         },
       ],
     },
-    
     {
       path: '/signup',
       name: 'signup',
