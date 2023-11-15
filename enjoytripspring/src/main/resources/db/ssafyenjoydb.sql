@@ -36,6 +36,8 @@ CREATE TABLE IF NOT EXISTS `ssafyenjoy`.`member` (
   PRIMARY KEY (`userId`))
 ENGINE = InnoDB;
 
+-- Jwt 로그인을 위해 이거 실행해야 해!!!
+alter table member add column token varchar(1000) null default null after joinDate;
 -- -----------------------------------------
 -- Table `ssafyenjoy`.`comment`
 -- -----------------------------------------

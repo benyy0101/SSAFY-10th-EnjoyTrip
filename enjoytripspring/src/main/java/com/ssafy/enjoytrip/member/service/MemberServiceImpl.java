@@ -1,6 +1,8 @@
 package com.ssafy.enjoytrip.member.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,4 +115,35 @@ public class MemberServiceImpl implements MemberService {
 		return null;
 	}
 
+	// Jwt 로그인을 위해 추가
+	@Override
+	public MemberDto login(MemberDto memberDto) throws Exception {
+		return memberDao.login(memberDto);
+	}
+	
+	@Override
+	public MemberDto userInfo(String userId) throws Exception {
+		return memberDao.userInfo(userId);
+	}
+
+	@Override
+	public void saveRefreshToken(String userId, String refreshToken) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("token", refreshToken);
+		memberDao.saveRefreshToken(map);
+	}
+
+	@Override
+	public Object getRefreshToken(String userId) throws Exception {
+		return memberDao.getRefreshToken(userId);
+	}
+
+	@Override
+	public void deleRefreshToken(String userId) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("token", null);
+		memberDao.deleteRefreshToken(map);
+	}
 }
