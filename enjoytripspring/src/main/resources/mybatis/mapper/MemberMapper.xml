@@ -26,7 +26,7 @@
     </delete>
 	
 	<!-- Jwt를 위해 추가 -->
-	<select id="login" parameterType="map" resultType="MemberDto">
+	<select id="login" parameterType="MemberDto" resultType="MemberDto">
 		select userId, userName, token
 		from member
 		where userId = #{userId} and userPwd = #{userPwd}
