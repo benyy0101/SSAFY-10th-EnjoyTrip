@@ -11,12 +11,9 @@ import com.ssafy.enjoytrip.member.model.dto.MemberDto;
 public interface MemberDao {
 
 	int idCheck(String userId) throws SQLException;
-	int joinMember(MemberDto memberDto) throws SQLException;
-	MemberDto getMemberById(String userId) throws SQLException;
-	String getPwdById(String curId) throws SQLException;
-	void updatePwdById(String curId, String newPw2) throws SQLException;
-	void updateEmailById(String userId, String newEmailId, String newEmailDomain) throws SQLException;
-	void deleteUserById(String userId) throws SQLException;
+	void joinMember(MemberDto memberDto) throws SQLException;
+	void updateMember(MemberDto memberDto) throws SQLException;
+	void deleteMember(String userId) throws SQLException;
 	
 	MemberDto login(MemberDto memberDto) throws SQLException;
 	MemberDto userInfo(String userId) throws SQLException;

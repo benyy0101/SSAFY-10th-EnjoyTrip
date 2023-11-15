@@ -15,29 +15,15 @@
 		values(#{userId}, #{userName}, #{userPwd}, #{emailId}, #{emailDomain}, #{joinDate})
 	</insert>
 	
-	<select id="getMemberById" parameterType="String" resultType="MemberDto">
-		select userId, userName, userPwd, emailId, emailDomain, joinDate
-		from member
-		where userId=#{id}
-	</select>
-	
-	<update id="updatePwdById" parameterType="MemberDto">
-		update member set
-		userPwd = #{newPw2}
-		where userId = #{curId}
-	</update>
-	
-	<update id="updateEmailById" parameterType="MemberDto">
-		update member set 
-		emailDomain=#{newEmailDomain},
-		emailId = #{newEmailId}
-		where userId = #{userId}
-	</update>
-
-	<update id="deleteUserById" parameterType="String">
-		delete from member
-		where userId = #{id}
-	</update>
+	<update id="updateMember" parameterType="MemberDto">
+    	update member set userName=#{userName}, userPwd=#{userPwd}, emailId=#{emailId}, emailDomain=#{emailDomain}
+    	where userId=#{userId}
+    </update>
+    
+    <delete id="deleteMember" parameterType="String">
+    	delete from member
+    	where userId=#{userId}
+    </delete>
 	
 	<!-- Jwt를 위해 추가 -->
 	<select id="login" parameterType="map" resultType="MemberDto">
