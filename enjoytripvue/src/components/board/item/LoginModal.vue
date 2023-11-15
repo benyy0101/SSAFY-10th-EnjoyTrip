@@ -1,10 +1,18 @@
 <script setup>
 import { ref, watch, inject } from "vue";
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+// JWT를 위해 추가
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
+import { useMemberStore } from "@/stores/member";
+const router = useRouter();
+
+const memberStore = useMemberStore();
+const { isLogin } = storeToRefs(memberStore);
+const { userLogin, getUserInfo } = memberStore;
+
 const loginModal = inject("stateLogin");
-// // watch(loginModal,()=>{
-// //     console.log(loginModal);
-// // })
+
 const login = ref({
   userId: " ",
   userPwd: " ",
@@ -44,56 +52,22 @@ function onSubmit() {
   }
 }
 
-function loginMember() {
-  console.log("로그인하자", login.value);
-
-  // todo: 나중에 수정해야 함
-  // registUser(
-  //   member.value,
-  //   ({ data }) => {
-  //     console.log('regist.....................sucess, data: ', data);
-  //   },
-  //   (err) => {
-  //     console.log(err);
-  //   }
-  // );
-  // API 호출
-}
+const loginMember = async () => {
+  console.log("login 진행 중!!!");
+  await userLogin(login.value);
+  let token = sessionStorage.getItem("accessToken");
+  
+  console.log("isLogin: ", isLogin);
+  
+  if (isLogin) {
+    console.log("로그인 성공아닌가?");
+    console.log("111. ", token);
+    // 이름 찍기 위해서 token을 가지고 getUserInfo로 가서 가져온다 -> member.js
+    getUserInfo(token);
+  }
+  router.push("/");
+};
 </script>
-<!-- <template>
-    <div id="modal-container" @click="()=>{toggleLogin()}">
-        <div class="p-5" id="loginModal">
-        <h1 class="text-center mt-3">로그인</h1>
-  <div id="loginForm" class="mt-3">
-    <form @submit.prevent="onSubmit">
-      <div class="mb-3">
-        <label for="userId" class="form-label">아이디 : </label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="login.userId"          
-          placeholder="아이디..."
-        />
-      </div>
-      <div class="mb-3">
-        <label for="userPwd" class="form-label">비밀번호 : </label>
-        <input
-          type="password"
-          class="form-control"
-          v-model = "login.userPassword"          
-          placeholder="비밀번호..."
-        />
-      </div>
-      <div class="mt-3 col-auto text-center">
-        <button type="submit" class="btn btn-outline-primary mb-3">
-          로그인
-        </button>
-      </div>
-    </form>
-  </div>
-    </div>
-    </div>
-</template> -->
 
 <template>
   <a-modal
@@ -109,12 +83,12 @@ function loginMember() {
     </a-space>
     <div class="formContainer">
       <form @submit.prevent="onSubmit">
-        <a-input v-model="login.userId" size="large" placeholder="이메일 (example@gmail.com)" class="idInput">
+        <a-input v-model:value="login.userId" size="large" placeholder="이메일 (example@gmail.com)" class="idInput">
           <template #prefix>
         <user-outlined />
       </template>
         </a-input>
-        <a-input v-model="login.userId" size="large" placeholder="비밀번호" class="pwdInput">
+        <a-input v-model:value="login.userPwd" size="large" placeholder="비밀번호" class="pwdInput" @keyup.enter="onSubmit">
           <template #prefix>
         <LockOutlined />
       </template>
