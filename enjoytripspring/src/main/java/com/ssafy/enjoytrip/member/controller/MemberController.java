@@ -86,7 +86,7 @@ public class MemberController {
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, Object>> login(
 			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) MemberDto memberDto) {
-		log.debug("login user : {}", memberDto);
+		logger.debug("login user : {}", memberDto);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
@@ -94,7 +94,7 @@ public class MemberController {
 			if(loginUser != null) {
 				String accessToken = jwtUtil.createAccessToken(loginUser.getUserId());
 				String refreshToken = jwtUtil.createRefreshToken(loginUser.getUserId());
-				log.debug("access token : {}", accessToken);
+				logger.debug("access token : {}", accessToken);
 				log.debug("refresh token : {}", refreshToken);
 				
 //				발급받은 refresh token을 DB에 저장.
@@ -129,7 +129,7 @@ public class MemberController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		if (jwtUtil.checkToken(request.getHeader("Authorization"))) {
-			log.info("사용 가능한 토큰!!!");
+			log.info("사용 가능한 토큰!");
 			try {
 				MemberDto memberDto = memberService.userInfo(userId);
 				resultMap.put("userInfo", memberDto);
