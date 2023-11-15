@@ -30,7 +30,7 @@ public class SwaggerConfiguration {
 //	http://localhost[:8080]/{your-app-root}/swagger-ui/index.html
 	
 	private String version = "V1";
-	private String title = "SSAAAAAAAAAAFY ENJOYTRIP 갓수림/갓아린/김태수 " + version;
+	private String title = "SSAFY ENJOYTRIP 김태수 & 조예진" + version;
 		
 	public SwaggerConfiguration() {
 		System.out.println("SwaggerConfiguration load...................");
