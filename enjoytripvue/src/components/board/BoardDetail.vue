@@ -96,7 +96,6 @@ function onSubmit() {
 }
 
 function onSendComment() {
-  console.log("댓글 되나유");
   sendComment.value.userId = article.value.userId;
   writeComment(
     sendComment.value,
