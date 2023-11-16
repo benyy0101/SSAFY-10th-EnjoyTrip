@@ -76,6 +76,10 @@ CREATE TABLE IF NOT EXISTS `ssafyenjoy`.`board` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- 11/16 이거 추가했습니다!!! 확인 부탁드립니다.
+alter table board add column location varchar(45) null default null after content;
+alter table board add column startDate varchar(100) null default null after location;
+alter table board add column endDate varchar(100) null default null after startDate;
 -- -----------------------------------------
 -- Table `ssafyenjoy`.`plan`
 -- -----------------------------------------
