@@ -2,6 +2,10 @@
 import { registArticle, modifyArticle, detailArticle } from "@/api/board";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import ToastEditor from "@/components/board/item/ToastUIEditor.vue";
+import { Dayjs } from 'dayjs';
+const placement = ref('topLeft');
+const dates = ref();
 
 const router = useRouter();
 const route = useRoute();
@@ -12,25 +16,34 @@ const isUseId = ref(false);
 
 const article = ref({
   articleNo: 0,
+  userId: "",
   subject: "",
   content: "",
-  userId: "",
+  location: "",
+  startDate: "",
+  endDate: "",
   hit: 0,
   registerTime: "",
 });
+
+const setContent = (e) => {
+  article.value.content = e;
+};
 
 if (props.type === "modify") {
   let { articleno } = route.params;
   console.log(articleno + "번글 얻어와서 수정할거야");
   // API 호출
-  detailArticle(articleno, (res)=>{
-    article.value = res.data;
-    console.log(article.value);
-  },
-  (err) =>{
-    console.log(err)
-  }
-  )
+  detailArticle(
+    articleno,
+    (res) => {
+      article.value = res.data;
+      console.log(article.value);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
   isUseId.value = true;
 }
 
@@ -72,29 +85,31 @@ function onSubmit() {
 
 function writeArticle() {
   console.log("글등록하자!!", article.value);
-  registArticle(article.value,
-  ({data}) =>{
-    console.log("regist.....................sucess, data: ", data);
-    moveList();
-  },
-  err => {
-    console.log(err)
-  }
-  )
-   // API 호출
+  registArticle(
+    article.value,
+    ({ data }) => {
+      console.log("regist.....................sucess, data: ", data);
+      moveList();
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+  // API 호출
 }
 
 function updateArticle() {
   console.log(article.value.articleNo + "번글 수정하자!!", article.value);
-  modifyArticle(article.value,
-  ({data}) =>{
-    console.log("regist.....................sucess, data: ", data);
-  },
-  err => {
-    console.log(err)
-  }
-  )
-   // API 호출
+  modifyArticle(
+    article.value,
+    ({ data }) => {
+      console.log("update.....................sucess, data: ", data);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+  // API 호출
 }
 
 function moveList() {
@@ -103,35 +118,118 @@ function moveList() {
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
-    <div class="mb-3">
-      <label for="userid" class="form-label">작성자 ID : </label>
-      <input
-        type="text"
-        class="form-control"
-        v-model="article.userId"
-        :disabled="isUseId"
-        placeholder="작성자ID..."
-      />
+  <a-layout-content
+    :style="{
+      padding: '80px 140px',
+      background: '#fff',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    }"
+  >
+    <div
+      :style="{
+        background: '#fff',
+        padding: '24px',
+        minHeight: '380px',
+        width: '80%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }"
+    >
+      <div class="wholeDiv" :style="{ width: '100%' }">
+        <div :style="{ display: 'flex', alignItems: 'flex-start' }">
+          <img src="@/assets/write.gif" />
+          <div
+            :style="{
+              display: 'flex',
+              flexDirection: 'column',
+              marginTop: '5px',
+              paddingLeft: '10px',
+            }"
+          >
+            <h1>여행 후기 작성</h1>
+            <h3>여행 후기를 작성해주세요!</h3>
+          </div>
+        </div>
+        <a-divider />
+        <div
+          :style="{
+            padding: '30px',
+            marginTop: '30px',
+          }"
+        >
+          <a-form @submit.prevent="onSubmit">
+            <a-form-item label="제목 " :style="{ width: '30%' }">
+              <a-input v-model:value="article.userId" :disabled="isUseId" />
+            </a-form-item>
+            <a-form-item label="장소 " :style="{ width: '30%' }">
+              <a-input v-model:value="article.location" />
+            </a-form-item>
+
+            <a-space>
+              <span>여행 날짜: </span>
+              <a-range-picker v-model:value="dates" :placement="placement" />
+            </a-space>
+            
+            <div :style="{ marginTop: '60px' }">
+              <!-- 내용 입력 필드 -->
+              <ToastEditor :data="content" @setContent="setContent" />
+            </div>
+            <div
+              :style="{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: '20px',
+                justifyContent: 'center',
+                marginTop: '20px'
+              }"
+            >
+              <a-button
+                :style="{
+                  color: '#ABC9FF',
+                  borderColor: '#ABC9FF',
+                  border: '2px solid',
+                  fontSize: '15px',
+                  fontWeight: 'Bold',
+                  margin: '6px',
+                }"
+                type="submit"
+                v-if="type === 'regist'"
+              >
+                글작성
+              </a-button>
+              <a-button :style="{
+                  color: '#ABC9FF',
+                  borderColor: '#ABC9FF',
+                  border: '2px solid',
+                  fontSize: '15px',
+                  fontWeight: 'Bold',
+                  margin: '6px',
+                }" type="submit" v-else>
+                글수정
+              </a-button>
+              <a-button
+              :style="{
+                  color: '#ABC9FF',
+                  borderColor: '#ABC9FF',
+                  border: '2px solid',
+                  fontSize: '15px',
+                  fontWeight: 'Bold',
+                  margin: '6px',
+                }"
+                @click="moveList"
+              >
+                글목록
+              </a-button>
+            </div>
+          </a-form>
+        </div>
+      </div>
     </div>
-    <div class="mb-3">
-      <label for="subject" class="form-label">제목 : </label>
-      <input type="text" class="form-control" v-model="article.subject" placeholder="제목..." />
-    </div>
-    <div class="mb-3">
-      <label for="content" class="form-label">내용 : </label>
-      <textarea class="form-control" v-model="article.content" rows="10"></textarea>
-    </div>
-    <div class="col-auto text-center">
-      <button type="submit" class="btn btn-outline-primary mb-3" v-if="type === 'regist'">
-        글작성
-      </button>
-      <button type="submit" class="btn btn-outline-success mb-3" v-else>글수정</button>
-      <button type="button" class="btn btn-outline-danger mb-3 ms-1" @click="moveList">
-        목록으로이동...
-      </button>
-    </div>
-  </form>
+  </a-layout-content>
 </template>
 
 <style scoped></style>

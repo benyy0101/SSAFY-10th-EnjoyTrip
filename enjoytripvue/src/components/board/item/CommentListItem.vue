@@ -25,7 +25,7 @@ defineProps({ comment: Object });
 </script>
 
 <template>
-  <a-comment>
+  <a-comment :style="{borderColor:'black'}">
     <template #actions>
       <span key="comment-basic-like">
         <a-tooltip title="Like">
@@ -54,17 +54,18 @@ defineProps({ comment: Object });
         </span>
       </span>
     </template>
-    <template #author>{{ comment.userId }}</template>
+    <template #author>
+      <span :style="{color:'black', fontWeight:'Bold'}">{{ comment.userId }}</span></template>
     <template #avatar>
       <a-avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
     </template>
     <template #content>
-      <p>
+      <p :style="{marginTop:'20px'}">
         {{ comment.commentContent }}
       </p>
     </template>
     <template #datetime>
-      <span>{{ comment.commentRegisterTime }}</span>
+      {{ comment.commentRegisterTime }}
     </template>
   </a-comment>
 </template>

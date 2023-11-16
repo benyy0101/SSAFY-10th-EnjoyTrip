@@ -8,7 +8,6 @@ import CommentListItem from "@/components/board/item/CommentListItem.vue";
 const route = useRoute();
 const router = useRouter();
 
-// const articleno = ref(route.params.articleno);
 const { articleno } = route.params;
 
 const article = ref({});
@@ -90,7 +89,7 @@ watch(
 function onSubmit() {
   if (contentErrMsg.value) {
     alert(contentErrMsg.value);
-  }else {
+  } else {
     onSendComment();
   }
 }
@@ -110,93 +109,217 @@ function onSendComment() {
 </script>
 
 <template>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-          <mark class="sky">글보기</mark>
-        </h2>
-      </div>
-      <div class="col-lg-10 text-start">
-        <div class="row my-2">
-          <h2 class="text-center px-5 mt-3">{{ article.subject }}</h2>
+  <a-layout-content
+    :style="{
+      padding: '80px 140px',
+      background: '#fff',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    }"
+  >
+    <div
+      :style="{
+        background: '#fff',
+        padding: '24px',
+        minHeight: '380px',
+        width: '80%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }"
+    >
+      <div class="wholeDiv" :style="{ width: '100%' }">
+        <div :style="{ display: 'flex', alignItems: 'flex-start' }">
+          <img src="@/assets/camera.gif" />
+          <div
+            :style="{
+              display: 'flex',
+              flexDirection: 'column',
+              marginTop: '5px',
+              paddingLeft: '10px',
+            }"
+          >
+            <h1>여행 후기</h1>
+            <h3>여행에 대한 이야기를 들려주세요!</h3>
+          </div>
         </div>
-        <div class="row">
-          <div class="d-flex justify-content-end">
-            <div class="clearfix align-content-center">
-              <img
-                class="avatar me-2 float-md-start bg-light p-2"
-                src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
-              />
-              <p>
-                <span class="fw-bold">{{ article.userId }}</span> <br />
-                <span class="text-secondary fw-light">
-                  {{ article.registerTime }} 조회 : {{ article.hit }}
-                </span>
-              </p>
-            </div>
+        <a-divider />
+        <div
+          :style="{
+            padding: '30px',
+            marginTop: '30px',
+          }"
+        >
+          <div
+            :style="{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              marginTop: '30px',
+              marginBottom: '20px',
+            }"
+          >
+            <h2>{{ article.subject }}</h2>
           </div>
-          <div class="divider mb-3"></div>
-          <div class="text-secondary">
-            {{ article.content }}
-          </div>
-          <div class="divider mt-3 mb-3"></div>
-          <div class="d-flex justify-content-end">
-            <button
-              type="button"
-              class="btn btn-outline-primary mb-3"
-              @click="moveList"
-            >
-              글목록
-            </button>
-            <button
-              type="button"
-              class="btn btn-outline-success mb-3 ms-1"
-              @click="moveModify"
-            >
-              글수정
-            </button>
-            <button
-              type="button"
-              class="btn btn-outline-danger mb-3 ms-1"
-              @click="onDeleteArticle"
-            >
-              글삭제
-            </button>
-          </div>
-          <div class="col-md-4 align-self-center">댓글 {{ num }}</div>
-          <form @submit.prevent="onSubmit">
-            <div class="mb-3 mt-3">
-              <a-textarea
-                :rows="3"
-                v-model="sendComment.commentContent"
-                placeholder="댓글을 입력해주세요"
-              ></a-textarea>
-            </div>
-            <div class="text-end">
-              <button
-                type="submit"
-                class="btn btn-outline-primary"
+          <div class="row">
+            <div>
+
+              <div
+                :style="{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-end',
+                }"
               >
-                댓글 작성
-              </button>
+                <div
+                  :style="{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                  }"
+                >
+                  <div :style="{ padding: '10px' }">
+                    <img
+                      class="avatar me-2 float-md-start bg-light p-2"
+                      src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
+                    />
+                    <span class="fw-bold">{{ article.userId }}</span> <br />
+                  </div>
+                  <p>
+                    <span
+                      class="text-secondary fw-light"
+                      :style="{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                      }"
+                    >
+                      <span :style="{ padding: '10px' }">{{
+                        article.registerTime
+                      }}</span>
+                      <span>조회 : {{ article.hit }}</span>
+                    </span>
+                  </p>
+                </div>
+              </div>
             </div>
-          </form>
-          <div class="mb-3 mt-3">
-            <CommentListItem
-              v-for="comment in comments"
-              :key="comment.commentNo"
-              :comment="comment"
-            ></CommentListItem>
+            <div
+              :style="{
+                border: '2px solid',
+                borderColor:'#ABC9FF',
+                padding: '36px',
+                marginTop: '20px',
+                marginBottom: '20px',
+                minHeight: '40rem',
+                borderRadius: '17px',
+              }"
+            >
+              {{ article.content }}
+            </div>
+            <div
+              :style="{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: '20px',
+                justifyContent: 'center',
+              }"
+            >
+              <a-button
+                :style="{
+                  color: '#ABC9FF',
+                  borderColor: '#ABC9FF',
+                  border: '2px solid',
+                  fontSize: '15px',
+                  fontWeight: 'Bold',
+                  margin: '6px',
+                }"
+                type="button"
+                @click="moveList"
+              >
+                글목록
+              </a-button>
+              <a-button
+                :style="{
+                  color: '#ABC9FF',
+                  borderColor: '#ABC9FF',
+                  border: '2px solid',
+                  fontSize: '15px',
+                  fontWeight: 'Bold',
+                  margin: '6px',
+                }"
+                type="button"
+                @click="moveModify"
+              >
+                글수정
+              </a-button>
+              <a-button
+                :style="{
+                  color: '#ABC9FF',
+                  borderColor: '#ABC9FF',
+                  border: '2px solid',
+                  fontSize: '15px',
+                  fontWeight: 'Bold',
+                  margin: '6px',
+                }"
+                type="button"
+                @click="onDeleteArticle"
+              >
+                글삭제
+              </a-button>
+            </div>
+            <a-divider />
+            <div :style="{ paddingTop: '20px', paddingBottom: '20px' }">
+              댓글 {{ num }}
+            </div>
+            <form @submit.prevent="onSubmit">
+              <div class="comment mb-3 mt-3">
+                <a-textarea
+                  :rows="3"
+                  v-model:value="sendComment.commentContent"
+                  placeholder="댓글을 입력해주세요"
+                ></a-textarea>
+              </div>
+              <div
+                :style="{
+                  paddingTop: '16px',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                }"
+              >
+                <a-button
+                  :style="{
+                    color: '#ABC9FF',
+                    borderColor: '#ABC9FF',
+                    border: '2px solid',
+                    fontSize: '15px',
+                    fontWeight: 'Bold',
+                  }"
+                >
+                  댓글 작성
+                </a-button>
+              </div>
+            </form>
+            <div class="mb-3 mt-3">
+              <CommentListItem
+                v-for="comment in comments"
+                :key="comment.commentNo"
+                :comment="comment"
+              ></CommentListItem>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </a-layout-content>
 </template>
 
 <style scoped>
 .comment {
-  width: 60%;
+  width: 100%;
+}
+.wholeDiv {
+  justify-content: center;
 }
 </style>
