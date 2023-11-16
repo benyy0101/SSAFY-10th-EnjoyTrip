@@ -14,8 +14,8 @@ const { userLogin, getUserInfo } = memberStore;
 const loginModal = inject("stateLogin");
 
 const login = ref({
-  userId: " ",
-  userPwd: " ",
+  userId: "",
+  userPwd: "",
 });
 
 const userIdErrMsg = ref("");
