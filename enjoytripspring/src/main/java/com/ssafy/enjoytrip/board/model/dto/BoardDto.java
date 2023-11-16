@@ -15,8 +15,14 @@ public class BoardDto {
 	private String subject;
 	@ApiModelProperty(value="글 내용", example="테스트 내용")
 	private String content;
+	@ApiModelProperty(value="장소", example="서울")
+	private String location;
+	@ApiModelProperty(value="여행 시작 날짜", example="2023-11-01")
+	private String startDate;
+	@ApiModelProperty(value="여행 종료 날짜", example="2023-11-05")
+	private String endDate;
 	@ApiModelProperty(value="조회수", example="0")
 	private int hit;
-	@ApiModelProperty(value="작성 시각", example="1999-01-01")
+	@ApiModelProperty(value="작성 시각", example="2023-11-11")
 	private String registerTime;
 }
