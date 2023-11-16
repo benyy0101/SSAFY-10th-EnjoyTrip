@@ -54,7 +54,7 @@ public class MemberController {
 	@ExceptionHandler
 	public ResponseEntity<String> handler(Exception e){
 		e.printStackTrace();
-		logger.error("book.error...................msg:{}", e.getMessage());
+		logger.error("member.error...................msg:{}", e.getMessage());
 		
 		// 에러 메시지가 한글인 경우 깨지므로 한글 처리를 위한 설정
 		HttpHeaders resHeader = new HttpHeaders();

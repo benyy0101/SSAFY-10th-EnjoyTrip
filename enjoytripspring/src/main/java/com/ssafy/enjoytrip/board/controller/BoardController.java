@@ -44,9 +44,9 @@ public class BoardController {
     public ResponseEntity<String> insertReviewBoard(@RequestBody BoardDto bDto, @ApiIgnore HttpSession session) {
 
         MemberDto mDto = (MemberDto) session.getAttribute("loginUser");
-        //System.out.println(mDto);
+        System.out.println(mDto);
         // userId, subject, content 입력
-        //bDto.setUserId("ssafy");
+        bDto.setUserId("ssafy");
         System.out.println(bDto);
         boardService.writeArticle(bDto);
         
