@@ -6,7 +6,6 @@ function toggleModal(){
   stateLogin.value = !stateLogin.value;
 }
 
-
 </script>
 
 <template>
@@ -24,12 +23,12 @@ function toggleModal(){
   </a-menu>
   </div>
   
-  <div class="loginSection">
+  <a-menu class="loginSection">
       <div @click="toggleModal">
         로그인
       </div>
-      <div>회원가입</div>
-  </div>
+      <a-menu-item key="3" class="menuItem">여행계획</a-menu-item>
+  </a-menu>
 </a-layout-header>
 
 </template>
