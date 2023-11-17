@@ -5,8 +5,8 @@
 <mapper namespace="com.ssafy.enjoytrip.board.model.dao.BoardDao">
     
     <insert id="writeArticle" parameterType="BoardDto">
-        insert into board(subject, content, location, startDate, endDate, hit) 
-        values(#{subject}, #{content}, #{location}, #{startDate}, #{endDate}, #{hit})
+        insert into board(userId, subject, content, location, startDate, endDate, hit) 
+        values(#{userId}, #{subject}, #{content}, #{location}, #{startDate}, #{endDate}, #{hit})
     </insert>
     
     <select id="getArticle" parameterType="int" resultType="BoardDto">

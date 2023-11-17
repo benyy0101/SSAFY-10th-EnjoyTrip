@@ -12,7 +12,7 @@
 	
 	<insert id="joinMember" parameterType="MemberDto">
 		insert into member(userId, userName, userPwd, emailId, emailDomain, joinDate)
-		values(#{userId}, #{userName}, #{userPwd}, #{emailId}, #{emailDomain}, #{joinDate})
+		values(#{userId}, #{userName}, #{userPwd}, #{emailId}, #{emailDomain}, now())
 	</insert>
 	
 	<update id="updateMember" parameterType="MemberDto">

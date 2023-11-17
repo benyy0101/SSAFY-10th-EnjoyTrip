@@ -30,6 +30,8 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void writeArticle(BoardDto boardDto) {
 		try {
+			boardDto.setStartDate(boardDto.getStartDate().substring(0, 10));
+			boardDto.setEndDate(boardDto.getEndDate().substring(0, 10));
 			boardDao.writeArticle(boardDto);
 		} catch (SQLException e) {
 			e.printStackTrace();
