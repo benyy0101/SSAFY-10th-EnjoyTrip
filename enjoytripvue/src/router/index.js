@@ -1,57 +1,69 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import TheMainView from '../views/TheMainView.vue';
-import TheSignUpView from '@/views/TheSignUpView.vue';
-import TheMapView from '@/components/map/MapSelect.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import TheMainView from "../views/TheMainView.vue";
+import TheSignUpView from "@/views/TheSignUpView.vue";
+import TheMapView from "@/views/TheMapView.vue";
 // import TheBoardView from "../views/TheBoardView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'main',
+      path: "/",
+      name: "main",
       component: TheMainView,
     },
     {
-      path: '/map',
-      name: 'map',
+      path: "/map",
+      name: "map",
       component: TheMapView,
+      children: [
+        {
+          path: ":days",
+          name: "plan-detail",
+          component: () => import("@/components/map/MapSelect.vue"),
+        },
+        {
+          path:"setup",
+          name:'plan-setup',
+          component: () => import('@/components/map/MapDefault.vue'),
+        }
+      ],
     },
     {
-      path: '/board',
-      name: 'board',
+      path: "/board",
+      name: "board",
       // component: TheBoardView,
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/TheBoardView.vue'),
-      redirect: { name: 'article-list' },
+      component: () => import("../views/TheBoardView.vue"),
+      redirect: { name: "article-list" },
       children: [
         {
-          path: 'list',
-          name: 'article-list',
-          component: () => import('@/components/board/BoardList.vue'),
+          path: "list",
+          name: "article-list",
+          component: () => import("@/components/board/BoardList.vue"),
         },
         {
-          path: 'view/:articleno',
-          name: 'article-view',
-          component: () => import('@/components/board/BoardDetail.vue'),
+          path: "view/:articleno",
+          name: "article-view",
+          component: () => import("@/components/board/BoardDetail.vue"),
         },
         {
-          path: 'write',
-          name: 'article-write',
-          component: () => import('@/components/board/BoardWrite.vue'),
+          path: "write",
+          name: "article-write",
+          component: () => import("@/components/board/BoardWrite.vue"),
         },
         {
-          path: 'modify/:articleno',
-          name: 'article-modify',
-          component: () => import('@/components/board/BoardModify.vue'),
+          path: "modify/:articleno",
+          name: "article-modify",
+          component: () => import("@/components/board/BoardModify.vue"),
         },
       ],
     },
     {
-      path: '/signup',
-      name: 'signup',
+      path: "/signup",
+      name: "signup",
       component: TheSignUpView,
     },
   ],

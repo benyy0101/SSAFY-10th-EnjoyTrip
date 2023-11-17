@@ -12,6 +12,13 @@ watch(stateLogin, ()=>{
 </script>
 
 <template>
+  <a-config-provider
+    :theme="{
+      token: {
+        colorPrimary: '#ff7f50',
+      },
+    }"
+  >
   <a-layout class="layout">
     <TheHeadingNavbar class="navbar"></TheHeadingNavbar>
     <a-layout-content class="layoutContent">
@@ -20,6 +27,8 @@ watch(stateLogin, ()=>{
     </a-layout-content>
     <a-layout-footer class="footer"></a-layout-footer>
   </a-layout>
+  </a-config-provider>
+  
 </template>
 
 <style scoped>

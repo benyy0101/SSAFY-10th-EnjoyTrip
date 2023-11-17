@@ -1,39 +1,55 @@
 <script setup>
-    import OptionItem from '@/components/map/item/OptionItem.vue'
-    import MapItem from './item/MapItem.vue';
-    import SearchList from './SearchList.vue';
-    import {ref, watch} from 'vue';
-    const option = ref([]);
-    const attInfo = ref([]);
+import OptionItem from "@/components/map/item/OptionItem.vue";
+import MapItem from "./item/MapItem.vue";
+import SearchList from "./SearchList.vue";
+import { ref, watch } from "vue";
+import { useRoute} from "vue-router";
+const route = useRoute();
 
-    function confirmOption(data){
-        option.value = data;
-    }
+const { days } = route.params;
 
-    function confirmList(data){
-        attInfo.value = data;
-    }
-    watch(option,()=>{
-        console.log("MapSelect......................option", option.value);
-    },
-    {deep:true});
+console.log(days);
+const option = ref([]);
+const attInfo = ref([]);
+const setInfo = ref(false);
+function confirmOption(data) {
+  option.value = data;
+}
 
-    watch(attInfo,()=>{
-        console.log("MapSelect......................attInfo", option.value);
-    },
-    {deep:true});
+function confirmList(data) {
+  attInfo.value = data;
+}
+watch(
+  option,
+  () => {
+    console.log("MapSelect......................option", option.value);
+  },
+  { deep: true }
+);
 
+watch(
+  attInfo,
+  () => {
+    console.log("MapSelect......................attInfo", option.value);
+  },
+  { deep: true }
+);
 </script>
 <template>
-    <div class="mapWrapper">
-        <MapItem :options="option" @getAttList="confirmList"></MapItem>
-        <OptionItem @changeOption="confirmOption"></OptionItem>
-        <SearchList :attInfo="attInfo" ></SearchList>
-    </div>
+  <div class="mapWrapper">
+    <div v-if="setInfo"></div>
+    <MapItem :options="option" @getAttList="confirmList"></MapItem>
+    <OptionItem @changeOption="confirmOption"></OptionItem>
+    <SearchList :attInfo="attInfo"></SearchList>
+    <a-progress :percent="50" :show-info="false" class="progress-bar" />
+  </div>
 </template>
 <style>
-.mapWrapper{
-    position: relative;
-    display: flex;
+.mapWrapper {
+  position: relative;
+  display: flex;
+}
+.progress-bar {
+  position: fixed;
 }
 </style>
