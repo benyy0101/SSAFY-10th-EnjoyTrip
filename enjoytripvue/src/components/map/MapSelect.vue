@@ -3,12 +3,8 @@ import OptionItem from "@/components/map/item/OptionItem.vue";
 import MapItem from "./item/MapItem.vue";
 import SearchList from "./SearchList.vue";
 import { ref, watch } from "vue";
-import { useRoute} from "vue-router";
-const route = useRoute();
 
-const { days } = route.params;
 
-console.log(days);
 const option = ref([]);
 const attInfo = ref([]);
 const setInfo = ref(false);

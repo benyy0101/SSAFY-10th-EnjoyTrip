@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch,provide } from "vue";
 import {attList} from '@/api/map';
 const { VITE_KAKAO_API_KEY } = import.meta.env;
 let map;
@@ -8,6 +8,7 @@ const positions = ref([]);
 const props = defineProps({ options: Array });
 const attInfo = ref([]);
 const emit = defineEmits(['getAttList']);
+
 watch(
   () => props.options.value,
   () => {
@@ -53,8 +54,8 @@ function getAttList(param){
     }
   );
 }
-if (!window.kakao || !window.kakao.maps) {
-  const script = document.createElement("script");
+
+const script = document.createElement("script");
   script.type = "text/javascript";
   script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${VITE_KAKAO_API_KEY}`;
   /* eslint를 사용한다면 kakao 변수가 선언되지 않았다고
@@ -68,7 +69,7 @@ if (!window.kakao || !window.kakao.maps) {
     });
   });
   document.head.appendChild(script);
-}
+
 function initMap() {
   const container = document.getElementById("map");
 
