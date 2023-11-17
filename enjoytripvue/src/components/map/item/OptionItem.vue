@@ -1,10 +1,9 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { gugunList, sidoList } from "@/api/map";
-import {SearchOutlined} from '@ant-design/icons-vue';
+import { SearchOutlined } from "@ant-design/icons-vue";
 const sidoOption = ref([]);
 const attOption = ref([
-  { label: "관광 타입", value: "" },
   { label: "관광지", value: "12" },
   { label: "문화시설", value: "14" },
   { label: "축제, 공연, 행사", value: "15" },
@@ -13,14 +12,13 @@ const attOption = ref([
   { label: "쇼핑", value: "38" },
   { label: "음식점", value: "39" },
 ]);
-const attInfo = ref([]); //fetch한 관광정보
 const attKey = ref(); //attraction key
 const CascadeOption = ref([]); // Cascade 창에서 선택한 벨류: [0]에 시도, [1]에 구군
 const visible = ref(false);
 
-const toggleVisible = () =>{
-    visible.value = !visible.value;    
-}
+const toggleVisible = () => {
+  visible.value = !visible.value;
+};
 onMounted(() => {
   getSidoList();
 });
@@ -49,7 +47,8 @@ function getSidoList() {
 }
 
 watch(attKey, () => {
-  CascadeOption.value.push(parseInt(attKey.value));
+  //CascadeOption.value.push(parseInt(attKey.value));
+  CascadeOption.value[2] = attKey.value;
 });
 
 const loadData = (selectedOptions) => {
@@ -79,28 +78,41 @@ const loadData = (selectedOptions) => {
 <template>
   <div class="optionWrapper">
     <a-popover v-model:open="visible" trigger="click">
-        <template #content>
-            <a-cascader
-        v-model:value="CascadeOption"
-        :options="sidoOption"
-        :load-data="loadData"
-        placeholder="검색 시작하기"
-        change-on-select
-      />
-      <div>관광타입</div>
-      <a-select
-        v-model:value="attKey"
-        @change="onSelect"
-        :options="attOption"
-        class="attOptions"
-      />
-      <button @click="$emit('changeOption', CascadeOption)">검색하기</button>
-        </template>
-        <a class="searchIcon" @click="toggleVisible"><SearchOutlined /></a>
+      <template #content>
+        <a-flex vertical gap="small">
+          <h3 class="popover-title">지역</h3>
+          <a-cascader
+            v-model:value="CascadeOption"
+            :options="sidoOption"
+            :load-data="loadData"
+            placeholder="검색 시작하기"
+            change-on-select
+          />
+          <h3 class="popover-title">관광타입</h3>
+          <a-select
+            v-model:value="attKey"
+            @change="onSelect"
+            :options="attOption"
+            class="attOptions"
+          />
+        </a-flex>
+        <a-button @click="$emit('changeOption', CascadeOption)"
+        class="select-button"
+            >검색하기</a-button
+          >
+      </template>
+      <a class="searchIcon" @click="toggleVisible"><SearchOutlined /></a>
     </a-popover>
   </div>
 </template>
 <style>
+.select-button{
+  margin: 1rem 0 0 0;
+}
+
+.popover-title{
+  font-weight: 900;
+}
 .optionWrapper {
   position: absolute;
   top: 3rem;
@@ -110,19 +122,23 @@ const loadData = (selectedOptions) => {
   opacity: 99%;
 }
 
-.searchIcon{
-    padding:8px 8px 8px 8px ;
-    width: 2rem;
-    height: 2rem;
-    font-weight:800;
-    border: none;
-    font-size: 1.6rem;
-    background-color: coral;
-    border-radius: 50%;
-    color: white;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+.searchIcon {
+  padding: 8px 8px 8px 8px;
+  width: 2rem;
+  height: 2rem;
+  font-weight: 800;
+  border: none;
+  font-size: 1.6rem;
+  background-color: coral;
+  border-radius: 50%;
+  color: white;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
-.searchIcon:hover{
-    color: brown;
+.searchIcon:hover {
+  color: brown;
 }
+
+/* .attOption{
+  width: 50px;
+} */
 </style>
