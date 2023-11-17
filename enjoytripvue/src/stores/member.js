@@ -31,7 +31,6 @@ export const useMemberStore = defineStore("memberStore", () => {
           sessionStorage.setItem("accessToken", accessToken);
           sessionStorage.setItem("refreshToken", refreshToken);
           console.log("sessiontStorage에 담았다", isLogin.value);
-          router.push({ name: "main" });
         } else {
           console.log("로그인 실패했다");
           isLogin.value = false;
@@ -54,6 +53,7 @@ export const useMemberStore = defineStore("memberStore", () => {
         if (response.status === httpStatusCode.OK) {
           userInfo.value = response.data.userInfo;
           console.log("3. getUserInfo data >> ", response.data);
+          return response.data;
         } else {
           console.log("유저 정보 없음!!!!");
         }
