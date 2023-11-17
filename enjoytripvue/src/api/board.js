@@ -4,6 +4,7 @@ const local = localAxios(); // axios instance
 
 const url = "/board";
 function listArticle(param, success, fail) {
+  console.log("난 board.js임")
   local.get(`${url}`).then(success).catch(fail);
 }
 

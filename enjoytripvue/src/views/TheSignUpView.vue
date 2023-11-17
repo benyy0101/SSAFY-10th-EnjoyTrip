@@ -1,10 +1,9 @@
 <script setup>
 import { ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { joinMember } from "@/api/user";
 
 const router = useRouter();
-const route = useRoute();
 
 const props = defineProps({ type: String });
 
@@ -16,6 +15,7 @@ const member = ref({
   userPwd: "",
   emailId: "",
   emailDomain: "",
+  profileImg: "",
 });
 
 const userIdErrMsg = ref("");
@@ -54,27 +54,16 @@ function onSubmit() {
 function signup() {
   console.log("회원가입하자", member.value);
 
-  joinMember(member.value, 
-  ({ data }) => {
+  joinMember(
+    member.value,
+    ({ data }) => {
       console.log("signup.....................success, data: ", data);
-      router.push({name: "main"});
+      router.push({ name: "main" });
     },
     (err) => {
       console.log(err);
     }
   );
-
-  // todo: 나중에 수정해야 함
-  // registUser(
-  //   member.value,
-  //   ({ data }) => {
-  //     console.log('regist.....................sucess, data: ', data);
-  //   },
-  //   (err) => {
-  //     console.log(err);
-  //   }
-  // );
-  // API 호출
 }
 </script>
 
@@ -117,12 +106,14 @@ function signup() {
         <a-divider />
         <div
           :style="{
-            padding:'30px',
+            padding: '30px',
             marginTop: '30px',
-            display: 'flex', justifyContent: 'center',
+            display: 'flex',
+            justifyContent: 'center',
           }"
         >
           <a-form @submit.prevent="onSubmit">
+
             <a-form-item label="아이디 " :style="{ width: '100%' }">
               <a-input v-model:value="member.userId" :disabled="isUseId" />
             </a-form-item>
@@ -134,16 +125,29 @@ function signup() {
             </a-form-item>
             <a-form-item label="이메일 " :style="{ width: '100%' }">
               <a-input v-model:value="member.emailId">
-              <template #addonAfter>
-                <a-select v-model:value="member.emailDomain" style="width: 120px">
-                  <a-select-option value="@naver.com">@naver.com</a-select-option>
-                  <a-select-option value="@gmail.com">@gmail.com</a-select-option>
-                  <a-select-option value="@daum.net">@daum.net</a-select-option>
-                  <a-select-option value="@hanmail.net">@hanmail.net</a-select-option>
-                  <a-select-option value="@kakao.com">@kakao.com</a-select-option>
-                </a-select>
-              </template>
-            </a-input>
+                <template #addonAfter>
+                  <a-select
+                    v-model:value="member.emailDomain"
+                    style="width: 120px"
+                  >
+                    <a-select-option value="@naver.com"
+                      >@naver.com</a-select-option
+                    >
+                    <a-select-option value="@gmail.com"
+                      >@gmail.com</a-select-option
+                    >
+                    <a-select-option value="@daum.net"
+                      >@daum.net</a-select-option
+                    >
+                    <a-select-option value="@hanmail.net"
+                      >@hanmail.net</a-select-option
+                    >
+                    <a-select-option value="@kakao.com"
+                      >@kakao.com</a-select-option
+                    >
+                  </a-select>
+                </template>
+              </a-input>
             </a-form-item>
             <div
               :style="{
@@ -176,4 +180,5 @@ function signup() {
   </a-layout-content>
 </template>
 
-<style></style>
+<style scoped>
+</style>

@@ -62,8 +62,9 @@ const loginMember = async () => {
   let token = sessionStorage.getItem("accessToken");
 
   console.log("isLogin: ", isLogin);
-
   if (isLogin) {
+    loginModal.value = !loginModal.value;
+    router.push({ name: "main" });
     // 이름 찍기 위해서 token을 가지고 getUserInfo로 가서 가져온다 -> member.js
     getUserInfo(token);
   }

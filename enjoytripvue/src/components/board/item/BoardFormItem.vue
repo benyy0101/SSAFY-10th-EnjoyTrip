@@ -3,9 +3,33 @@ import { registArticle, modifyArticle, detailArticle } from "@/api/board";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import ToastEditor from "@/components/board/item/ToastUIEditor.vue";
-import { Dayjs } from 'dayjs';
-const placement = ref('topLeft');
+import { useMemberStore } from "@/stores/member";
+const memberStore = useMemberStore();
+const { userInfo } = memberStore;
+
+// 여행 시작 날짜, 끝나는 날짜
 const dates = ref();
+const value = ref();
+const hackValue = ref();
+
+const onOpenChange = open => {
+  if (open) {
+    dates.value = [];
+    hackValue.value = [];
+  } else {
+    hackValue.value = undefined;
+  }
+};
+
+const onChange = val => {
+  value.value = val;
+};
+
+const onCalendarChange = val => {
+  dates.value = val;
+  article.value.startDate = dates.value[0];
+  article.value.endDate = dates.value[1];
+};
 
 const router = useRouter();
 const route = useRoute();
@@ -71,8 +95,7 @@ watch(
 );
 
 function onSubmit() {
-  // event.preventDefault();
-
+  console.log(userInfo)
   if (subjectErrMsg.value) {
     alert(subjectErrMsg.value);
   } else if (contentErrMsg.value) {
@@ -85,6 +108,7 @@ function onSubmit() {
 
 function writeArticle() {
   console.log("글등록하자!!", article.value);
+  article.value.userId = userInfo.userId;
   registArticle(
     article.value,
     ({ data }) => {
@@ -162,7 +186,7 @@ function moveList() {
         >
           <a-form @submit.prevent="onSubmit">
             <a-form-item label="제목 " :style="{ width: '30%' }">
-              <a-input v-model:value="article.userId" :disabled="isUseId" />
+              <a-input v-model:value="article.subject" :disabled="isUseId" />
             </a-form-item>
             <a-form-item label="장소 " :style="{ width: '30%' }">
               <a-input v-model:value="article.location" />
@@ -170,9 +194,14 @@ function moveList() {
 
             <a-space>
               <span>여행 날짜: </span>
-              <a-range-picker v-model:value="dates" :placement="placement" />
+              <a-range-picker
+                :value="hackValue || value"
+                @change="onChange"
+                @openChange="onOpenChange"
+                @calendarChange="onCalendarChange"
+              />
             </a-space>
-            
+
             <div :style="{ marginTop: '60px' }">
               <!-- 내용 입력 필드 -->
               <ToastEditor :data="content" @setContent="setContent" />
@@ -184,7 +213,7 @@ function moveList() {
                 alignItems: 'center',
                 marginBottom: '20px',
                 justifyContent: 'center',
-                marginTop: '20px'
+                marginTop: '20px',
               }"
             >
               <a-button
@@ -196,23 +225,27 @@ function moveList() {
                   fontWeight: 'Bold',
                   margin: '6px',
                 }"
-                type="submit"
+                html-type="submit"
                 v-if="type === 'regist'"
               >
                 글작성
               </a-button>
-              <a-button :style="{
+              <a-button
+                :style="{
                   color: '#ABC9FF',
                   borderColor: '#ABC9FF',
                   border: '2px solid',
                   fontSize: '15px',
                   fontWeight: 'Bold',
                   margin: '6px',
-                }" type="submit" v-else>
+                }"
+                html-type="submit"
+                v-else
+              >
                 글수정
               </a-button>
               <a-button
-              :style="{
+                :style="{
                   color: '#ABC9FF',
                   borderColor: '#ABC9FF',
                   border: '2px solid',
