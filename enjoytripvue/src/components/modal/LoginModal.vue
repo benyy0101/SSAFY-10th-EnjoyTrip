@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, inject } from "vue";
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
 // JWT를 위해 추가
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
@@ -56,19 +56,23 @@ const loginMember = async () => {
   console.log("login 진행 중!!!");
   login.value = {
     userId: login.value.userId.trim(),
-    userPwd: login.value.userPwd.trim()
-  }
+    userPwd: login.value.userPwd.trim(),
+  };
   await userLogin(login.value);
   let token = sessionStorage.getItem("accessToken");
-  
+
   console.log("isLogin: ", isLogin);
-  
+
   if (isLogin) {
     // 이름 찍기 위해서 token을 가지고 getUserInfo로 가서 가져온다 -> member.js
     getUserInfo(token);
   }
-  router.push("/");
 };
+
+function moveSignup() {
+  loginModal.value = !loginModal.value;
+  router.push({ name: "signup" });
+}
 </script>
 
 <template>
@@ -78,58 +82,70 @@ const loginMember = async () => {
     :footer="null"
     centered="true"
   >
-
     <a-space class="loginHeader">
-      <h1 class="title">로그인</h1>
-      <div>비밀번호를 잊어버리셨나요?</div>
+      <div :style="{ display: 'flex', alignItems: 'flex-start' }">
+        <img src="@/assets/login.gif" :style="{ width: '50px' }" />
+        <h1 class="title">로그인</h1>
+      </div>
     </a-space>
     <div class="formContainer">
       <form @submit.prevent="onSubmit">
-        <a-input v-model:value="login.userId" size="large" placeholder="아이디" class="idInput">
+        <a-input :style="{ marginTop: '10px'}"
+          v-model:value="login.userId"
+          size="large"
+          placeholder="아이디"
+        >
           <template #prefix>
-        <user-outlined />
-      </template>
+            <user-outlined />
+          </template>
         </a-input>
-        <a-input-password v-model:value="login.userPwd" size="large" placeholder="비밀번호" class="pwdInput" @keyup.enter="onSubmit">
+        <a-input-password :style="{ marginTop: '12px'}"
+          v-model:value="login.userPwd"
+          size="large"
+          placeholder="비밀번호"
+          @keyup.enter="onSubmit"
+        >
           <template #prefix>
-        <LockOutlined />
-      </template>
+            <LockOutlined />
+          </template>
         </a-input-password>
-        <a-flex :justify="'flex-end'" class="buttonWrapper">
-          <button type="submit" @click.prevent="onSubmit" class="login">로그인</button>
+        <div :style="{display:'flex', justifyContent:'space-between', marginTop:'12px'}">
+          <a-button :style="{color:'#ff7f50' }" type="link" @click="moveSignup">회원가입</a-button>
+          <a-button :style="{color:'#ff7f50'}" type="link">비밀번호를 잊어버리셨나요?</a-button>
+        </div>
+            
+        <a-flex :justify="'center'" class="buttonWrapper">
+          <button type="submit" @click.prevent="onSubmit" class="login">
+            로그인
+          </button>
         </a-flex>
-        
       </form>
     </div>
   </a-modal>
 </template>
 <style>
-  .loginHeader{
-    display: flex;
-    justify-content: space-between;
-  }
-  .idInput{
-    border-radius: 8px 8px 0 0;
-  }
-  .pwdInput{
-    border-radius: 0 0 8px 8px;
-  }
+.loginHeader {
+  display: flex;
+  justify-content: space-between;
+}
 
-  .title{
-    font-weight: 900;
-  }
+.title {
+  font-weight: 900;
+  padding-left: 10px;
+  margin-top: 5px;
+}
 
-  .buttonWrapper{
-    margin-top: 2rem;
-  }
+.buttonWrapper {
+  margin-top: 2rem;
+}
 
-  .login{
-    background-color: #FF7F50;
-    border: none;
-    padding: 0.5rem 2rem;
-    font-weight: 800;
-    border-radius: 3rem;
-    font-size: larger;
-    color:aliceblue;
-  }
+.login {
+  background-color: #ff7f50;
+  border: none;
+  padding: 0.5rem 2rem;
+  font-weight: 800;
+  border-radius: 3rem;
+  font-size: larger;
+  color: aliceblue;
+}
 </style>
