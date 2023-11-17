@@ -1,19 +1,6 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { gugunList, sidoList, attList } from "@/api/map";
-// const sidoOption = ref([
-//   { text: "시,도 검색", value: "" },
-//   { text: "서울시", value: "article_no" },
-//   { text: "", value: "subject" },
-//   { text: "작성자아이디", value: "user_id" },
-// ]);
-
-// const gugunOption = ref([
-//   { text: "구,군 검색", value: "" },
-//   { text: "글번호", value: "article_no" },
-//   { text: "제목", value: "subject" },
-//   { text: "작성자아이디", value: "user_id" },
-// ]);
 
 const sidoOption = ref([]);
 const attOption = ref([
@@ -33,13 +20,8 @@ const positions = ref([]);
 const attInfo = ref([]);
 const value = ref();
 let map = "";
-watch(value, () => {
-  console.log(value);
-});
-//const gugunOption = ref([{ text: "구군선택", value: "" }]);
-// watch(sidoOption,()=>{
-//   console.log(sidoOption.value);
-// })
+
+
 onMounted(() => {
   getSidoList();
 });
@@ -77,13 +59,6 @@ watch(attKey, () => {
     sido_code: value.value[0],
     gugun_code: value.value[1],
   };
-
-  // if (
-  //   value.value == null ||
-  //   value.value.legth != 2
-  // ) {
-  //   alert("지역을 먼저 검색해 주세요!");
-  // }
 
   attList(
     param,
