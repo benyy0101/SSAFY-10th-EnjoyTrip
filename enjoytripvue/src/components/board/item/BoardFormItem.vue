@@ -4,8 +4,12 @@ import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import ToastEditor from "@/components/board/item/ToastUIEditor.vue";
 import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
 const memberStore = useMemberStore();
-const { userInfo } = memberStore;
+const { userInfo } = storeToRefs(memberStore);
+const {getUserInfo} = memberStore;
+let token = sessionStorage.getItem("accessToken");
+getUserInfo(token);
 
 // 여행 시작 날짜, 끝나는 날짜
 const dates = ref();
@@ -95,45 +99,44 @@ watch(
 );
 
 function onSubmit() {
-  console.log(userInfo)
+  console.log("왜 뭐가 문제인데", userInfo.value)
   if (subjectErrMsg.value) {
     alert(subjectErrMsg.value);
   } else if (contentErrMsg.value) {
     alert(contentErrMsg.value);
   } else {
     props.type === "regist" ? writeArticle() : updateArticle();
+    moveList();
   }
-  moveList();
 }
 
 function writeArticle() {
+  article.value.userId = userInfo.value.userId;
   console.log("글등록하자!!", article.value);
-  article.value.userId = userInfo.userId;
   registArticle(
     article.value,
     ({ data }) => {
-      console.log("regist.....................sucess, data: ", data);
+      console.log("regist.....................success, data: ", data);
       moveList();
     },
     (err) => {
       console.log(err);
     }
   );
-  // API 호출
 }
 
 function updateArticle() {
   console.log(article.value.articleNo + "번글 수정하자!!", article.value);
+  article.value.userId = userInfo.value.userId;
   modifyArticle(
     article.value,
     ({ data }) => {
-      console.log("update.....................sucess, data: ", data);
+      console.log("update.....................success, data: ", data);
     },
     (err) => {
       console.log(err);
     }
   );
-  // API 호출
 }
 
 function moveList() {
