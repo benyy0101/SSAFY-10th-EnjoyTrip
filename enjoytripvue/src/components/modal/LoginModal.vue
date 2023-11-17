@@ -64,8 +64,6 @@ const loginMember = async () => {
   console.log("isLogin: ", isLogin);
   
   if (isLogin) {
-    console.log("로그인 성공아닌가?");
-    console.log("111. ", token);
     // 이름 찍기 위해서 token을 가지고 getUserInfo로 가서 가져온다 -> member.js
     getUserInfo(token);
   }

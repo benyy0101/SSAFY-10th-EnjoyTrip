@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import TheMainView from '../views/TheMainView.vue';
-import TheSignUpView from '@/views/TheSignUpView.vue';
+import TheSignupView from '@/views/TheSignupView.vue';
 import TheMapView from '@/views/TheMapView.vue';
 // import TheBoardView from "../views/TheBoardView.vue";
 
@@ -52,7 +52,7 @@ const router = createRouter({
     {
       path: '/signup',
       name: 'signup',
-      component: TheSignUpView,
+      component: TheSignupView,
     },
   ],
 });
