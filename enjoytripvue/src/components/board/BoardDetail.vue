@@ -4,6 +4,9 @@ import { useRoute, useRouter } from "vue-router";
 import { detailArticle, deleteArticle } from "@/api/board";
 import { listComment, writeComment } from "@/api/comment";
 import CommentListItem from "@/components/board/item/CommentListItem.vue";
+import { useMemberStore } from "@/stores/member";
+const memberStore = useMemberStore();
+const { userInfo } = memberStore;
 
 const route = useRoute();
 const router = useRouter();
@@ -95,7 +98,8 @@ function onSubmit() {
 }
 
 function onSendComment() {
-  sendComment.value.userId = article.value.userId;
+  console.log(userInfo)
+  // sendComment.value.userId = userInfo.userId;
   writeComment(
     sendComment.value,
     ({ data }) => {
@@ -164,7 +168,6 @@ function onSendComment() {
           </div>
           <div class="row">
             <div>
-
               <div
                 :style="{
                   display: 'flex',
@@ -273,7 +276,7 @@ function onSendComment() {
             <div :style="{ paddingTop: '20px', paddingBottom: '20px' }">
               댓글 {{ num }}
             </div>
-            <form @submit.prevent="onSubmit">
+            <a-form @submit.prevent="onSubmit">
               <div class="comment mb-3 mt-3">
                 <a-textarea
                   :rows="3"
@@ -296,11 +299,12 @@ function onSendComment() {
                     fontSize: '15px',
                     fontWeight: 'Bold',
                   }"
+                  html-type="submit"
                 >
                   댓글 작성
                 </a-button>
               </div>
-            </form>
+            </a-form>
             <div class="mb-3 mt-3">
               <CommentListItem
                 v-for="comment in comments"

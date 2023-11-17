@@ -16,11 +16,11 @@ async function findById(userid, success, fail) {
 
 async function tokenRegeneration(user, success, fail) {
   local.defaults.headers["refreshToken"] = sessionStorage.getItem("refreshToken"); //axios header에 refresh-token 셋팅
-  await local.post(`/${url}/refresh`, user).then(success).catch(fail);
+  await local.post(`${url}/refresh`, user).then(success).catch(fail);
 }
 
 async function logout(userid, success, fail) {
-  await local.get(`/${url}/logout/${userid}`).then(success).catch(fail);
+  await local.get(`${url}/logout/${userid}`).then(success).catch(fail);
 }
 
 function joinMember(member, success, fail) {
