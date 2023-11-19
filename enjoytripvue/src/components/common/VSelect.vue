@@ -1,17 +1,21 @@
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 defineProps({ selectOption: Array });
-const emit = defineEmits(["onKeySelect"]);
-const key = ref("");
+const emit = defineEmits(['onKeySelect']);
+const key = ref('');
 
 const onSelect = () => {
-  console.log(key.value + "선택!!!");
-  emit("onKeySelect", key.value);
+  console.log(key.value + '선택!!!');
+  emit('onKeySelect', key.value);
 };
 </script>
 
 <template>
-  <select v-model="key" class="form-select form-select-sm ms-5 me-1 w-50" @change="onSelect">
+  <select
+    v-model="key"
+    class="form-select form-select-sm ms-5 me-1 w-50"
+    @change="onSelect"
+  >
     <option
       v-for="option in selectOption"
       :key="option.value"
@@ -24,7 +28,7 @@ const onSelect = () => {
 </template>
 
 <style scoped>
-  select{
-    position:absolute;
-  }
+select {
+  position: absolute;
+}
 </style>

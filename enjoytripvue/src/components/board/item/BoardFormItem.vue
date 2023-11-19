@@ -1,14 +1,14 @@
 <script setup>
-import { registArticle, modifyArticle, detailArticle } from "@/api/board";
-import { ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import ToastEditor from "@/components/board/item/ToastUIEditor.vue";
-import { useMemberStore } from "@/stores/member";
-import { storeToRefs } from "pinia";
+import { registArticle, modifyArticle, detailArticle } from '@/api/board';
+import { ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import ToastEditor from '@/components/board/item/ToastUIEditor.vue';
+import { useMemberStore } from '@/stores/member';
+import { storeToRefs } from 'pinia';
 const memberStore = useMemberStore();
 const { userInfo } = storeToRefs(memberStore);
-const {getUserInfo} = memberStore;
-let token = sessionStorage.getItem("accessToken");
+const { getUserInfo } = memberStore;
+let token = sessionStorage.getItem('accessToken');
 getUserInfo(token);
 
 // 여행 시작 날짜, 끝나는 날짜
@@ -16,7 +16,7 @@ const dates = ref();
 const value = ref();
 const hackValue = ref();
 
-const onOpenChange = open => {
+const onOpenChange = (open) => {
   if (open) {
     dates.value = [];
     hackValue.value = [];
@@ -25,11 +25,11 @@ const onOpenChange = open => {
   }
 };
 
-const onChange = val => {
+const onChange = (val) => {
   value.value = val;
 };
 
-const onCalendarChange = val => {
+const onCalendarChange = (val) => {
   dates.value = val;
   article.value.startDate = dates.value[0];
   article.value.endDate = dates.value[1];
@@ -44,23 +44,23 @@ const isUseId = ref(false);
 
 const article = ref({
   articleNo: 0,
-  userId: "",
-  subject: "",
-  content: "",
-  location: "",
-  startDate: "",
-  endDate: "",
+  userId: '',
+  subject: '',
+  content: '',
+  location: '',
+  startDate: '',
+  endDate: '',
   hit: 0,
-  registerTime: "",
+  registerTime: '',
 });
 
 const setContent = (e) => {
   article.value.content = e;
 };
 
-if (props.type === "modify") {
+if (props.type === 'modify') {
   let { articleno } = route.params;
-  console.log(articleno + "번글 얻어와서 수정할거야");
+  console.log(articleno + '번글 얻어와서 수정할거야');
   // API 호출
   detailArticle(
     articleno,
@@ -75,15 +75,15 @@ if (props.type === "modify") {
   isUseId.value = true;
 }
 
-const subjectErrMsg = ref("");
-const contentErrMsg = ref("");
+const subjectErrMsg = ref('');
+const contentErrMsg = ref('');
 watch(
   () => article.value.subject,
   (value) => {
     let len = value.length;
     if (len == 0 || len > 30) {
-      subjectErrMsg.value = "제목을 확인해 주세요!!!";
-    } else subjectErrMsg.value = "";
+      subjectErrMsg.value = '제목을 확인해 주세요!!!';
+    } else subjectErrMsg.value = '';
   },
   { immediate: true }
 );
@@ -92,31 +92,31 @@ watch(
   (value) => {
     let len = value.length;
     if (len == 0 || len > 500) {
-      contentErrMsg.value = "내용을 확인해 주세요!!!";
-    } else contentErrMsg.value = "";
+      contentErrMsg.value = '내용을 확인해 주세요!!!';
+    } else contentErrMsg.value = '';
   },
   { immediate: true }
 );
 
 function onSubmit() {
-  console.log("왜 뭐가 문제인데", userInfo.value)
+  console.log('왜 뭐가 문제인데', userInfo.value);
   if (subjectErrMsg.value) {
     alert(subjectErrMsg.value);
   } else if (contentErrMsg.value) {
     alert(contentErrMsg.value);
   } else {
-    props.type === "regist" ? writeArticle() : updateArticle();
+    props.type === 'regist' ? writeArticle() : updateArticle();
     moveList();
   }
 }
 
 function writeArticle() {
   article.value.userId = userInfo.value.userId;
-  console.log("글등록하자!!", article.value);
+  console.log('글등록하자!!', article.value);
   registArticle(
     article.value,
     ({ data }) => {
-      console.log("regist.....................success, data: ", data);
+      console.log('regist.....................success, data: ', data);
       moveList();
     },
     (err) => {
@@ -126,12 +126,12 @@ function writeArticle() {
 }
 
 function updateArticle() {
-  console.log(article.value.articleNo + "번글 수정하자!!", article.value);
+  console.log(article.value.articleNo + '번글 수정하자!!', article.value);
   article.value.userId = userInfo.value.userId;
   modifyArticle(
     article.value,
     ({ data }) => {
-      console.log("update.....................success, data: ", data);
+      console.log('update.....................success, data: ', data);
     },
     (err) => {
       console.log(err);
@@ -140,7 +140,7 @@ function updateArticle() {
 }
 
 function moveList() {
-  router.push({ name: "article-list" });
+  router.push({ name: 'article-list' });
 }
 </script>
 
@@ -177,7 +177,7 @@ function moveList() {
             }"
           >
             <h1>여행 후기 작성</h1>
-            <h3>여행 후기를 작성해주세요!</h3>
+            <h3>여행 이야기를 들려주세요!</h3>
           </div>
         </div>
         <a-divider />
