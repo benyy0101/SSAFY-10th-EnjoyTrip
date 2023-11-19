@@ -78,6 +78,21 @@ const columns = [
     key: 'userId',
   },
   {
+    title: '장소',
+    dataIndex: 'location',
+    key: 'location',
+  },
+  {
+    title: '여행 시작 날짜',
+    dataIndex: 'startDate',
+    key: 'startDate',
+  },
+  {
+    title: '여행 종료 날짜',
+    dataIndex: 'endDate',
+    key: 'endDate',
+  },
+  {
     title: '조회수',
     dataIndex: 'hit',
     key: 'hit',
@@ -129,8 +144,7 @@ const columns = [
         <a-divider />
         <div
           :style="{
-            padding: '30px',
-            marginTop: '30px',
+            padding: '10px',
           }"
         >
           <div
@@ -155,52 +169,51 @@ const columns = [
                 글쓰기
               </a-button>
             </div>
-            <a-row :gutter="[16, 16]">
-              <form
+            <form
+              :style="{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+              }"
+            >
+              <VSelect
+                :style="{ display: 'felx', alignItems: 'flex-start' }"
+                :selectOption="selectOption"
+                @onKeySelect="changeKey"
+              />
+              <div
                 :style="{
                   display: 'flex',
                   flexDirection: 'row',
                   justifyContent: 'space-evenly',
                 }"
               >
-                <a-col :span="12">
-                  <VSelect
-                    :selectOption="selectOption"
-                    @onKeySelect="changeKey"
-                  />
-                </a-col>
-                <a-col :span="12">
-                  <a-input
-                    type="text"
-                    class="form-control"
-                    v-model:value="param.word"
-                    placeholder="검색어"
-                  />
-                  <a-button
-                    :style="{
-                      color: '#ABC9FF',
-                      borderColor: '#ABC9FF',
-                      border: '2px solid',
-                      fontSize: '15px',
-                      fontWeight: 'Bold',
-                      margin: '6px',
-                    }"
-                    @click="getArticleList"
-                  >
-                    검색하기
-                  </a-button>
-                </a-col>
-              </form>
-            </a-row>
+                <a-input
+                  type="text"
+                  class="form-control"
+                  v-model:value="param.word"
+                  placeholder="검색어"
+                />
+                <a-button
+                  :style="{
+                    color: '#ABC9FF',
+                    borderColor: '#ABC9FF',
+                    border: '2px solid',
+                    fontSize: '15px',
+                    fontWeight: 'Bold',
+                    margin: '6px',
+                  }"
+                  @click="getArticleList"
+                >
+                  검색하기
+                </a-button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
       <a-divider />
-      <a-table
-        :columns="columns"
-        :data-source="articles"
-        :style="{ display: 'flex' }"
-      >
+      <a-table :columns="columns" :data-source="articles">
         <template #headerCell="{ column }">
           <template v-if="column.key === 'articleNo'">
             <span>글번호</span>
@@ -222,14 +235,14 @@ const columns = [
       </a-table>
     </div>
   </a-layout-content>
-  <div class="container">
+  <!-- <div class="container">
     <div class="row justify-content-center"></div>
     <PageNavigation
       :current-page="currentPage"
       :total-page="totalPage"
       @pageChange="onPageChange"
     ></PageNavigation>
-  </div>
+  </div> -->
 </template>
 
 <style scoped></style>

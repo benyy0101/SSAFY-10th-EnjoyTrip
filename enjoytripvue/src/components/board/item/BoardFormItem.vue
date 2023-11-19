@@ -183,8 +183,7 @@ function moveList() {
         <a-divider />
         <div
           :style="{
-            padding: '30px',
-            marginTop: '30px',
+            padding: '10px',
           }"
         >
           <a-form @submit.prevent="onSubmit">
