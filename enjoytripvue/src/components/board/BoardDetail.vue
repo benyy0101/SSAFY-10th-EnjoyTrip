@@ -1,10 +1,10 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { detailArticle, deleteArticle } from "@/api/board";
-import { listComment, writeComment } from "@/api/comment";
-import CommentListItem from "@/components/board/item/CommentListItem.vue";
-import { useMemberStore } from "@/stores/member";
+import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { detailArticle, deleteArticle } from '@/api/board';
+import { listComment, writeComment } from '@/api/comment';
+import CommentListItem from '@/components/board/item/CommentListItem.vue';
+import { useMemberStore } from '@/stores/member';
 const memberStore = useMemberStore();
 const { userInfo } = memberStore;
 
@@ -19,8 +19,8 @@ const num = ref(0);
 
 const sendComment = ref({
   articleNo: articleno,
-  userId: "",
-  commentContent: "",
+  userId: '',
+  commentContent: '',
 });
 
 onMounted(() => {
@@ -30,7 +30,7 @@ onMounted(() => {
 
 const getArticle = () => {
   // const { articleno } = route.params;
-  console.log(articleno + "번글 얻으러 가자!!!");
+  console.log(articleno + '번글 얻으러 가자!!!');
   // API 호출
   detailArticle(
     articleno,
@@ -45,7 +45,7 @@ const getArticle = () => {
 };
 
 const getComment = () => {
-  console.log(articleno + "번글 얻으러 가자!!!");
+  console.log(articleno + '번글 얻으러 가자!!!');
   // API 호출
   listComment(
     articleno,
@@ -61,30 +61,30 @@ const getComment = () => {
 };
 
 function moveList() {
-  router.push({ name: "article-list" });
+  router.push({ name: 'article-list' });
 }
 
 function moveModify() {
-  router.push({ name: "article-modify", params: { articleno } });
+  router.push({ name: 'article-modify', params: { articleno } });
 }
 
 function onDeleteArticle() {
   // const { articleno } = route.params;
-  console.log(articleno + "번글 삭제하러 가자!!!");
+  console.log(articleno + '번글 삭제하러 가자!!!');
   // API 호출
   deleteArticle(articleno);
   moveList();
 }
 
-const contentErrMsg = ref("");
+const contentErrMsg = ref('');
 
 watch(
   () => sendComment.value.commentContent,
   (value) => {
     let len = value.length;
     if (len == 0) {
-      contentErrMsg.value = "댓글을 작성해주세요";
-    } else contentErrMsg.value = "";
+      contentErrMsg.value = '댓글을 작성해주세요';
+    } else contentErrMsg.value = '';
   },
   { immediate: true }
 );
@@ -98,12 +98,12 @@ function onSubmit() {
 }
 
 function onSendComment() {
-  console.log(userInfo)
+  console.log(userInfo);
   // sendComment.value.userId = userInfo.userId;
   writeComment(
     sendComment.value,
     ({ data }) => {
-      console.log("writeComment.....................success, data: ", data);
+      console.log('writeComment.....................success, data: ', data);
     },
     (err) => {
       console.log(err);
@@ -145,7 +145,7 @@ function onSendComment() {
             }"
           >
             <h1>여행 후기</h1>
-            <h3>여행에 대한 이야기를 들려주세요!</h3>
+            <h3>여행 이야기를 들어주세요!</h3>
           </div>
         </div>
         <a-divider />
@@ -210,7 +210,7 @@ function onSendComment() {
             <div
               :style="{
                 border: '2px solid',
-                borderColor:'#ABC9FF',
+                borderColor: '#ABC9FF',
                 padding: '36px',
                 marginTop: '20px',
                 marginBottom: '20px',

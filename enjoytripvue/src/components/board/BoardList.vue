@@ -1,19 +1,18 @@
 <script setup>
-import { ref} from "vue";
-import { useRouter } from "vue-router";
-import { listArticle } from "@/api/board";
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { listArticle } from '@/api/board';
 
-import VSelect from "@/components/common/VSelect.vue";
-import BoardListItem from "@/components/board/item/BoardListItem.vue";
-import PageNavigation from "@/components/common/PageNavigation.vue";
+import VSelect from '@/components/common/VSelect.vue';
+import PageNavigation from '@/components/common/PageNavigation.vue';
 
 const router = useRouter();
 
 const selectOption = ref([
-  { text: "검색조건", value: "" },
-  { text: "글번호", value: "article_no" },
-  { text: "제목", value: "subject" },
-  { text: "작성자아이디", value: "user_id" },
+  { text: '검색조건', value: '' },
+  { text: '글번호', value: 'article_no' },
+  { text: '제목', value: 'subject' },
+  { text: '작성자아이디', value: 'user_id' },
 ]);
 
 const articles = ref(null);
@@ -23,98 +22,213 @@ const { VITE_ARTICLE_LIST_SIZE } = import.meta.env;
 const param = ref({
   pgno: currentPage.value,
   spp: VITE_ARTICLE_LIST_SIZE,
-  key: "",
-  word: "",
+  key: '',
+  word: '',
 });
 getArticleList();
 
 const changeKey = (val) => {
-  console.log("BoarList에서 선택한 조건 : " + val);
+  console.log('BoarList에서 선택한 조건 : ' + val);
   param.value.key = val;
 };
 
 function getArticleList() {
-  console.log("서버에서 글목록 얻어오자!!!", param.value);
+  console.log('서버에서 글목록 얻어오자!!!', param.value);
   // API 호출
-  listArticle(param.value, (res) => {
-    console.log(res.data);
-    articles.value = res.data;
-    //console.log(articles.value);
-    //currentPage.value = data.currentPage;
-    //totalPage.value = data.totalPageCount;
-  },
-  (error) => {
-    console.log(error)
-  });
+  listArticle(
+    param.value,
+    (res) => {
+      console.log('이거야?', res.data);
+      articles.value = res.data;
+      //console.log(articles.value);
+      //currentPage.value = data.currentPage;
+      //totalPage.value = data.totalPageCount;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
 }
 
 const onPageChange = (val) => {
-  console.log(val + "번 페이지로 이동 준비 끝!!!");
+  console.log(val + '번 페이지로 이동 준비 끝!!!');
   currentPage.value = val;
   param.value.pgno = val;
   getArticleList();
 };
 
 const moveWrite = () => {
-  router.push({ name: "article-write" });
+  router.push({ name: 'article-write' });
 };
+
+const columns = [
+  {
+    name: 'articleNo',
+    dataIndex: 'articleNo',
+    key: 'articleNo',
+  },
+  {
+    title: '제목',
+    dataIndex: 'subject',
+    key: 'subject',
+  },
+  {
+    title: '작성자',
+    dataIndex: 'userId',
+    key: 'userId',
+  },
+  {
+    title: '조회수',
+    dataIndex: 'hit',
+    key: 'hit',
+  },
+  {
+    title: '작성일',
+    dataIndex: 'registerTime',
+    key: 'registerTime',
+  },
+];
 </script>
 
 <template>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-          <mark class="sky">글목록</mark>
-        </h2>
-      </div>
-      <div class="col-lg-10">
-        <div class="row align-self-center mb-2">
-          <div class="col-md-2 text-start">
-            <button type="button" class="btn btn-outline-primary btn-sm" @click="moveWrite">
-              글쓰기
-            </button>
-          </div>
-          <div class="col-md-5 offset-5">
-            <form class="d-flex">
-              <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
-              <div class="input-group input-group-sm">
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="param.word"
-                  placeholder="검색어..."
-                />
-                <button class="btn btn-dark" type="button" @click="getArticleList">검색</button>
-              </div>
-            </form>
+  <a-layout-content
+    :style="{
+      padding: '80px 140px',
+      background: '#fff',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    }"
+  >
+    <div
+      :style="{
+        background: '#fff',
+        padding: '24px',
+        minHeight: '380px',
+        width: '80%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }"
+    >
+      <div class="wholeDiv" :style="{ width: '100%' }">
+        <div :style="{ display: 'flex', alignItems: 'flex-start' }">
+          <img src="@/assets/board_list.gif" />
+          <div
+            :style="{
+              display: 'flex',
+              flexDirection: 'column',
+              marginTop: '5px',
+              paddingLeft: '10px',
+            }"
+          >
+            <h1>여행 후기 목록</h1>
+            <h3>여행 이야기를 공유해요!</h3>
           </div>
         </div>
-        <table class="table table-hover">
-          <thead>
-            <tr class="text-center">
-              <th scope="col">글번호</th>
-              <th scope="col">제목</th>
-              <th scope="col">작성자</th>
-              <th scope="col">조회수</th>
-              <th scope="col">작성일</th>
-            </tr>
-          </thead>
-          <tbody>
-            <BoardListItem
-              v-for="article in articles"
-              :key="article.articleNo"
-              :article="article"
-            ></BoardListItem>
-          </tbody>
-        </table>
+        <a-divider />
+        <div
+          :style="{
+            padding: '30px',
+            marginTop: '30px',
+          }"
+        >
+          <div
+            :style="{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }"
+          >
+            <div>
+              <a-button
+                :style="{
+                  color: '#ABC9FF',
+                  borderColor: '#ABC9FF',
+                  border: '2px solid',
+                  fontSize: '15px',
+                  fontWeight: 'Bold',
+                  margin: '6px',
+                }"
+                @click="moveWrite"
+              >
+                글쓰기
+              </a-button>
+            </div>
+            <a-row :gutter="[16, 16]">
+              <form
+                :style="{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-evenly',
+                }"
+              >
+                <a-col :span="12">
+                  <VSelect
+                    :selectOption="selectOption"
+                    @onKeySelect="changeKey"
+                  />
+                </a-col>
+                <a-col :span="12">
+                  <a-input
+                    type="text"
+                    class="form-control"
+                    v-model:value="param.word"
+                    placeholder="검색어"
+                  />
+                  <a-button
+                    :style="{
+                      color: '#ABC9FF',
+                      borderColor: '#ABC9FF',
+                      border: '2px solid',
+                      fontSize: '15px',
+                      fontWeight: 'Bold',
+                      margin: '6px',
+                    }"
+                    @click="getArticleList"
+                  >
+                    검색하기
+                  </a-button>
+                </a-col>
+              </form>
+            </a-row>
+          </div>
+        </div>
       </div>
-      <PageNavigation
-        :current-page="currentPage"
-        :total-page="totalPage"
-        @pageChange="onPageChange"
-      ></PageNavigation>
+      <a-divider />
+      <a-table
+        :columns="columns"
+        :data-source="articles"
+        :style="{ display: 'flex' }"
+      >
+        <template #headerCell="{ column }">
+          <template v-if="column.key === 'articleNo'">
+            <span>글번호</span>
+          </template>
+        </template>
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'subject'">
+            <router-link
+              :to="{
+                name: 'article-view',
+                params: { articleno: record.articleNo },
+              }"
+              class="article-title link-dark"
+            >
+              {{ record.subject }}
+            </router-link>
+          </template>
+        </template>
+      </a-table>
     </div>
+  </a-layout-content>
+  <div class="container">
+    <div class="row justify-content-center"></div>
+    <PageNavigation
+      :current-page="currentPage"
+      :total-page="totalPage"
+      @pageChange="onPageChange"
+    ></PageNavigation>
   </div>
 </template>
 
