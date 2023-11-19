@@ -8,6 +8,16 @@ const router = useRouter();
 const props = defineProps({ type: String });
 
 const isUseId = ref(false);
+// 이미지 파일 업로드
+const image = ref();
+const imageUploaded = ref();
+const fileInputRef = ref();
+
+const upload = () => {
+  image.value = fileInputRef.value.files[0];
+  // URL.createObjectURL로 사용자가 올린 이미지를 URL로 만들어서 화면에 표시할 수 있게 한다. img 태그의 src값에 바인딩해준다
+  imageUploaded.value = URL.createObjectURL(image.value);
+};
 
 const member = ref({
   userId: '',
@@ -15,7 +25,6 @@ const member = ref({
   userPwd: '',
   emailId: '',
   emailDomain: '',
-  profileImg: '',
 });
 
 const userIdErrMsg = ref('');
@@ -54,8 +63,23 @@ function onSubmit() {
 function signup() {
   console.log('회원가입하자', member.value);
 
+  // 프로필 이미지를 위한 코드
+  // const userPK = this.$store.state.loginStore.id;
+
+  // 먼저 dto를 blob으로 바꿈
+  const dtoToBlob = new Blob([JSON.stringify(member)], {
+    type: 'application/json',
+  });
+
+  // FormData를 만듦
+  const formData = new FormData();
+
+  // blob으로 바꾼 dto랑 사용자가 입력한 이미지 formData에 append함
+  formData.append('memberDto', dtoToBlob);
+  formData.append('image', image.value);
+
   joinMember(
-    member.value,
+    formData,
     ({ data }) => {
       console.log('signup.....................success, data: ', data);
       router.push({ name: 'main' });
@@ -113,6 +137,13 @@ function signup() {
           }"
         >
           <a-form @submit.prevent="onSubmit">
+            <!-- 이미지 파일 업로드 -->
+            <div :style="{ marginBottom: '24px' }">
+              <label class="form-label">프로필 이미지</label><br />
+              <img :src="imageUploaded" />
+              <input type="file" ref="fileInputRef" @change="upload" />
+            </div>
+
             <a-form-item label="아이디 " :style="{ width: '100%' }">
               <a-input v-model:value="member.userId" :disabled="isUseId" />
             </a-form-item>
