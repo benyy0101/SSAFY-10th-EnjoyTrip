@@ -151,8 +151,7 @@ function onSendComment() {
         <a-divider />
         <div
           :style="{
-            padding: '30px',
-            marginTop: '30px',
+            padding: '10px',
           }"
         >
           <div

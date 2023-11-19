@@ -1,7 +1,7 @@
 <script setup>
-import { ref, watch } from "vue";
-import { useRouter } from "vue-router";
-import { joinMember } from "@/api/user";
+import { ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { joinMember } from '@/api/user';
 
 const router = useRouter();
 
@@ -10,23 +10,23 @@ const props = defineProps({ type: String });
 const isUseId = ref(false);
 
 const member = ref({
-  userId: "",
-  userName: "",
-  userPwd: "",
-  emailId: "",
-  emailDomain: "",
-  profileImg: "",
+  userId: '',
+  userName: '',
+  userPwd: '',
+  emailId: '',
+  emailDomain: '',
+  profileImg: '',
 });
 
-const userIdErrMsg = ref("");
-const userPwdErrMsg = ref("");
+const userIdErrMsg = ref('');
+const userPwdErrMsg = ref('');
 watch(
   () => member.value.userId,
   (value) => {
     let len = value.length;
     if (len == 0) {
-      userIdErrMsg.value = "아이디를 입력해주세요!";
-    } else userIdErrMsg.value = "";
+      userIdErrMsg.value = '아이디를 입력해주세요!';
+    } else userIdErrMsg.value = '';
   },
   { immediate: true }
 );
@@ -35,8 +35,8 @@ watch(
   (value) => {
     let len = value.length;
     if (len == 0) {
-      userPwdErrMsg.value = "비밀번호를 입력해주세요!";
-    } else userPwdErrMsg.value = "";
+      userPwdErrMsg.value = '비밀번호를 입력해주세요!';
+    } else userPwdErrMsg.value = '';
   },
   { immediate: true }
 );
@@ -52,13 +52,13 @@ function onSubmit() {
 }
 
 function signup() {
-  console.log("회원가입하자", member.value);
+  console.log('회원가입하자', member.value);
 
   joinMember(
     member.value,
     ({ data }) => {
-      console.log("signup.....................success, data: ", data);
-      router.push({ name: "main" });
+      console.log('signup.....................success, data: ', data);
+      router.push({ name: 'main' });
     },
     (err) => {
       console.log(err);
@@ -113,7 +113,6 @@ function signup() {
           }"
         >
           <a-form @submit.prevent="onSubmit">
-
             <a-form-item label="아이디 " :style="{ width: '100%' }">
               <a-input v-model:value="member.userId" :disabled="isUseId" />
             </a-form-item>
@@ -121,7 +120,7 @@ function signup() {
               <a-input v-model:value="member.userName" />
             </a-form-item>
             <a-form-item label="비밀번호 " :style="{ width: '100%' }">
-              <a-input v-model:value="member.userPwd" />
+              <a-input-password v-model:value="member.userPwd" />
             </a-form-item>
             <a-form-item label="이메일 " :style="{ width: '100%' }">
               <a-input v-model:value="member.emailId">
@@ -180,5 +179,4 @@ function signup() {
   </a-layout-content>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
