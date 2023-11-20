@@ -99,7 +99,7 @@ public class MemberController {
 				
 //				발급받은 refresh token을 DB에 저장.
 				memberService.saveRefreshToken(loginUser.getUserId(), refreshToken);
-				
+
 //				JSON으로 token 전달.
 				resultMap.put("access-token", accessToken);
 				// todo: 나중에 변경할 것 : Cookie로 변경할 것이다!!!

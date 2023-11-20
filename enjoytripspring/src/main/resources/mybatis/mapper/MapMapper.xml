@@ -16,6 +16,7 @@
 	</resultMap>
 
 	<resultMap type="MarkerDto" id="marker">
+		<result column="contentId" property="contentId" />
 		<result column="contentTypeId" property="contentTypeId" />
 		<result column="title" property="title" />
 		<result column="addr1" property="addr1" />
@@ -43,7 +44,7 @@
 
 	<select id="getMarker" parameterType="map" resultMap="marker">
 		select
-		content_type_id, title, addr1, addr2, first_image, readcount, latitude, longitude, sido_code, gugun_code
+		content_id,content_type_id, title, addr1, addr2, first_image, readcount, latitude, longitude, sido_code, gugun_code
 		from attraction_info
 		where content_type_id = #{contentTypeId} and sido_code = #{sidoCode} and gugun_code = #{gugunCode}
 	</select>
