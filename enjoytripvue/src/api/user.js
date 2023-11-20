@@ -30,11 +30,7 @@ async function logout(userid, success, fail) {
 
 function joinMember(member, success, fail) {
   console.log('member.js member', member);
-  local
-    .post(`${url}/register`, member)
-    .then(success)
-    .catch(fail);
-  console.log('들어갔나요', member);
+  local.post(`${url}/register`, member).then(success).catch(fail);
 }
 // , { headers: { 'Content-Type': 'multipart/form-data' },}
 function updateMember(member, success, fail) {

@@ -4,7 +4,6 @@ import TheMainView from '../views/TheMainView.vue';
 import TheMapView from '@/views/TheMapView.vue';
 import TheMyPageView from '@/views/TheMyPageView.vue';
 // import MemberModify from '@/components/member/MemberModify.vue';
-// import TheBoardView from "../views/TheBoardView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
