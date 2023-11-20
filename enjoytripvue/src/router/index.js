@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import TheMainView from '../views/TheMainView.vue';
-import TheSignUpView from '@/views/TheSignUpView.vue';
+// import TheMemberView from '@/views/TheMemberView.vue';
 import TheMapView from '@/views/TheMapView.vue';
+import TheMyPageView from '@/views/TheMyPageView.vue';
+// import MemberModify from '@/components/member/MemberModify.vue';
 // import TheBoardView from "../views/TheBoardView.vue";
 
 const router = createRouter({
@@ -62,9 +64,27 @@ const router = createRouter({
       ],
     },
     {
-      path: '/signup',
-      name: 'signup',
-      component: TheSignUpView,
+      path: '/member',
+      name: 'member',
+      component: () => import('../views/TheMemberView.vue'),
+      redirect: { name: 'member-modify' },
+      children: [
+        {
+          path: 'signup',
+          name: 'member-signup',
+          component: () => import('@/components/member/MemberSignUp.vue'),
+        },
+        {
+          path: 'member-modify/:userId',
+          name: 'member-modify',
+          component: () => import('@/components/member/MemberModify.vue'),
+        },
+      ],
+    },
+    {
+      path: '/mypage',
+      name: 'mypage',
+      component: TheMyPageView,
     },
   ],
 });

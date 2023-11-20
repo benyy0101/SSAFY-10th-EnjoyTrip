@@ -1,23 +1,23 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { joinMember } from '@/api/user';
+import { useRouter, useRoute } from 'vue-router';
+import { joinMember, updateMember, findById } from '@/api/user';
 
 const router = useRouter();
-
+const route = useRoute();
 const props = defineProps({ type: String });
 
 const isUseId = ref(false);
 // 이미지 파일 업로드
-const image = ref();
-const imageUploaded = ref();
-const fileInputRef = ref();
+// const profileImg = ref();
+// const imageUploaded = ref();
+// const fileInputRef = ref();
 
-const upload = () => {
-  image.value = fileInputRef.value.files[0];
-  // URL.createObjectURL로 사용자가 올린 이미지를 URL로 만들어서 화면에 표시할 수 있게 한다. img 태그의 src값에 바인딩해준다
-  imageUploaded.value = URL.createObjectURL(image.value);
-};
+// const upload = () => {
+//   profileImg.value = fileInputRef.value.files[0];
+//   // URL.createObjectURL로 사용자가 올린 이미지를 URL로 만들어서 화면에 표시할 수 있게 한다. img 태그의 src값에 바인딩해준다
+//   imageUploaded.value = URL.createObjectURL(profileImg.value);
+// };
 
 const member = ref({
   userId: '',
@@ -26,6 +26,23 @@ const member = ref({
   emailId: '',
   emailDomain: '',
 });
+
+if (props.type === 'modify') {
+  let { userId } = route.params;
+  console.log(userId + '번글 얻어와서 수정할거야');
+  // API 호출
+  findById(
+    userId,
+    (res) => {
+        member.value = res.data;
+        console.log(member.value);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+  isUseId.value = true;
+}
 
 const userIdErrMsg = ref('');
 const userPwdErrMsg = ref('');
@@ -56,7 +73,8 @@ function onSubmit() {
   } else if (userPwdErrMsg.value) {
     alert(userPwdErrMsg.value);
   } else {
-    signup();
+    props.type === 'regist' ? signup() : update();
+    //signup();
   }
 }
 
@@ -67,22 +85,40 @@ function signup() {
   // const userPK = this.$store.state.loginStore.id;
 
   // 먼저 dto를 blob으로 바꿈
-  const dtoToBlob = new Blob([JSON.stringify(member)], {
-    type: 'application/json',
-  });
+  // const dtoToBlob = new Blob([JSON.stringify(member)], {
+  //   type: 'application/json',
+  // });
 
-  // FormData를 만듦
-  const formData = new FormData();
+  // // FormData를 만듦
+  // const formData = new FormData();
 
-  // blob으로 바꾼 dto랑 사용자가 입력한 이미지 formData에 append함
-  formData.append('memberDto', dtoToBlob);
-  formData.append('image', image.value);
+  // // blob으로 바꾼 dto랑 사용자가 입력한 이미지 formData에 append함
+  // formData.append('memberDto', dtoToBlob);
+  // formData.append('profileImg', profileImg.value);
 
+  // for(let x of formData){
+  //   console.log("여기야", x);
+  // }
   joinMember(
-    formData,
+    member.value,
     ({ data }) => {
       console.log('signup.....................success, data: ', data);
       router.push({ name: 'main' });
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+}
+
+function update() {
+  console.log(member.value.userId + '번글 수정하자!!', member.value);
+  let { userId } = route.params;
+  member.value.userId = userId;
+  updateMember(
+    member.value,
+    ({ data }) => {
+      console.log('update.....................success, data: ', data);
     },
     (err) => {
       console.log(err);
@@ -123,7 +159,7 @@ function signup() {
               paddingLeft: '10px',
             }"
           >
-            <h1>회원가입</h1>
+            <h1>회원 정보 수정</h1>
             <h3>EnjoyTrip과 함께 해요!</h3>
           </div>
         </div>
@@ -138,11 +174,11 @@ function signup() {
         >
           <a-form @submit.prevent="onSubmit">
             <!-- 이미지 파일 업로드 -->
-            <div :style="{ marginBottom: '24px' }">
+            <!-- <div :style="{ marginBottom: '24px' }">
               <label class="form-label">프로필 이미지</label><br />
               <img :src="imageUploaded" />
               <input type="file" ref="fileInputRef" @change="upload" />
-            </div>
+            </div> -->
 
             <a-form-item label="아이디 " :style="{ width: '100%' }">
               <a-input v-model:value="member.userId" :disabled="isUseId" />

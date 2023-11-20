@@ -13,7 +13,7 @@ import com.ssafy.enjoytrip.plan.model.dto.PlanDto;
 import com.ssafy.enjoytrip.plan.model.dto.PlanException;
 import com.ssafy.enjoytrip.util.PageNavigation;
 
-@Service("PlanService")
+@Service
 @Repository
 public class PlanServiceImpl implements PlanService {
 	@Autowired
@@ -24,16 +24,12 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
-	public void writePlan(PlanDto planDto) {
-//		try {
-//			PlanDto find = planDao.getPlan(planDto.getPlan_no());
-//			if(find!=null)
-//				throw new PlanException("이미 등록된 plan_no입니다.");
-//			
-//			planDao.writePlan(planDto);
-//		} catch (SQLException e) {
-//			throw new PlanException("계획 등록 중 오류 발생");
-//		}
+	public int writePlan(PlanDto planDto) {
+		try {
+			return planDao.writePlan(planDto);
+		} catch (SQLException e) {
+			throw new PlanException("계획 등록 중 오류 발생");
+		}
 	}
 
 	@Override

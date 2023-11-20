@@ -4,7 +4,6 @@ import { useRouter } from 'vue-router';
 import { listArticle } from '@/api/board';
 
 import VSelect from '@/components/common/VSelect.vue';
-import PageNavigation from '@/components/common/PageNavigation.vue';
 
 const router = useRouter();
 
@@ -17,7 +16,6 @@ const selectOption = ref([
 
 const articles = ref(null);
 const currentPage = ref(1);
-const totalPage = ref(0);
 const { VITE_ARTICLE_LIST_SIZE } = import.meta.env;
 const param = ref({
   pgno: currentPage.value,
@@ -49,14 +47,6 @@ function getArticleList() {
     }
   );
 }
-
-const onPageChange = (val) => {
-  console.log(val + '번 페이지로 이동 준비 끝!!!');
-  currentPage.value = val;
-  param.value.pgno = val;
-  getArticleList();
-};
-
 const moveWrite = () => {
   router.push({ name: 'article-write' });
 };
@@ -177,7 +167,7 @@ const columns = [
               }"
             >
               <VSelect
-                :style="{ display: 'felx', alignItems: 'flex-start' }"
+                :style="{ display: 'flex', alignItems: 'flex-start' }"
                 :selectOption="selectOption"
                 @onKeySelect="changeKey"
               />
@@ -235,14 +225,6 @@ const columns = [
       </a-table>
     </div>
   </a-layout-content>
-  <!-- <div class="container">
-    <div class="row justify-content-center"></div>
-    <PageNavigation
-      :current-page="currentPage"
-      :total-page="totalPage"
-      @pageChange="onPageChange"
-    ></PageNavigation>
-  </div> -->
 </template>
 
 <style scoped></style>

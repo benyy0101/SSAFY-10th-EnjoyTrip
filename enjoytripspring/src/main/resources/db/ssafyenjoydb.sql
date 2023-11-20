@@ -87,8 +87,7 @@ CREATE TABLE IF NOT EXISTS `ssafyenjoy`.`plan` (
   `planNo` INT NOT NULL AUTO_INCREMENT,
   `userId` VARCHAR(45) NOT NULL,
   `title` VARCHAR(45) NOT NULL,
-  `purpose` VARCHAR(45) NOT NULL,
-  `memo` VARCHAR(255) NOT NULL,
+  `memo` VARCHAR(255),
   `startDate` VARCHAR(45) NOT NULL,
   `endDate` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`planNo`),
@@ -106,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `ssafyenjoy`.`plandate` (
   `dateNo` INT NOT NULL AUTO_INCREMENT,
   `planNo` INT NOT NULL,
   `date` VARCHAR(45) NOT NULL,
-  `dateMemo` VARCHAR(255) NOT NULL,
+  `dateMemo` VARCHAR(255),
   PRIMARY KEY (`dateNo`),
   INDEX `planNo_idx` (`planNo` ASC) VISIBLE,
   FOREIGN KEY (`planNo`)
@@ -116,15 +115,13 @@ CREATE TABLE IF NOT EXISTS `ssafyenjoy`.`plandate` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------
--- Table `ssafyenjoy`.`plandate` 시간별 계획
+-- Table `ssafyenjoy`.`plantime` 시간별 계획
 -- -----------------------------------------
 CREATE TABLE IF NOT EXISTS `ssafyenjoy`.`plantime` (
   `timeNo` INT NOT NULL AUTO_INCREMENT,
   `dateNo` INT NOT NULL,
-  `startTime` VARCHAR(45) NOT NULL,
-  `endTime` VARCHAR(45) NOT NULL,
   `location` VARCHAR(45) NOT NULL,
-  `timeMemo` VARCHAR(255) NOT NULL,
+  `timeMemo` VARCHAR(255),
   PRIMARY KEY (`timeNo`),
   INDEX `dateNo_idx` (`dateNo` ASC) VISIBLE,
   FOREIGN KEY (`dateNo`)

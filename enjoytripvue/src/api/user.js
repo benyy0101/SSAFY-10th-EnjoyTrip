@@ -31,13 +31,12 @@ async function logout(userid, success, fail) {
 function joinMember(member, success, fail) {
   console.log('member.js member', member);
   local
-    .post(`${url}/register`, JSON.stringify(member), {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
+    .post(`${url}/register`, member)
     .then(success)
     .catch(fail);
   console.log('들어갔나요', member);
 }
+// , { headers: { 'Content-Type': 'multipart/form-data' },}
 function updateMember(member, success, fail) {
   local.put(`${url}`, JSON.stringify(member)).then(success).catch(fail);
 }
