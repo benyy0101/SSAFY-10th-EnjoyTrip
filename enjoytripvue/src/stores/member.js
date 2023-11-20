@@ -127,6 +127,7 @@ export const useMemberStore = defineStore(
             userInfo.value = null;
             isValidToken.value = false;
             console.log('로그아웃 잘 되었나요?');
+            sessionStorage.removeItem('accessToken');
           } else {
             console.error('유저 정보 없음!!!!');
           }

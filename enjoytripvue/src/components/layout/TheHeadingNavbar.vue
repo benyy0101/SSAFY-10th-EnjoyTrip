@@ -66,7 +66,7 @@ const logoutMember = async () => {
       </a-menu-item>
     </a-menu>
     <a-menu
-      v-if="isLogin.valueOf"
+      v-if="!isLogin.valueOf"
       mode="horizontal"
       v-model:selectedKeys="selectedKeys"
       :style="{ width: '230px' }"
