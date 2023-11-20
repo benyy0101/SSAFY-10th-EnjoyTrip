@@ -1,5 +1,9 @@
 <script setup>
-import {inject } from "vue";
+import { inject } from "vue";
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member";
+const memberStore = useMemberStore();
+const { isLogin } = storeToRefs(memberStore);
 const stateLogin = inject('stateLogin');
 
 function toggleModal(){
@@ -12,14 +16,32 @@ function toggleModal(){
   <div :style="{display: 'flex', justifyContent: 'space-between', backgroundColor:'white'}">
     
     <a-menu mode="horizontal">
-      <a-menu-item key="board"><router-link :to="{ name: 'board' }" class="nav-link">여행 후기</router-link></a-menu-item>
-      <a-menu-item key="map" ><router-link :to="{ name: 'plan-setup' }" class="nav-link">지도</router-link></a-menu-item>
+      <a-menu-item key="board">
+        <template #icon>
+          <img src="@/assets/board.png" :style="{width: '20px'}"/>
+        </template>
+        <router-link :to="{ name: 'board' }" class="nav-link">여행 후기</router-link>
+      </a-menu-item>
+      <a-menu-item key="map" >
+        <template #icon>
+          <img src="@/assets/map.png" :style="{width: '20px'}"/>
+        </template>
+        <router-link :to="{ name: 'plan-setup' }" class="nav-link">지도</router-link>
+      </a-menu-item>
   </a-menu>
-  <a-menu mode="horizontal">
-      <a-menu-item key="login" @click="toggleModal">
+  <a-menu mode="horizontal" :style="{width:'230px'}">
+      <a-menu-item v-if="isLogin.value === true" key="login"  @click="toggleModal">
+        <template #icon>
+          <img src="@/assets/login.png" :style="{width: '20px'}"/>
+        </template>
         로그인
       </a-menu-item>
-      <a-menu-item key="signup"><router-link :to="{ name: 'member-signup' }" class="nav-link">회원가입</router-link></a-menu-item>
+      <a-menu-item v-if="isLogin.value === true" key="signup">
+        <template #icon>
+          <img src="@/assets/signup.png" :style="{width: '20px'}"/>
+        </template>
+        <router-link :to="{ name: 'member-signup' }" class="nav-link">회원가입</router-link>
+      </a-menu-item>
   </a-menu>
   </div>
   

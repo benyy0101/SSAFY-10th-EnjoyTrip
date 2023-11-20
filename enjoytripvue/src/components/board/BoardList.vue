@@ -163,21 +163,20 @@ const columns = [
               :style="{
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'space-evenly',
               }"
             >
-              <VSelect
-                :style="{ display: 'flex', alignItems: 'flex-start' }"
-                :selectOption="selectOption"
-                @onKeySelect="changeKey"
-              />
-              <div
+            <div
                 :style="{
                   display: 'flex',
                   flexDirection: 'row',
-                  justifyContent: 'space-evenly',
+                  justifyContent:'space-evenly'
                 }"
               >
+              <VSelect
+                :selectOption="selectOption"
+                @onKeySelect="changeKey"
+              />
+              
                 <a-input
                   type="text"
                   class="form-control"
