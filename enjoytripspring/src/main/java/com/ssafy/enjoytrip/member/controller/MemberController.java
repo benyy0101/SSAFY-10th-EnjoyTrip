@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +21,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ssafy.enjoytrip.member.model.dto.MemberDto;
 import com.ssafy.enjoytrip.member.service.MemberService;
 import com.ssafy.enjoytrip.util.JWTUtil;
@@ -70,13 +74,24 @@ public class MemberController {
 	
 	@ApiOperation(value="회원가입", notes="회원 정보를 등록")
 	@ApiResponse(code = 200, message="success")
-	@PostMapping("/register")
-	public ResponseEntity<?> registMember(@RequestBody MemberDto member) {
-		logger.debug("member.login......................... Member:{}", member.getUserId());
-		logger.debug("member.login......................... service:{}", memberService);
-		//return new ResponseEntity<Void>(HttpStatus.OK);
+	//@PostMapping(value="/register", consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value="/register")
+//	public ResponseEntity<?> registMember(@RequestPart MemberDto memberDto,  @RequestPart(value="profileImg", required = false) MultipartFile profileImg) {
+//		logger.debug("받아?{}", profileImg.getOriginalFilename());
+//		logger.debug("dto는?{}", memberDto);
+////		logger.debug("member.regist......................... Member:{}", member.getUserId());
+//		logger.debug("member.regist......................... service:{}", memberService);
+//		//int num = service.idCheck(member.getUserId());
+////		memberService.joinMember(member, profileImg);
+//		return new ResponseEntity<Void>(HttpStatus.OK);	
+//	}
+	public ResponseEntity<?> registMember(@RequestBody MemberDto memberDto) {
+//		logger.debug("받아?{}", profileImg.getOriginalFilename());
+		logger.debug("dto는?{}", memberDto);
+//		logger.debug("member.regist......................... Member:{}", member.getUserId());
+		logger.debug("member.regist......................... service:{}", memberService);
 		//int num = service.idCheck(member.getUserId());
-		memberService.joinMember(member);
+		memberService.joinMember(memberDto);
 		return new ResponseEntity<Void>(HttpStatus.OK);	
 	}
 	
@@ -129,9 +144,10 @@ public class MemberController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		if (jwtUtil.checkToken(request.getHeader("Authorization"))) {
-			log.info("사용 가능한 토큰!");
+			log.info("getInfo.............................................1.사용 가능한 토큰!");
 			try {
 				MemberDto memberDto = memberService.userInfo(userId);
+				log.info("getInfo.............................................member:{}",memberDto);
 				resultMap.put("userInfo", memberDto);
 				status = HttpStatus.OK;
 			} catch (Exception e) {
@@ -143,6 +159,7 @@ public class MemberController {
 			log.error("사용 불가능 토큰!");
 			status = HttpStatus.UNAUTHORIZED;
 		}
+		log.info("getInfo.............................................status:{}",status);
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 

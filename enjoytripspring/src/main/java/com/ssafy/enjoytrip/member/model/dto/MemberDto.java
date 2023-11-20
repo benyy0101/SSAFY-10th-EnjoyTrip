@@ -21,4 +21,6 @@ public class MemberDto {
 	private String joinDate;
 	@ApiModelProperty(value = "refreshToken")
 	private String refreshToken;
+//	@ApiModelProperty(value = "프로필 이미지")
+//	private String profileImg;
 }

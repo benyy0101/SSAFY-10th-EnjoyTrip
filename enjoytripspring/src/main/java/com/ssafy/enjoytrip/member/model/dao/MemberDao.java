@@ -4,16 +4,20 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.enjoytrip.member.model.dto.MemberDto;
+import com.ssafy.enjoytrip.member.model.dto.ProfileImgDto;
 
 @Mapper
 public interface MemberDao {
 
 	int idCheck(String userId) throws SQLException;
+//	void joinMember(MemberDto memberDto, MultipartFile profileImg) throws SQLException;
 	void joinMember(MemberDto memberDto) throws SQLException;
 	void updateMember(MemberDto memberDto) throws SQLException;
 	void deleteMember(String userId) throws SQLException;
+	//void profileImgUpload(ProfileImgDto profileImgDto) throws SQLException;
 	
 	MemberDto login(MemberDto memberDto) throws SQLException;
 	MemberDto userInfo(String userId) throws SQLException;
