@@ -1,51 +1,99 @@
 <script setup>
-import { inject } from "vue";
-import { storeToRefs } from "pinia";
-import { useMemberStore } from "@/stores/member";
+import { inject, watch, ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useMemberStore } from '@/stores/member';
 const memberStore = useMemberStore();
 const { isLogin } = storeToRefs(memberStore);
 const stateLogin = inject('stateLogin');
+const selectedKeys = ref();
 
-function toggleModal(){
+console.log('로그인 상태', isLogin.value);
+function toggleModal() {
   stateLogin.value = !stateLogin.value;
 }
-
+watch(selectedKeys, (val) => {
+  console.log('selectedKeys', val);
+});
 </script>
 
 <template>
-  <div :style="{display: 'flex', justifyContent: 'space-between', backgroundColor:'white'}">
-    
-    <a-menu mode="horizontal">
+  <div
+    :style="{
+      display: 'flex',
+      justifyContent: 'space-between',
+      backgroundColor: 'white',
+    }"
+  >
+    <a-menu
+      mode="horizontal"
+      v-model:selectedKeys="selectedKeys"
+      :style="{
+        display: 'flex',
+        flexDirection: 'row',
+      }"
+    >
       <a-menu-item key="board">
         <template #icon>
-          <img src="@/assets/board.png" :style="{width: '20px'}"/>
+          <img src="@/assets/board.png" :style="{ width: '20px' }" />
         </template>
-        <router-link :to="{ name: 'board' }" class="nav-link">여행 후기</router-link>
+        <router-link :to="{ name: 'board' }" class="nav-link"
+          >여행 후기</router-link
+        >
       </a-menu-item>
-      <a-menu-item key="map" >
+      <a-menu-item key="map">
         <template #icon>
-          <img src="@/assets/map.png" :style="{width: '20px'}"/>
+          <img src="@/assets/map.png" :style="{ width: '20px' }" />
         </template>
-        <router-link :to="{ name: 'plan-setup' }" class="nav-link">지도</router-link>
+        <router-link :to="{ name: 'plan-setup' }" class="nav-link"
+          >지도</router-link
+        >
       </a-menu-item>
-  </a-menu>
-  <a-menu mode="horizontal" :style="{width:'230px'}">
-      <a-menu-item v-if="isLogin.value === true" key="login"  @click="toggleModal">
+    </a-menu>
+    <a-menu
+      v-if="isLogin.value"
+      mode="horizontal"
+      v-model:selectedKeys="selectedKeys"
+      :style="{ width: '230px' }"
+    >
+      <a-menu-item key="login" @click="toggleModal">
         <template #icon>
-          <img src="@/assets/login.png" :style="{width: '20px'}"/>
+          <img src="@/assets/login.png" :style="{ width: '20px' }" />
         </template>
         로그인
       </a-menu-item>
-      <a-menu-item v-if="isLogin.value === true" key="signup">
+      <a-menu-item key="signup">
         <template #icon>
-          <img src="@/assets/signup.png" :style="{width: '20px'}"/>
+          <img src="@/assets/signup.png" :style="{ width: '20px' }" />
         </template>
-        <router-link :to="{ name: 'member-signup' }" class="nav-link">회원가입</router-link>
+        <router-link :to="{ name: 'member-signup' }" class="nav-link"
+          >회원가입</router-link
+        >
       </a-menu-item>
-  </a-menu>
+    </a-menu>
+    <a-menu
+      v-if="!isLogin.value"
+      v-model:selectedKeys="selectedKeys"
+      mode="horizontal"
+      :style="{ width: '260px' }"
+    >
+      <a-menu-item key="mypage" @click="toggleModal">
+        <template #icon>
+          <img src="@/assets/mypage.png" :style="{ width: '20px' }" />
+        </template>
+        마이페이지
+      </a-menu-item>
+      <a-menu-item key="logout">
+        <template #icon>
+          <img src="@/assets/logout.png" :style="{ width: '20px' }" />
+        </template>
+        <router-link :to="{ name: 'member-signup' }" class="nav-link"
+          >로그아웃</router-link
+        >
+      </a-menu-item>
+    </a-menu>
   </div>
-  
-<!-- <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+
+  <!-- <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
     <div class="container-fluid">
       <router-link :to="{ name: 'main' }" class="navbar-brand">
         <img src="@/assets/ssafy_logo.png" />
@@ -110,7 +158,7 @@ function toggleModal(){
           />
           <button class="btn btn-outline-success" type="button">search</button>
         </form> -->
-        <!-- <ul
+  <!-- <ul
           class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll"
           style="--bs-scroll-height: 100px"
         >
@@ -136,7 +184,7 @@ function toggleModal(){
       </div>
     </div>
   </nav> -->
-<!-- <a-layout-header class="header">
+  <!-- <a-layout-header class="header">
   <div class="leftMenuWrapper">
     <div class="logo">임시 로고</div>
   <a-menu
@@ -156,25 +204,23 @@ function toggleModal(){
       <a-menu-item key="3" class="menuItem">여행계획</a-menu-item>
   </a-menu>
 </a-layout-header> -->
-
 </template>
 
 <style scoped>
-
-.logo{
+.logo {
   font-size: large;
-  color:crimson;
+  color: crimson;
 }
 
-.loginSection{
-  color:#FF7F50;
+.loginSection {
+  color: #ff7f50;
   display: flex;
   gap: 2rem;
 }
 
-.leftMenuWrapper{
+.leftMenuWrapper {
   display: flex;
-  gap:5rem;
+  gap: 5rem;
 }
 
 .site-layout-content {
@@ -182,8 +228,4 @@ function toggleModal(){
   padding: 24px;
   background: #abc9ff;
 }
-
-
 </style>
-
-

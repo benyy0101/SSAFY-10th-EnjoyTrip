@@ -2,7 +2,7 @@
 
 <template>
   <div class="hero-bg-container">
-      <!-- <img src="@/assets/hero.jpeg" alt="" class="hero-bg">
+    <!-- <img src="@/assets/hero.jpeg" alt="" class="hero-bg">
     </div>
   <div class="hero-container">    
     <div class="searchbar-container">
@@ -12,46 +12,41 @@
       </div>
     </div> -->
   </div>
-  
 </template>
 
 <style scoped>
-.hero-container{
+.hero-container {
   width: 100%;
   height: 100%;
   position: relative;
 }
-.searchbar-container{
+.searchbar-container {
   position: absolute;
   display: flex;
   flex-direction: row;
-  gap:10px;
+  gap: 10px;
   top: 300px;
   left: 50%;
-  transform:translateX(-50%);
+  transform: translateX(-50%);
   /* left: 0; 
   right: 0; 
   margin-left: auto; 
   margin-right: auto;  */
   font-size: 30px;
 }
-.hero-bg{
+.hero-bg {
   width: 100%;
   height: 100%;
   position: absolute;
 }
 
-
-.input-box{
+.input-box {
   background: transparent;
   border: none;
   border-bottom: 1px solid;
   outline: none;
-  
 }
 
-.search-btn{
-
+.search-btn {
 }
-
 </style>

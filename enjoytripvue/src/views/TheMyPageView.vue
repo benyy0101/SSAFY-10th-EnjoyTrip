@@ -6,22 +6,14 @@ import { storeToRefs } from 'pinia';
 const memberStore = useMemberStore();
 //const { getUser:userInfo } = storeToRefs(useMemberStore);
 
-const { getUser:userInfo } = storeToRefs(memberStore);
+const { getUser: userInfo } = storeToRefs(memberStore);
 
 const router = useRouter();
 
-// const userId = ref('')
-//console.log('TheMyPageView...........userInfo:',userInfo)
 function moveUserModify() {
-    const userId = userInfo.value.userId;
-    // userId.value = userInfo.value.userId;
-    console.log("왜??", userInfo.value.userId);
-    router.push({name:'member-modify', params : {userId}})
-    // router.push({ name: 'member-modify', params : {userId}});
-    //console.log($parentNode)
-    // router.push({ name:'member-modify', params:`{userId:${userId}}`, beforeEnter: (to, from, next) => {
-    //     console.log(to, from, next);
-    // }});
+  const userId = userInfo.value.userId;
+  console.log('왜??', userInfo.value.userId);
+  router.push({ name: 'member-modify', params: { userId } });
 }
 
 function moveBoardWrite() {
@@ -30,7 +22,7 @@ function moveBoardWrite() {
 </script>
 
 <template>
-    <a-layout-content
+  <a-layout-content
     :style="{
       padding: '80px 140px',
       background: '#fff',
@@ -71,57 +63,59 @@ function moveBoardWrite() {
             padding: '10px',
           }"
         >
-        <div :style="{ display: 'flex', alignItems: 'flex-start' }">
-          <img :style="{width : '200px', height : '200px', borderRadius: '100%'}" src="@/assets/dog.jpg" />
-          <div
-            :style="{
-              display: 'flex',
-              flexDirection: 'column',
-              marginTop: '30px',
-              paddingLeft: '50px',
-            }"
-          >
-          <h1>{{ userInfo.userId }}님 안녕하세요! </h1>
-            <h3>오늘은 어떤 여행을 떠나볼까요?</h3>
+          <div :style="{ display: 'flex', alignItems: 'flex-start' }">
+            <img
+              :style="{ width: '200px', height: '200px', borderRadius: '100%' }"
+              src="@/assets/dog.jpg"
+            />
             <div
               :style="{
                 display: 'flex',
-                flexDirection: 'row',
-                marginTop:'30px'
+                flexDirection: 'column',
+                marginTop: '30px',
+                paddingLeft: '50px',
               }"
             >
-              <a-button
+              <h1>{{ userInfo.userId }}님 안녕하세요!</h1>
+              <h3>오늘은 어떤 여행을 떠나볼까요?</h3>
+              <div
                 :style="{
-                  color: '#ABC9FF',
-                  borderColor: '#ABC9FF',
-                  border: '2px solid',
-                  fontSize: '15px',
-                  fontWeight: 'Bold',
-                  marginRight: '8px',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  marginTop: '30px',
                 }"
-                type="button"
-                @click="moveUserModify"
               >
-                회원 정보 수정
-                <!-- <router-link :to="{name: 'member-modify', params: {userId : userInfo.value.userId}}"></router-link> -->
-              </a-button>
-              <a-button
-                :style="{
-                  color: '#ABC9FF',
-                  borderColor: '#ABC9FF',
-                  border: '2px solid',
-                  fontSize: '15px',
-                  fontWeight: 'Bold',
-                  marginLeft: '8px',
-                }"
-                type="button"
-                @click="moveBoardWrite"
-              >
-                글쓰기
-              </a-button>
+                <a-button
+                  :style="{
+                    color: '#ABC9FF',
+                    borderColor: '#ABC9FF',
+                    border: '2px solid',
+                    fontSize: '15px',
+                    fontWeight: 'Bold',
+                    marginRight: '8px',
+                  }"
+                  type="button"
+                  @click="moveUserModify"
+                >
+                  회원 정보 수정
+                </a-button>
+                <a-button
+                  :style="{
+                    color: '#ABC9FF',
+                    borderColor: '#ABC9FF',
+                    border: '2px solid',
+                    fontSize: '15px',
+                    fontWeight: 'Bold',
+                    marginLeft: '8px',
+                  }"
+                  type="button"
+                  @click="moveBoardWrite"
+                >
+                  글쓰기
+                </a-button>
+              </div>
             </div>
-        </div>
-        </div>
+          </div>
         </div>
         <a-divider />
       </div>
@@ -129,6 +123,4 @@ function moveBoardWrite() {
   </a-layout-content>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
