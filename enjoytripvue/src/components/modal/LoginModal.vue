@@ -93,6 +93,7 @@ function moveSignup() {
       <form @submit.prevent="onSubmit">
         <a-input
           :style="{ marginTop: '10px' }"
+          id="idValue"
           v-model:value="login.userId"
           size="large"
           placeholder="아이디"
@@ -103,6 +104,7 @@ function moveSignup() {
         </a-input>
         <a-input-password
           :style="{ marginTop: '12px' }"
+          id="pwValue"
           v-model:value="login.userPwd"
           size="large"
           placeholder="비밀번호"

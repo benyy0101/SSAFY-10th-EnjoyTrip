@@ -12,7 +12,6 @@ const router = useRouter();
 
 function moveUserModify() {
   const userId = userInfo.value.userId;
-  console.log('왜??', userInfo.value.userId);
   router.push({ name: 'member-modify', params: { userId } });
 }
 
@@ -76,7 +75,7 @@ function moveBoardWrite() {
                 paddingLeft: '50px',
               }"
             >
-              <h1>{{ userInfo.userId }}님 안녕하세요!</h1>
+              <!-- <h1>{{ userInfo.userId }}님 안녕하세요!</h1> -->
               <h3>오늘은 어떤 여행을 떠나볼까요?</h3>
               <div
                 :style="{
@@ -118,6 +117,24 @@ function moveBoardWrite() {
           </div>
         </div>
         <a-divider />
+        <div :style="{ display: 'flex', flexDirection: 'row' }">
+          <a-card hoverable :style="{ width: '250px', margin: '20px' }">
+            <template #cover>
+              <img src="@/assets/dog.jpg" />
+            </template>
+            <a-card-meta title="Europe Street beat">
+              <template #description>안녕</template>
+            </a-card-meta>
+          </a-card>
+          <a-card hoverable :style="{ width: '250px', margin: '20px' }">
+            <template #cover>
+              <img src="@/assets/dog.jpg" />
+            </template>
+            <a-card-meta title="Europe Street beat">
+              <template #description>안녕</template>
+            </a-card-meta>
+          </a-card>
+        </div>
       </div>
     </div>
   </a-layout-content>
