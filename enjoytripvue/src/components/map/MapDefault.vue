@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch} from "vue";
+import { ref, watch } from "vue";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import locale from "ant-design-vue/es/date-picker/locale/ko_KR";
@@ -11,8 +11,8 @@ dayjs.extend(duration);
 
 const totalDate = ref([dayjs(), dayjs()]);
 const planStore = usePlanStore();
-const {planTitle, totalDays} = storeToRefs(planStore);
-planTitle.value = '';
+const { planTitle, totalDays, startDate, endDate } = storeToRefs(planStore);
+planTitle.value = "";
 totalDays.value = -1;
 // watch(
 //   planTitle,
@@ -35,12 +35,20 @@ totalDays.value = -1;
 watch(
   totalDate,
   () => {
-    //console.log(totalDate.value[0])
+    //console.log(totalDate.value[0].format('YYYY-MM-DD').toString());
     //console.log(totalDate.value[0].diff(totalDate.value[1]));
     totalDays.value =
       parseInt(
         dayjs.duration(totalDate.value[1].diff(totalDate.value[0])).$d.days
       ) + 1;
+
+    if (totalDays.value == 1) {
+      startDate.value = totalDate.value[0].format("YYYY-MM-DD").toString();
+      endDate.value = totalDate.value[0].format("YYYY-MM-DD").toString();
+    } else {
+      startDate.value = totalDate.value[0].format("YYYY-MM-DD").toString();
+      endDate.value = totalDate.value[1].format("YYYY-MM-DD").toString();
+    }
   },
   { deep: true }
 );
