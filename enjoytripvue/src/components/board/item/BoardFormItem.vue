@@ -99,7 +99,6 @@ watch(
 );
 
 function onSubmit() {
-  console.log('왜 뭐가 문제인데', userInfo.value);
   if (subjectErrMsg.value) {
     alert(subjectErrMsg.value);
   } else if (contentErrMsg.value) {
