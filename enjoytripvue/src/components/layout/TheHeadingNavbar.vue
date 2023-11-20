@@ -9,10 +9,24 @@ function toggleModal(){
 </script>
 
 <template>
-<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+  <div :style="{display: 'flex', justifyContent: 'space-between', backgroundColor:'white'}">
+    
+    <a-menu mode="horizontal">
+      <a-menu-item key="board"><router-link :to="{ name: 'board' }" class="nav-link">여행 후기</router-link></a-menu-item>
+      <a-menu-item key="map" ><router-link :to="{ name: 'plan-setup' }" class="nav-link">지도</router-link></a-menu-item>
+  </a-menu>
+  <a-menu mode="horizontal">
+      <a-menu-item key="login" @click="toggleModal">
+        로그인
+      </a-menu-item>
+      <a-menu-item key="signup"><router-link :to="{ name: 'member-signup' }" class="nav-link">회원가입</router-link></a-menu-item>
+  </a-menu>
+  </div>
+  
+<!-- <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
     <div class="container-fluid">
       <router-link :to="{ name: 'main' }" class="navbar-brand">
-        <img src="@/assets/ssafy_logo.png" class="rounded mx-auto d-block" alt="..." />
+        <img src="@/assets/ssafy_logo.png" />
       </router-link>
       <button
         class="navbar-toggler"
@@ -65,7 +79,7 @@ function toggleModal(){
       </div>
           </li>
         </ul>
-        <!-- <form class="d-flex" role="search">
+        <form class="d-flex" role="search">
           <input
             class="form-control me-2"
             type="search"
@@ -96,10 +110,10 @@ function toggleModal(){
               </template>
             </template>
           </template>
-        </ul> -->
+        </ul>
       </div>
     </div>
-  </nav>
+  </nav> -->
 <!-- <a-layout-header class="header">
   <div class="leftMenuWrapper">
     <div class="logo">임시 로고</div>
@@ -124,10 +138,6 @@ function toggleModal(){
 </template>
 
 <style scoped>
-.header{
-  display: flex;
-  justify-content: space-between;
-}
 
 .logo{
   font-size: large;
@@ -137,7 +147,6 @@ function toggleModal(){
 .loginSection{
   color:#FF7F50;
   display: flex;
-  justify-content: center;
   gap: 2rem;
 }
 
