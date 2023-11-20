@@ -1,25 +1,23 @@
 <script setup>
-import { ref, watch, inject } from "vue";
+import { ref, watch, inject } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
-const loginModal = inject("stateLogin");
-// // watch(loginModal,()=>{
-// //     console.log(loginModal);
-// // })
+const loginModal = inject('stateLogin');
+
 const login = ref({
-  userId: " ",
-  userPwd: " ",
+  userId: ' ',
+  userPwd: ' ',
 });
 
-const userIdErrMsg = ref("");
-const userPwdErrMsg = ref("");
+const userIdErrMsg = ref('');
+const userPwdErrMsg = ref('');
 
 watch(
   () => login.value.userId,
   (value) => {
     let len = value.length;
     if (len == 0) {
-      userIdErrMsg.value = "아이디를 입력해주세요!";
-    } else userIdErrMsg.value = "";
+      userIdErrMsg.value = '아이디를 입력해주세요!';
+    } else userIdErrMsg.value = '';
   },
   { immediate: true }
 );
@@ -28,8 +26,8 @@ watch(
   (value) => {
     let len = value.length;
     if (len == 0) {
-      userPwdErrMsg.value = "비밀번호를 입력해주세요!";
-    } else userPwdErrMsg.value = "";
+      userPwdErrMsg.value = '비밀번호를 입력해주세요!';
+    } else userPwdErrMsg.value = '';
   },
   { immediate: true }
 );
@@ -45,7 +43,7 @@ function onSubmit() {
 }
 
 function loginMember() {
-  console.log("로그인하자", login.value);
+  console.log('로그인하자', login.value);
 
   // todo: 나중에 수정해야 함
   // registUser(
@@ -102,58 +100,68 @@ function loginMember() {
     :footer="null"
     centered="true"
   >
-
     <a-space class="loginHeader">
       <h1 class="title">로그인</h1>
       <div>비밀번호를 잊어버리셨나요?</div>
     </a-space>
     <div class="formContainer">
       <form @submit.prevent="onSubmit">
-        <a-input v-model="login.userId" size="large" placeholder="이메일 (example@gmail.com)" class="idInput">
+        <a-input
+          v-model="login.userId"
+          size="large"
+          placeholder="이메일 (example@gmail.com)"
+          class="idInput"
+        >
           <template #prefix>
-        <user-outlined />
-      </template>
+            <user-outlined />
+          </template>
         </a-input>
-        <a-input v-model="login.userId" size="large" placeholder="비밀번호" class="pwdInput">
+        <a-input
+          v-model="login.userId"
+          size="large"
+          placeholder="비밀번호"
+          class="pwdInput"
+        >
           <template #prefix>
-        <LockOutlined />
-      </template>
+            <LockOutlined />
+          </template>
         </a-input>
         <a-flex :justify="'flex-end'" class="buttonWrapper">
-          <button type="submit" @click.prevent="onSubmit" class="login">로그인</button>
+          <button type="submit" @click.prevent="onSubmit" class="login">
+            로그인
+          </button>
         </a-flex>
-        
       </form>
     </div>
   </a-modal>
 </template>
 <style>
-  .loginHeader{
-    display: flex;
-    justify-content: space-between;
-  }
-  .idInput{
-    border-radius: 8px 8px 0 0;
-  }
-  .pwdInput{
-    border-radius: 0 0 8px 8px;
-  }
+.loginHeader {
+  display: flex;
+  justify-content: space-between;
+}
+.idInput {
+  border-radius: 8px 8px 0 0;
+}
+.pwdInput {
+  border-radius: 0 0 8px 8px;
+}
 
-  .title{
-    font-weight: 900;
-  }
+.title {
+  font-weight: 900;
+}
 
-  .buttonWrapper{
-    margin-top: 2rem;
-  }
+.buttonWrapper {
+  margin-top: 2rem;
+}
 
-  .login{
-    background-color: #FF7F50;
-    border: none;
-    padding: 0.5rem 2rem;
-    font-weight: 800;
-    border-radius: 3rem;
-    font-size: larger;
-    color:aliceblue;
-  }
+.login {
+  background-color: #ff7f50;
+  border: none;
+  padding: 0.5rem 2rem;
+  font-weight: 800;
+  border-radius: 3rem;
+  font-size: larger;
+  color: aliceblue;
+}
 </style>

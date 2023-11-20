@@ -2,9 +2,13 @@
 import { inject, watch, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useMemberStore } from '@/stores/member';
+
 const memberStore = useMemberStore();
 const { isLogin } = storeToRefs(memberStore);
+const { userLogout } = memberStore;
+const { getUser } = storeToRefs(memberStore);
 const stateLogin = inject('stateLogin');
+
 const selectedKeys = ref();
 
 console.log('로그인 상태', isLogin.value);
@@ -14,6 +18,18 @@ function toggleModal() {
 watch(selectedKeys, (val) => {
   console.log('selectedKeys', val);
 });
+
+// watch(
+//   isLogin.value,
+
+//   { immediate: true }
+// );
+
+const logoutMember = async () => {
+  console.log('logout 진행 중!!!');
+  console.log(getUser.value);
+  await userLogout(getUser.value.userId);
+};
 </script>
 
 <template>
@@ -50,7 +66,7 @@ watch(selectedKeys, (val) => {
       </a-menu-item>
     </a-menu>
     <a-menu
-      v-if="isLogin.value"
+      v-if="isLogin.valueOf"
       mode="horizontal"
       v-model:selectedKeys="selectedKeys"
       :style="{ width: '230px' }"
@@ -71,24 +87,24 @@ watch(selectedKeys, (val) => {
       </a-menu-item>
     </a-menu>
     <a-menu
-      v-if="!isLogin.value"
+      v-if="isLogin.valueOf"
       v-model:selectedKeys="selectedKeys"
       mode="horizontal"
       :style="{ width: '260px' }"
     >
-      <a-menu-item key="mypage" @click="toggleModal">
+      <a-menu-item key="mypage">
         <template #icon>
           <img src="@/assets/mypage.png" :style="{ width: '20px' }" />
         </template>
-        마이페이지
+        <router-link :to="{ name: 'mypage' }" class="nav-link"
+          >마이페이지</router-link
+        >
       </a-menu-item>
-      <a-menu-item key="logout">
+      <a-menu-item key="logout" @click.prevent="logoutMember">
         <template #icon>
           <img src="@/assets/logout.png" :style="{ width: '20px' }" />
         </template>
-        <router-link :to="{ name: 'member-signup' }" class="nav-link"
-          >로그아웃</router-link
-        >
+        로그아웃
       </a-menu-item>
     </a-menu>
   </div>

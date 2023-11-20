@@ -14,7 +14,7 @@ const router = useRouter();
 const { articleno } = route.params;
 
 const article = ref({});
-const comments = ref(null);
+const comments = ref({});
 const num = ref(0);
 
 const sendComment = ref({
@@ -29,7 +29,6 @@ onMounted(() => {
 });
 
 const getArticle = () => {
-  // const { articleno } = route.params;
   console.log(articleno + '번글 얻으러 가자!!!');
   // API 호출
   detailArticle(
@@ -45,7 +44,7 @@ const getArticle = () => {
 };
 
 const getComment = () => {
-  console.log(articleno + '번글 얻으러 가자!!!');
+  console.log(articleno + '번 댓글 얻으러 가자!!!');
   // API 호출
   listComment(
     articleno,
@@ -60,6 +59,11 @@ const getComment = () => {
   );
 };
 
+// 댓글 추가 시 변경 감지
+watch(comments.value, () => {
+  console.log('변경되나?', comments.value);
+});
+
 function moveList() {
   router.push({ name: 'article-list' });
 }
@@ -69,7 +73,6 @@ function moveModify() {
 }
 
 function onDeleteArticle() {
-  // const { articleno } = route.params;
   console.log(articleno + '번글 삭제하러 가자!!!');
   // API 호출
   deleteArticle(articleno);
@@ -99,11 +102,12 @@ function onSubmit() {
 
 function onSendComment() {
   console.log(userInfo);
-  // sendComment.value.userId = userInfo.userId;
   writeComment(
     sendComment.value,
     ({ data }) => {
-      console.log('writeComment.....................success, data: ', data);
+      console.log('writeComment................success, data: ', data);
+      getComment();
+      document.getElementById('commentArea').value = '';
     },
     (err) => {
       console.log(err);
@@ -279,6 +283,7 @@ function onSendComment() {
               <div class="comment mb-3 mt-3">
                 <a-textarea
                   :rows="3"
+                  id="commentArea"
                   v-model:value="sendComment.commentContent"
                   placeholder="댓글을 입력해주세요"
                 ></a-textarea>
