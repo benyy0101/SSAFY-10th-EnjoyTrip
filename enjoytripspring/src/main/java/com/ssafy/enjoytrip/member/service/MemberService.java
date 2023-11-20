@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.enjoytrip.member.model.dto.MemberDto;
-import com.ssafy.enjoytrip.member.model.dto.ProfileImgDto;
 
 public interface MemberService {
 
