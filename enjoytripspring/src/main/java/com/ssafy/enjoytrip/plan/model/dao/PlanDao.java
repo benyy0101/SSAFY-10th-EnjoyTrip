@@ -10,7 +10,7 @@ import com.ssafy.enjoytrip.plan.model.dto.PlanDto;
 
 @Mapper
 public interface PlanDao {
-	void writePlan(PlanDto planDto) throws SQLException;
+	int writePlan(PlanDto planDto) throws SQLException;
 	List<PlanDto> listPlan(Map<String, Object> param) throws SQLException;
 	PlanDto getPlan(int plan_no) throws SQLException;
 	void modifyPlan(PlanDto planDto) throws SQLException;
