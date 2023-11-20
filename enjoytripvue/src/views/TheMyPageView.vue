@@ -3,7 +3,10 @@
 import { useRouter } from 'vue-router';
 import { useMemberStore } from '@/stores/member';
 import { storeToRefs } from 'pinia';
-const { getUser:userInfo } = storeToRefs(useMemberStore);
+const memberStore = useMemberStore();
+//const { getUser:userInfo } = storeToRefs(useMemberStore);
+
+const { getUser:userInfo } = storeToRefs(memberStore);
 
 const router = useRouter();
 
@@ -13,11 +16,12 @@ function moveUserModify() {
     const userId = userInfo.value.userId;
     // userId.value = userInfo.value.userId;
     console.log("왜??", userInfo.value.userId);
+    router.push({name:'member-modify', params : {userId}})
     // router.push({ name: 'member-modify', params : {userId}});
     //console.log($parentNode)
-    router.push({ name:'member-modify', params:`{userId:${userId}}`, beforeEnter: (to, from, next) => {
-        console.log(to, from, next);
-    }});
+    // router.push({ name:'member-modify', params:`{userId:${userId}}`, beforeEnter: (to, from, next) => {
+    //     console.log(to, from, next);
+    // }});
 }
 
 function moveBoardWrite() {
@@ -77,7 +81,7 @@ function moveBoardWrite() {
               paddingLeft: '50px',
             }"
           >
-          <!-- <h1>{{ userInfo.userId }}님 안녕하세요! </h1> -->
+          <h1>{{ userInfo.userId }}님 안녕하세요! </h1>
             <h3>오늘은 어떤 여행을 떠나볼까요?</h3>
             <div
               :style="{

@@ -1,13 +1,11 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { joinMember, updateMember } from '@/api/user';
+import { joinMember, updateMember, findById } from '@/api/user';
 
 const router = useRouter();
 const route = useRoute();
 const props = defineProps({ type: String });
-
-
 
 const isUseId = ref(false);
 // 이미지 파일 업로드
@@ -33,17 +31,17 @@ if (props.type === 'modify') {
   let { userId } = route.params;
   console.log(userId + '번글 얻어와서 수정할거야');
   // API 호출
-//   findById(
-//     userId,
-//     (res) => {
-//         member.value = res.data;
-//         console.log(member.value);
-//     },
-//     (err) => {
-//       console.log(err);
-//     }
-//   );
-//   isUseId.value = true;
+  findById(
+    userId,
+    (res) => {
+        member.value = res.data;
+        console.log(member.value);
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+  isUseId.value = true;
 }
 
 const userIdErrMsg = ref('');
