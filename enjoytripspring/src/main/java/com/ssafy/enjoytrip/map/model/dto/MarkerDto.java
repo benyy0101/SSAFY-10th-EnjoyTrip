@@ -7,7 +7,8 @@ import lombok.Data;
 @ApiModel(value="Marker Dto" ,description="마커 구성하는 DTO") 
 @Data
 public class MarkerDto {
-	
+	@ApiModelProperty(value="관광지 아이디", example="0")
+	int contentId;
 	@ApiModelProperty(value="관광지 분류", example="0")
 	int contentTypeId;
 	@ApiModelProperty(value="제목", example="0")
@@ -30,9 +31,10 @@ public class MarkerDto {
 	int gugunCode;
 
 	
-	public MarkerDto(int contentTypeId, String title, String addr1, String addr2, String firstImage, int readCount,
+	public MarkerDto(int contentId, int contentTypeId, String title, String addr1, String addr2, String firstImage, int readCount,
 			double latitude, double longitude, int sidoCode, int gugunCode) {
 		super();
+		this.contentId = contentId;
 		this.contentTypeId = contentTypeId;
 		this.title = title;
 		this.addr1 = addr1;
@@ -127,9 +129,18 @@ public class MarkerDto {
 
 	@Override
 	public String toString() {
-		return "MarkerDto [contentTypeId=" + contentTypeId + ", title=" + title + ", addr1=" + addr1 + ", addr2="
-				+ addr2 + ", firstImage=" + firstImage + ", readCount=" + readCount + ", latitude=" + latitude
-				+ ", longitude=" + longitude + ", sidoCode=" + sidoCode + ", gugunCode=" + gugunCode + "]";
+		return "MarkerDto{" +
+				"contentId=" + contentId +
+				", contentTypeId=" + contentTypeId +
+				", title='" + title + '\'' +
+				", addr1='" + addr1 + '\'' +
+				", addr2='" + addr2 + '\'' +
+				", firstImage='" + firstImage + '\'' +
+				", readCount=" + readCount +
+				", latitude=" + latitude +
+				", longitude=" + longitude +
+				", sidoCode=" + sidoCode +
+				", gugunCode=" + gugunCode +
+				'}';
 	}
-	
 }
