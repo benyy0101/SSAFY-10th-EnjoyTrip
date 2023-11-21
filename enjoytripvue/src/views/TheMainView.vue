@@ -1,52 +1,45 @@
 <script setup></script>
 
 <template>
-  <div class="hero-bg-container">
-    <!-- <img src="@/assets/hero.jpeg" alt="" class="hero-bg">
-    </div>
-  <div class="hero-container">    
-    <div class="searchbar-container">
-      <input type="text" class="input-box" size="20">
-      <div class="search-btn">
-         검색하기
-      </div>
-    </div> -->
-  </div>
+  <a-carousel :after-change="onChange" class="main-page">
+    <video src="@/assets/carousel5.mp4" autoplay controls muted></video>
+    <video src="@/assets/carousel2.mp4" autoplay controls muted></video>
+    <video src="@/assets/carousel3.mp4" autoplay controls muted></video>
+    <video src="@/assets/carousel4.mp4" autoplay controls muted></video>
+  </a-carousel>
 </template>
 
 <style scoped>
-.hero-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-.searchbar-container {
-  position: absolute;
+.carousel-item {
+  height: 100vh;
   display: flex;
-  flex-direction: row;
-  gap: 10px;
-  top: 300px;
-  left: 50%;
-  transform: translateX(-50%);
-  /* left: 0; 
-  right: 0; 
-  margin-left: auto; 
-  margin-right: auto;  */
-  font-size: 30px;
+  justify-content: center;
+  align-items: center;
 }
-.hero-bg {
-  width: 100%;
-  height: 100%;
-  position: absolute;
+:deep(.slick-slide) {
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+  background: #364d79;
+  overflow: hidden;
 }
 
-.input-box {
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid;
-  outline: none;
+:deep(.slick-arrow.custom-slick-arrow) {
+  width: 25px;
+  height: 25px;
+  font-size: 25px;
+  color: #fff;
+  background-color: rgba(31, 45, 61, 0.11);
+  transition: ease all 0.3s;
+  opacity: 0.3;
+  z-index: 1;
 }
 
-.search-btn {
+:deep(.slick-arrow.custom-slick-arrow:before) {
+  display: none;
+}
+:deep(.slick-arrow.custom-slick-arrow:hover) {
+  color: #fff;
+  opacity: 0.5;
 }
 </style>
