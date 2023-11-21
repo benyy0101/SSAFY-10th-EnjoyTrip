@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.enjoytrip.member.model.dto.MemberDto;
 

@@ -23,6 +23,8 @@ public class BoardDto {
 	private String startDate;
 	@ApiModelProperty(value="여행 종료 날짜", example="2023-11-05")
 	private String endDate;
+	@ApiModelProperty(value = "메인 이미지")
+	private String mainImg;
 	@ApiModelProperty(value="조회수", example="0")
 	private int hit;
 	@ApiModelProperty(value="작성 시각", example="2023-11-11")
