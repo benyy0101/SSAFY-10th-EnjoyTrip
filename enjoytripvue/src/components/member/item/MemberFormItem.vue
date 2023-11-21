@@ -1,7 +1,14 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { joinMember, updateMember, findById, uploadImage, insertImg, idCheck } from '@/api/user';
+import {
+  joinMember,
+  updateMember,
+  findById,
+  uploadImage,
+  insertImg,
+  idCheck,
+} from '@/api/user';
 import { Modal } from 'ant-design-vue';
 
 const { VITE_IMGBB_KEY } = import.meta.env;
@@ -16,19 +23,22 @@ const isUseId = ref(false);
 const selectedFile = ref([]);
 const imgURL = ref();
 const handleFileChange = (e) => {
-  selectedFile.value = e.target.files
-}
+  selectedFile.value = e.target.files;
+};
 
 const upload = async () => {
-  const formData = new FormData()
+  const formData = new FormData();
   // form에서 선택된 데이터 가져오기
-  formData.append('key', VITE_IMGBB_KEY)
-  formData.append('image', selectedFile.value[0])
+  formData.append('key', VITE_IMGBB_KEY);
+  formData.append('image', selectedFile.value[0]);
   // 프로필 이미지를 위한 코드
   uploadImage(
     formData,
     ({ data }) => {
-      console.log('uploadImage.....................success, data: ', data.data.url);
+      console.log(
+        'uploadImage.....................success, data: ',
+        data.data.url
+      );
       profile.value.profileImg = data.data.url;
       imgURL.value = data.data.url;
     },
@@ -36,11 +46,11 @@ const upload = async () => {
       console.log(err);
     }
   );
-}
+};
 
 const profile = ref({
   userId: '',
-  profileImg: ''
+  profileImg: '',
 });
 
 const member = ref({
@@ -48,7 +58,7 @@ const member = ref({
   userName: '',
   userPwd: '',
   emailId: '',
-  emailDomain: ''
+  emailDomain: '',
 });
 
 if (props.type === 'modify') {
@@ -58,8 +68,8 @@ if (props.type === 'modify') {
   findById(
     userId,
     (res) => {
-        member.value = res.data;
-        console.log(member.value);
+      member.value = res.data;
+      console.log(member.value);
     },
     (err) => {
       console.log(err);
@@ -98,7 +108,8 @@ watch(
   (value) => {
     let len = value.length;
     if (len == 0) {
-      profileImgErrMsg.value = '프로필 이미지를 추가하고 사진 업로드 버튼을 눌러주세요!';
+      profileImgErrMsg.value =
+        '프로필 이미지를 추가하고 사진 업로드 버튼을 눌러주세요!';
     } else profileImgErrMsg.value = '';
   },
   { immediate: true }
@@ -111,8 +122,7 @@ function onSubmit() {
     alert(userPwdErrMsg.value);
   } else if (profileImgErrMsg.value) {
     alert(profileImgErrMsg.value);
-  }  
-  else {
+  } else {
     props.type === 'regist' ? signup() : update();
   }
 }
@@ -163,12 +173,11 @@ function check() {
     member.value.userId,
     ({ data }) => {
       console.log('idCheck...................success, data: ', data);
-      if(data === 0){
+      if (data === 0) {
         Modal.success({
           title: '사용 가능한 아이디입니다.',
         });
-      }
-      else {
+      } else {
         Modal.warning({
           title: '사용할 수 없는 아이디입니다.',
         });
@@ -228,44 +237,76 @@ function check() {
         >
           <a-form @submit.prevent="onSubmit">
             <!-- 이미지 파일 업로드 -->
-            <form name="form" method="post" enctype="multipart/form-data" @submit.prevent="upload">
+            <form
+              name="form"
+              method="post"
+              enctype="multipart/form-data"
+              @submit.prevent="upload"
+            >
               <h4>프로필 이미지</h4>
-          
-          <img
-              :style="{ width: '160px', height: '160px', borderRadius: '100%', display:'flex', alignItems:'center', marginBottom:'20px'}"
-              :src=imgURL
-            />
-            <div :style="{display:'flex', marginBottom:'20px' }">
-              <input
-            type="file"
-            name="files"
-            ref="fileInput"
-            @change="handleFileChange"
-            multiple="multiple"
-          />
-          <a-button :style="{color: '#ABC9FF', borderColor: '#ABC9FF', border: '2px solid', fontSize: '15px', fontWeight: 'Bold', margin: '6px'}" @click="upload">
-            사진 업로드
-          </a-button>
-            </div>
-            
-        </form>
 
-            <a-form-item :style="{ width: '100%', display:'flex'}">
-              <a-input :style="{width:'70%'}" v-model:value="member.userId" :disabled="isUseId" placeholder="아이디"/>
-              <a-button :style="{
+              <img
+                :style="{
+                  width: '160px',
+                  height: '160px',
+                  borderRadius: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: '20px',
+                }"
+                :src="imgURL"
+              />
+              <div :style="{ display: 'flex', marginBottom: '20px' }">
+                <input
+                  type="file"
+                  name="files"
+                  ref="fileInput"
+                  @change="handleFileChange"
+                  multiple="multiple"
+                />
+                <a-button
+                  :style="{
+                    color: '#ABC9FF',
+                    borderColor: '#ABC9FF',
+                    border: '2px solid',
+                    fontSize: '15px',
+                    fontWeight: 'Bold',
+                    margin: '6px',
+                  }"
+                  @click="upload"
+                >
+                  사진 업로드
+                </a-button>
+              </div>
+            </form>
+
+            <a-form-item :style="{ width: '100%', display: 'flex' }">
+              <a-input
+                :style="{ width: '70%' }"
+                v-model:value="member.userId"
+                :disabled="isUseId"
+                placeholder="아이디"
+              />
+              <a-button
+                :style="{
                   color: '#ABC9FF',
                   borderColor: '#ABC9FF',
                   border: '2px solid',
                   fontWeight: 'Bold',
-                  marginLeft:'5px',
+                  marginLeft: '5px',
                 }"
-                @click="check">아이디 체크</a-button>
+                @click="check"
+                >아이디 체크</a-button
+              >
             </a-form-item>
             <a-form-item :style="{ width: '100%' }">
               <a-input v-model:value="member.userName" placeholder="이름" />
             </a-form-item>
             <a-form-item :style="{ width: '100%' }">
-              <a-input-password v-model:value="member.userPwd" placeholder="비밀번호"/>
+              <a-input-password
+                v-model:value="member.userPwd"
+                placeholder="비밀번호"
+              />
             </a-form-item>
             <a-form-item :style="{ width: '100%' }">
               <a-input v-model:value="member.emailId" placeholder="이메일">

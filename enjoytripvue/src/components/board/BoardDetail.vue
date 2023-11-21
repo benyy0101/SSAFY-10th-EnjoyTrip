@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { detailArticle, deleteArticle } from "@/api/board";
-import { listComment, writeComment } from "@/api/comment";
-import CommentListItem from "@/components/board/item/CommentListItem.vue";
-import { useMemberStore } from "@/stores/member";
+import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { Modal } from 'ant-design-vue';
+import { detailArticle, deleteArticle } from '@/api/board';
+import { listComment, writeComment } from '@/api/comment';
+import CommentListItem from '@/components/board/item/CommentListItem.vue';
+import { useMemberStore } from '@/stores/member';
 const memberStore = useMemberStore();
 const { userInfo } = memberStore;
 
@@ -18,8 +19,8 @@ const comments = ref({});
 const num = ref(0);
 const sendComment = ref({
   articleNo: articleno,
-  userId: "",
-  commentContent: "",
+  userId: '',
+  commentContent: '',
 });
 
 onMounted(() => {
@@ -28,7 +29,7 @@ onMounted(() => {
 });
 
 const getArticle = () => {
-  console.log(articleno + "번글 얻으러 가자!!!");
+  console.log(articleno + '번글 얻으러 가자!!!');
   // API 호출
   detailArticle(
     articleno,
@@ -37,9 +38,12 @@ const getArticle = () => {
       article.value = res.data;
       const timeInfo = article.value.registerTime.split(' ');
       //console.log(timeInfo);
-      article.value.registerTime = timeInfo[0].replaceAll('-','.') +' '+ timeInfo[1].split(":").slice(0,2).join(':');
-      article.value.startDate = article.value.startDate.replaceAll('-','.');
-      article.value.endDate = article.value.endDate.replaceAll('-','.');
+      article.value.registerTime =
+        timeInfo[0].replaceAll('-', '.') +
+        ' ' +
+        timeInfo[1].split(':').slice(0, 2).join(':');
+      article.value.startDate = article.value.startDate.replaceAll('-', '.');
+      article.value.endDate = article.value.endDate.replaceAll('-', '.');
       //console.log(time.value);
       //console.log(date.value);
     },
@@ -50,7 +54,7 @@ const getArticle = () => {
 };
 
 const getComment = () => {
-  console.log(articleno + "번 댓글 얻으러 가자!!!");
+  console.log(articleno + '번 댓글 얻으러 가자!!!');
   // API 호출
   listComment(
     articleno,
@@ -67,40 +71,41 @@ const getComment = () => {
 
 // 댓글 추가 시 변경 감지
 watch(comments.value, () => {
-  console.log("변경되나?", comments.value);
+  console.log('댓글 추가', comments.value);
 });
 
 function moveList() {
-  router.push({ name: "article-list" });
+  router.push({ name: 'article-list' });
 }
 
 function moveModify() {
-  router.push({ name: "article-modify", params: { articleno } });
+  router.push({ name: 'article-modify', params: { articleno } });
 }
 
 function onDeleteArticle() {
-  console.log(articleno + "번글 삭제하러 가자!!!");
+  console.log(articleno + '번글 삭제하러 가자!!!');
   // API 호출
   deleteArticle(articleno);
   moveList();
 }
 
-const contentErrMsg = ref("");
-
+const contentErrMsg = ref('');
 watch(
   () => sendComment.value.commentContent,
   (value) => {
     let len = value.length;
     if (len == 0) {
-      contentErrMsg.value = "댓글을 작성해주세요";
-    } else contentErrMsg.value = "";
+      contentErrMsg.value = '댓글을 작성해주세요';
+    } else contentErrMsg.value = '';
   },
   { immediate: true }
 );
 
 function onSubmit() {
   if (contentErrMsg.value) {
-    alert(contentErrMsg.value);
+    Modal.warning({
+      title: '댓글을 작성해주세요.',
+    });
   } else {
     onSendComment();
   }
@@ -111,9 +116,9 @@ function onSendComment() {
   writeComment(
     sendComment.value,
     ({ data }) => {
-      console.log("writeComment................success, data: ", data);
+      console.log('writeComment................success, data: ', data);
       getComment();
-      document.getElementById("commentArea").value = "";
+      document.getElementById('commentArea').value = null;
     },
     (err) => {
       console.log(err);
@@ -130,7 +135,7 @@ function onSendComment() {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      fontSize: '18px'
+      fontSize: '18px',
     }"
   >
     <div
@@ -181,7 +186,6 @@ function onSendComment() {
               <div class="sub-container">
                 <div>
                   <img
-                    
                     src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
                   />
                   <span>{{ article.userId }}</span>
@@ -190,11 +194,11 @@ function onSendComment() {
                 <div>조회 : {{ article.hit }}</div>
               </div>
               <div>
-                여행 정보: 
+                여행 정보:
                 <span>{{ article.startDate }}</span>
                 ~
                 <span>{{ article.endDate }}</span>
-                <span>{{'    ' + article.location}}</span>
+                <span>{{ '    ' + article.location }}</span>
               </div>
             </div>
 
@@ -202,7 +206,7 @@ function onSendComment() {
               :style="{
                 border: '1px solid',
                 borderColor: '#ABC9FF',
-                opacity:'80%',
+                opacity: '80%',
                 padding: '36px',
                 marginTop: '20px',
                 marginBottom: '20px',
@@ -331,7 +335,7 @@ function onSendComment() {
   display: flex;
   gap: 1rem;
 }
-#title{
+#title {
   font-weight: 900;
   font-size: 50px;
 }
