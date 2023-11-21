@@ -1,6 +1,7 @@
 <script setup>
-// import { ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { getImg } from '@/api/user';
 import { useMemberStore } from '@/stores/member';
 import { storeToRefs } from 'pinia';
 const memberStore = useMemberStore();
@@ -9,6 +10,29 @@ const memberStore = useMemberStore();
 const { getUser: userInfo } = storeToRefs(memberStore);
 
 const router = useRouter();
+
+const profile = ref({
+  userId: userInfo.value.userId,
+  profileImg: '',
+});
+getProfileImg();
+const url = ref();
+
+function getProfileImg() {
+  console.log('프로필 이미지 가져오자!');
+  // API 호출
+  getImg(
+    profile.value.userId,
+    (res) => {
+      console.log('이거 프로필?', res.data);
+      profile.value.profileImg = res.data;
+      url.value = profile.value.profileImg;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
 
 function moveUserModify() {
   const userId = userInfo.value.userId;
@@ -65,7 +89,7 @@ function moveBoardWrite() {
           <div :style="{ display: 'flex', alignItems: 'flex-start' }">
             <img
               :style="{ width: '200px', height: '200px', borderRadius: '100%' }"
-              src="@/assets/dog.jpg"
+              :src="url"
             />
             <div
               :style="{

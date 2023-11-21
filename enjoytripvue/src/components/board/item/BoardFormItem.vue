@@ -312,8 +312,8 @@ function moveList() {
                 :src="imgURL"
                 :style="{
                   display: 'flex',
-                  width: '120px',
-                  height: '120px',
+                  width: '140px',
+                  height: '140px',
                   alignContent: 'center',
                 }"
               />

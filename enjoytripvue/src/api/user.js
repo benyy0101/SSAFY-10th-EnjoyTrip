@@ -5,7 +5,7 @@ const local = localAxios();
 const imgbb = imgbbAxios();
 
 const url = '/user';
-const profileurl = '/profile'
+const profileurl = '/profile';
 
 async function userConfirm(param, success, fail) {
   console.log('param', param);
@@ -39,7 +39,7 @@ function joinMember(member, success, fail) {
 
 function idCheck(userId, success, fail) {
   console.log('idCheck', userId);
-  local.get(`${url}`, {params: {userId}}).then(success).catch(fail);
+  local.get(`${url}`, { params: { userId } }).then(success).catch(fail);
 }
 
 function updateMember(member, success, fail) {
@@ -53,12 +53,17 @@ function deleteMember(userId, commentNo, success, fail) {
 // 이미지 관련
 function uploadImage(formdata, success, fail) {
   console.log('sendImgURL......{}', formdata);
-  imgbb.post(``,formdata).then(success).catch(fail);
+  imgbb.post(``, formdata).then(success).catch(fail);
 }
 
 function insertImg(imgdata, success, fail) {
   console.log('insertImg......{}', imgdata);
-  local.post(`${profileurl}`,imgdata).then(success).catch(fail);
+  local.post(`${profileurl}`, imgdata).then(success).catch(fail);
+}
+
+function getImg(userId, success, fail) {
+  console.log('getImg......{}', userId);
+  local.get(`${profileurl}/${userId}`).then(success).catch(fail);
 }
 
 export {
@@ -71,5 +76,6 @@ export {
   updateMember,
   deleteMember,
   uploadImage,
-  insertImg
+  insertImg,
+  getImg,
 };
