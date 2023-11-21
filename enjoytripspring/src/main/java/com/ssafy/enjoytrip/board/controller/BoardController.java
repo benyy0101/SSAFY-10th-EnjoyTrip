@@ -48,13 +48,8 @@ public class BoardController {
 	@ApiResponse(code = 200, message="success")
     @PostMapping
     public ResponseEntity<String> insertReviewBoard(@RequestBody BoardDto bDto, @ApiIgnore HttpSession session) {
-        MemberDto mDto = (MemberDto) session.getAttribute("loginUser");
-        System.out.println(mDto);
-        // userId, subject, content 입력
-        // bDto.setUserId("ssafy");
         System.out.println(bDto);
         boardService.writeArticle(bDto);
-        
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
     
