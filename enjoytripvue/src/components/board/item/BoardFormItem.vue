@@ -1,5 +1,6 @@
 <script setup>
 import { registArticle, modifyArticle, detailArticle } from '@/api/board';
+import { uploadImage } from '@/api/user';
 import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ToastEditor from '@/components/board/item/ToastUIEditor.vue';
@@ -11,32 +12,33 @@ const { getUserInfo } = memberStore;
 let token = sessionStorage.getItem('accessToken');
 getUserInfo(token);
 
-// 이미지
-// let imageUploaded = '';
+const { VITE_IMGBB_KEY } = import.meta.env;
 
-// function upload(event) {
-//   const files = event.target?.files;
-//   if(files.length > 0) {
-//     const file = files[0];
+// 이미지 파일 업로드
+const selectedFile = ref([]);
+const imgURL = ref();
+const handleFileChange = (e) => {
+  selectedFile.value = e.target.files
+}
 
-//     const reader = new FileReader();
-
-//     reader.onload = (e) => {
-//       imageUploaded = e.target.result;
-//     };
-//     reader.readAsDataURL(file);
-//   }
-// }
-
-// Data URL을 Blob으로 변환하는 함수
-// function dataURLtoBlob(dataURL) {
-//     const parts = dataURL.split(';base64,');
-//     const contentType = parts[0].split(':')[1];
-//     const raw = window.atob(parts[1]);
-//     const blob = new Blob([raw], { type: contentType });
-//     return blob;
-// }
-
+const upload = async () => {
+  const formData = new FormData()
+  // form에서 선택된 데이터 가져오기
+  formData.append('key', VITE_IMGBB_KEY)
+  formData.append('image', selectedFile.value[0])
+  // 프로필 이미지를 위한 코드
+  uploadImage(
+    formData,
+    ({ data }) => {
+      console.log('uploadImage.....................success, data: ', data.data.url);
+      article.value.mainImg = data.data.url;
+      imgURL.value = data.data.url;
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+}
 // 여행 시작 날짜, 끝나는 날짜
 const dates = ref();
 const value = ref();
@@ -76,6 +78,7 @@ const article = ref({
   location: '',
   startDate: '',
   endDate: '',
+  mainImg: '',
   hit: 0,
   registerTime: '',
 });
@@ -103,12 +106,13 @@ if (props.type === 'modify') {
 
 const subjectErrMsg = ref('');
 const contentErrMsg = ref('');
+const mainImgErrMsg = ref('');
 watch(
   () => article.value.subject,
   (value) => {
     let len = value.length;
     if (len == 0 || len > 30) {
-      subjectErrMsg.value = '제목을 확인해 주세요!!!';
+      subjectErrMsg.value = '제목을 확인해 주세요!';
     } else subjectErrMsg.value = '';
   },
   { immediate: true }
@@ -123,12 +127,24 @@ watch(
   },
   { immediate: true }
 );
+watch(
+  () => article.value.mainImg,
+  (value) => {
+    let len = value.length;
+    if (len == 0) {
+      mainImgErrMsg.value = '프로필 이미지를 추가하고 사진 업로드 버튼을 눌러주세요!';
+    } else mainImgErrMsg.value = '';
+  },
+  { immediate: true }
+);
 
 function onSubmit() {
   if (subjectErrMsg.value) {
     alert(subjectErrMsg.value);
   } else if (contentErrMsg.value) {
     alert(contentErrMsg.value);
+  } else if (mainImgErrMsg.value) {
+    alert(mainImgErrMsg.value);
   } else {
     props.type === 'regist' ? writeArticle() : updateArticle();
     moveList();
@@ -138,49 +154,17 @@ function onSubmit() {
 function writeArticle() {
   article.value.userId = userInfo.value.userId;
   console.log('글등록하자!!', article.value);
-  // 이미지 파일 처리
-  // const blob = dataURLtoBlob(imageUploaded);
-  // const formData = new FormData();
-  // const boardDto = {
-  //   articleNo: article.value.articleNo,
-  //   userId: article.value.userId,
-  //   subject: article.value.subject,
-  //   content: article.value.content,
-  //   location: article.value.location,
-  //   startDate: article.value.startDate,
-  //   endDate: article.value.endDate,
-  //   hit: 0,
-  //   registerTime: '',
-  //   fileInfos : new Blob([blob], {type: 'image/*'})
-  // }
-
-  // // DTO를 FormData에 추가
-  // for (const key in boardDto) {
-  //     formData.append(key, boardDto[key]);
-  // }
 
   registArticle(
     article.value,
     ({ data }) => {
       console.log('regist.....................success, data: ', data);
-      // console.log('formdata..{}', formData)
       moveList();
     },
     (err) => {
       console.log(err);
     }
   );
-  
-  // registArticle(
-  //   article.value,
-  //   ({ data }) => {
-  //     console.log('regist.....................success, data: ', data);
-  //     moveList();
-  //   },
-  //   (err) => {
-  //     console.log(err);
-  //   }
-  // );
 }
 
 function updateArticle() {
@@ -263,11 +247,22 @@ function moveList() {
             </a-space>
 
             <!-- 이미지 파일 업로드 -->
-            <!-- <div :style="{ marginBottom: '24px' }">
-              <label class="form-label">여행 후기 메인 사진</label>
-              <img :src="imageUploaded" />
-              <input type="file" name="upfile" @change="upload" />
-            </div> -->
+            <form name="form" method="post" enctype="multipart/form-data" @submit.prevent="upload">
+              <h4>여행 후기 메인 이미지</h4>
+            <div :style="{display:'flex', marginBottom:'20px' }">
+              <input
+            type="file"
+            name="files"
+            ref="fileInput"
+            @change="handleFileChange"
+            multiple="multiple"
+          />
+          <a-button :style="{color: '#ABC9FF', borderColor: '#ABC9FF', border: '2px solid', fontSize: '15px', fontWeight: 'Bold', margin: '6px'}" @click="upload">
+            사진 업로드
+          </a-button>
+            </div>
+            
+        </form>
 
             <div :style="{ marginTop: '60px' }">
               <!-- 내용 입력 필드 -->

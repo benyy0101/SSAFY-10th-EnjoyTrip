@@ -241,7 +241,7 @@ function check() {
             name="files"
             ref="fileInput"
             @change="handleFileChange"
-            multiple="multiple" :style="{}"
+            multiple="multiple"
           />
           <a-button :style="{color: '#ABC9FF', borderColor: '#ABC9FF', border: '2px solid', fontSize: '15px', fontWeight: 'Bold', margin: '6px'}" @click="upload">
             사진 업로드
