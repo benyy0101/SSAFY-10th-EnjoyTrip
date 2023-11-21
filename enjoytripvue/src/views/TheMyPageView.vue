@@ -75,7 +75,7 @@ function moveBoardWrite() {
                 paddingLeft: '50px',
               }"
             >
-              <!-- <h1>{{ userInfo.userId }}님 안녕하세요!</h1> -->
+              <h1>{{ userInfo.userId }}님 안녕하세요!</h1>
               <h3>오늘은 어떤 여행을 떠나볼까요?</h3>
               <div
                 :style="{
