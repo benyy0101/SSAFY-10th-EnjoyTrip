@@ -33,13 +33,13 @@ const logoutMember = async () => {
 </script>
 
 <template>
-  <div
+  
+  <div class="navbar-container"
     :style="{
-      display: 'flex',
-      justifyContent: 'space-between',
-      backgroundColor: 'white',
+      
     }"
   >
+    <img src="@/assets/mainLogo.png" id="logo"/>
     <a-menu
       mode="horizontal"
       v-model:selectedKeys="selectedKeys"
@@ -151,5 +151,23 @@ const logoutMember = async () => {
   min-height: 280px;
   padding: 24px;
   background: #abc9ff;
+}
+
+.navbar-container{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+}
+
+#logo{
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  height:150px;
+}
+
+* {
+  font-family: NPSfontBold;
 }
 </style>

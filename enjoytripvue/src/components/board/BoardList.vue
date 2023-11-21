@@ -1,17 +1,17 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { listArticle } from '@/api/board';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { listArticle } from "@/api/board";
 
-import VSelect from '@/components/common/VSelect.vue';
+import VSelect from "@/components/common/VSelect.vue";
 
 const router = useRouter();
 
 const selectOption = ref([
-  { text: '검색조건', value: '' },
-  { text: '글번호', value: 'article_no' },
-  { text: '제목', value: 'subject' },
-  { text: '작성자아이디', value: 'user_id' },
+  { label: "검색조건", value: "" },
+  { label: "글번호", value: "article_no" },
+  { label: "제목", value: "subject" },
+  { label: "작성자아이디", value: "user_id" },
 ]);
 
 const articles = ref(null);
@@ -20,23 +20,23 @@ const { VITE_ARTICLE_LIST_SIZE } = import.meta.env;
 const param = ref({
   pgno: currentPage.value,
   spp: VITE_ARTICLE_LIST_SIZE,
-  key: '',
-  word: '',
+  key: "",
+  word: "",
 });
 getArticleList();
 
 const changeKey = (val) => {
-  console.log('BoarList에서 선택한 조건 : ' + val);
+  console.log("BoarList에서 선택한 조건 : " + val);
   param.value.key = val;
 };
 
 function getArticleList() {
-  console.log('서버에서 글목록 얻어오자!!!', param.value);
+  console.log("서버에서 글목록 얻어오자!!!", param.value);
   // API 호출
   listArticle(
     param.value,
     (res) => {
-      console.log('이거야?', res.data);
+      console.log("이거야?", res.data);
       articles.value = res.data;
       //console.log(articles.value);
       //currentPage.value = data.currentPage;
@@ -48,49 +48,49 @@ function getArticleList() {
   );
 }
 const moveWrite = () => {
-  router.push({ name: 'article-write' });
+  router.push({ name: "article-write" });
 };
 
 const columns = [
   {
-    name: 'articleNo',
-    dataIndex: 'articleNo',
-    key: 'articleNo',
+    name: "articleNo",
+    dataIndex: "articleNo",
+    key: "articleNo",
   },
   {
-    title: '제목',
-    dataIndex: 'subject',
-    key: 'subject',
+    title: "제목",
+    dataIndex: "subject",
+    key: "subject",
   },
   {
-    title: '작성자',
-    dataIndex: 'userId',
-    key: 'userId',
+    title: "작성자",
+    dataIndex: "userId",
+    key: "userId",
   },
   {
-    title: '장소',
-    dataIndex: 'location',
-    key: 'location',
+    title: "장소",
+    dataIndex: "location",
+    key: "location",
   },
   {
-    title: '여행 시작 날짜',
-    dataIndex: 'startDate',
-    key: 'startDate',
+    title: "여행 시작 날짜",
+    dataIndex: "startDate",
+    key: "startDate",
   },
   {
-    title: '여행 종료 날짜',
-    dataIndex: 'endDate',
-    key: 'endDate',
+    title: "여행 종료 날짜",
+    dataIndex: "endDate",
+    key: "endDate",
   },
   {
-    title: '조회수',
-    dataIndex: 'hit',
-    key: 'hit',
+    title: "조회수",
+    dataIndex: "hit",
+    key: "hit",
   },
   {
-    title: '작성일',
-    dataIndex: 'registerTime',
-    key: 'registerTime',
+    title: "작성일",
+    dataIndex: "registerTime",
+    key: "registerTime",
   },
 ];
 </script>
@@ -134,17 +134,16 @@ const columns = [
         <a-divider />
         <div
           :style="{
-            padding: '10px',
+            padding: '20px',
           }"
         >
           <div
             :style="{
               display: 'flex',
-              flexDirection: 'row',
               justifyContent: 'space-between',
             }"
           >
-            <div>
+            <div class="menu-bar"> 
               <a-button
                 :style="{
                   color: '#ABC9FF',
@@ -152,34 +151,18 @@ const columns = [
                   border: '2px solid',
                   fontSize: '15px',
                   fontWeight: 'Bold',
-                  margin: '6px',
+                  
                 }"
                 @click="moveWrite"
               >
                 글쓰기
               </a-button>
             </div>
-            <form
-              :style="{
-                display: 'flex',
-                flexDirection: 'row',
-              }"
-            >
-            <div
-                :style="{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent:'space-evenly'
-                }"
-              >
-              <VSelect
-                :selectOption="selectOption"
-                @onKeySelect="changeKey"
-              />
-              
+            <form>
+              <div class="search-bar">
+                <a-select :options="selectOption" @change="changeKey" class="select-bar"/>
                 <a-input
                   type="text"
-                  class="form-control"
                   v-model:value="param.word"
                   placeholder="검색어"
                 />
@@ -190,7 +173,6 @@ const columns = [
                     border: '2px solid',
                     fontSize: '15px',
                     fontWeight: 'Bold',
-                    margin: '6px',
                   }"
                   @click="getArticleList"
                 >
@@ -217,7 +199,10 @@ const columns = [
               }"
               class="article-title link-dark"
             >
+            <div>
               {{ record.subject }}
+            </div>
+              
             </router-link>
           </template>
         </template>
@@ -226,4 +211,20 @@ const columns = [
   </a-layout-content>
 </template>
 
-<style scoped></style>
+<style scoped>
+.search-bar {
+  display: flex;
+  gap: 3px;
+}
+.select-bar{
+  min-width: 130px;
+}
+
+th {
+  text-align: center;
+}
+
+* {
+  font-family: NPSfontBold;
+}
+</style>
