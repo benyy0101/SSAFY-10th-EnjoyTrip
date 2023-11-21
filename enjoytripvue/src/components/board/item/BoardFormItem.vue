@@ -11,6 +11,32 @@ const { getUserInfo } = memberStore;
 let token = sessionStorage.getItem('accessToken');
 getUserInfo(token);
 
+// 이미지
+// let imageUploaded = '';
+
+// function upload(event) {
+//   const files = event.target?.files;
+//   if(files.length > 0) {
+//     const file = files[0];
+
+//     const reader = new FileReader();
+
+//     reader.onload = (e) => {
+//       imageUploaded = e.target.result;
+//     };
+//     reader.readAsDataURL(file);
+//   }
+// }
+
+// Data URL을 Blob으로 변환하는 함수
+// function dataURLtoBlob(dataURL) {
+//     const parts = dataURL.split(';base64,');
+//     const contentType = parts[0].split(':')[1];
+//     const raw = window.atob(parts[1]);
+//     const blob = new Blob([raw], { type: contentType });
+//     return blob;
+// }
+
 // 여행 시작 날짜, 끝나는 날짜
 const dates = ref();
 const value = ref();
@@ -112,16 +138,49 @@ function onSubmit() {
 function writeArticle() {
   article.value.userId = userInfo.value.userId;
   console.log('글등록하자!!', article.value);
+  // 이미지 파일 처리
+  // const blob = dataURLtoBlob(imageUploaded);
+  // const formData = new FormData();
+  // const boardDto = {
+  //   articleNo: article.value.articleNo,
+  //   userId: article.value.userId,
+  //   subject: article.value.subject,
+  //   content: article.value.content,
+  //   location: article.value.location,
+  //   startDate: article.value.startDate,
+  //   endDate: article.value.endDate,
+  //   hit: 0,
+  //   registerTime: '',
+  //   fileInfos : new Blob([blob], {type: 'image/*'})
+  // }
+
+  // // DTO를 FormData에 추가
+  // for (const key in boardDto) {
+  //     formData.append(key, boardDto[key]);
+  // }
+
   registArticle(
     article.value,
     ({ data }) => {
       console.log('regist.....................success, data: ', data);
+      // console.log('formdata..{}', formData)
       moveList();
     },
     (err) => {
       console.log(err);
     }
   );
+  
+  // registArticle(
+  //   article.value,
+  //   ({ data }) => {
+  //     console.log('regist.....................success, data: ', data);
+  //     moveList();
+  //   },
+  //   (err) => {
+  //     console.log(err);
+  //   }
+  // );
 }
 
 function updateArticle() {
@@ -202,6 +261,13 @@ function moveList() {
                 @calendarChange="onCalendarChange"
               />
             </a-space>
+
+            <!-- 이미지 파일 업로드 -->
+            <!-- <div :style="{ marginBottom: '24px' }">
+              <label class="form-label">여행 후기 메인 사진</label>
+              <img :src="imageUploaded" />
+              <input type="file" name="upfile" @change="upload" />
+            </div> -->
 
             <div :style="{ marginTop: '60px' }">
               <!-- 내용 입력 필드 -->
