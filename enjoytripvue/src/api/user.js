@@ -1,8 +1,12 @@
 import { localAxios } from '@/util/http-commons';
+import { imgbbAxios } from '@/util/http-commons';
 
 const local = localAxios();
+const imgbb = imgbbAxios();
 
 const url = '/user';
+const profileurl = '/profile'
+
 async function userConfirm(param, success, fail) {
   console.log('param', param);
   await local
@@ -32,7 +36,12 @@ function joinMember(member, success, fail) {
   console.log('member.js member', member);
   local.post(`${url}/register`, member).then(success).catch(fail);
 }
-// , { headers: { 'Content-Type': 'multipart/form-data' },}
+
+function idCheck(userId, success, fail) {
+  console.log('idCheck', userId);
+  local.get(`${url}`, {params: {userId}}).then(success).catch(fail);
+}
+
 function updateMember(member, success, fail) {
   local.put(`${url}`, JSON.stringify(member)).then(success).catch(fail);
 }
@@ -41,12 +50,26 @@ function deleteMember(userId, commentNo, success, fail) {
   local.delete(`${url}/${userId}`).then(success).catch(fail);
 }
 
+// 이미지 관련
+function uploadImage(formdata, success, fail) {
+  console.log('sendImgURL......{}', formdata);
+  imgbb.post(``,formdata).then(success).catch(fail);
+}
+
+function insertImg(imgdata, success, fail) {
+  console.log('insertImg......{}', imgdata);
+  local.post(`${profileurl}`,imgdata).then(success).catch(fail);
+}
+
 export {
   userConfirm,
   findById,
   tokenRegeneration,
   logout,
+  idCheck,
   joinMember,
   updateMember,
   deleteMember,
+  uploadImage,
+  insertImg
 };
