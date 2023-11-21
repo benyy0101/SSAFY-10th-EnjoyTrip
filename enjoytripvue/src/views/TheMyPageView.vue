@@ -2,21 +2,24 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { getImg } from '@/api/user';
+import { listMyArticle } from '@/api/board';
 import { useMemberStore } from '@/stores/member';
 import { storeToRefs } from 'pinia';
+import MyPageItem from '@/components/member/item/MyPageItem.vue';
 const memberStore = useMemberStore();
-//const { getUser:userInfo } = storeToRefs(useMemberStore);
-
 const { getUser: userInfo } = storeToRefs(memberStore);
-
 const router = useRouter();
+const url = ref();
+const articles = ref({});
 
 const profile = ref({
   userId: userInfo.value.userId,
   profileImg: '',
 });
+
+// 필요한 데이터를 위해 API 미리 호출
 getProfileImg();
-const url = ref();
+getMyArticle();
 
 function getProfileImg() {
   console.log('프로필 이미지 가져오자!');
@@ -27,6 +30,21 @@ function getProfileImg() {
       console.log('이거 프로필?', res.data);
       profile.value.profileImg = res.data;
       url.value = profile.value.profileImg;
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+function getMyArticle() {
+  console.log('나의 여행 후기 글 리스트 가져오자!');
+  // API 호출
+  listMyArticle(
+    profile.value.userId,
+    (res) => {
+      console.log('나의 여행 후기 글 리스트?', res.data);
+      articles.value = res.data;
     },
     (error) => {
       console.log(error);
@@ -142,14 +160,11 @@ function moveBoardWrite() {
         </div>
         <a-divider />
         <div :style="{ display: 'flex', flexDirection: 'row' }">
-          <a-card hoverable :style="{ width: '250px', margin: '20px' }">
-            <template #cover>
-              <img src="@/assets/dog.jpg" />
-            </template>
-            <a-card-meta title="Europe Street beat">
-              <template #description>안녕</template>
-            </a-card-meta>
-          </a-card>
+          <MyPageItem
+            v-for="article in articles"
+            :key="article.articleNo"
+            :article="article"
+          ></MyPageItem>
           <a-card hoverable :style="{ width: '250px', margin: '20px' }">
             <template #cover>
               <img src="@/assets/dog.jpg" />
