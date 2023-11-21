@@ -15,11 +15,11 @@ const attInfo = ref([]); //검색한 지역 옵션
 const curPage = ref(1); //현재 페이지 
 const percentage = ref(); // 일단 보류
 const totalInfo = ref({});  //모든 정보 취합
+const currentLoc = ref([]);
 const planStore = usePlanStore(); 
 const {totalDays, startDate, endDate, planTitle} = storeToRefs(planStore);
 const memberStore = useMemberStore();
 const {userInfo} = storeToRefs(memberStore);
-
 
 function confirmOption(data) {
   option.value = data;
@@ -95,15 +95,22 @@ const savePlan = (data)=>{
     }
   );
 }
+
+const saveCurLoc = (data)=>{
+  currentLoc.value = data;
+  console.log("currentLoc.value.concat...............",currentLoc.value);
+}
+
 </script>
 <template>
   <div class="mapWrapper">
-    <MapItem :options="option" @getAttList="confirmList"></MapItem>
+    <MapItem :options="option" @getAttList="confirmList" :currentLoc="currentLoc"></MapItem>
     <OptionItem @changeOption="confirmOption"></OptionItem>
     <SearchList
       :attInfo="attInfo"
       :curPage="curPage"
       :savedInfo="totalInfo[curPage]"
+      @saveCurLoc="saveCurLoc"
       @nextPage="nextPage"
       @prevPage="prevPage"
       @savePlan = "savePlan"

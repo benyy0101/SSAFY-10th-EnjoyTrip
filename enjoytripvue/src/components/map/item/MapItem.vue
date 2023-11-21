@@ -1,14 +1,21 @@
 <script setup>
-import { ref, watch,provide } from "vue";
+import { ref, watch} from "vue";
 import {attList} from '@/api/map';
 const { VITE_KAKAO_API_KEY } = import.meta.env;
 let map;
 const markers = ref([]);
 const positions = ref([]);
-const props = defineProps({ options: Array });
+const props = defineProps({ options: Array, currentLoc:Array });
 const attInfo = ref([]);
 const emit = defineEmits(['getAttList']);
 
+watch(()=> props.currentLoc.value,
+()=>{
+  console.log("props...............currentLoc", props.currentLoc)
+  addDistanceMarker();
+},
+{deep: true}
+)
 watch(
   () => props.options.value,
   () => {
