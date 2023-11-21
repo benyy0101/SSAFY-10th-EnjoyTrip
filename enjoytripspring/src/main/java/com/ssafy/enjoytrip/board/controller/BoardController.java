@@ -1,15 +1,20 @@
 package com.ssafy.enjoytrip.board.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import com.ssafy.enjoytrip.board.model.dto.BoardDto;
 import com.ssafy.enjoytrip.board.service.BoardService;
 import com.ssafy.enjoytrip.member.model.dto.MemberDto;
@@ -25,6 +30,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @CrossOrigin({"*"})   // 다른 서버에서 AJax 
 public class BoardController {
 	private Logger logger = LoggerFactory.getLogger(BoardController.class);
+	
 	private BoardService boardService;
 
 	private static final String SUCCESS = "success";
@@ -42,7 +48,6 @@ public class BoardController {
 	@ApiResponse(code = 200, message="success")
     @PostMapping
     public ResponseEntity<String> insertReviewBoard(@RequestBody BoardDto bDto, @ApiIgnore HttpSession session) {
-
         MemberDto mDto = (MemberDto) session.getAttribute("loginUser");
         System.out.println(mDto);
         // userId, subject, content 입력

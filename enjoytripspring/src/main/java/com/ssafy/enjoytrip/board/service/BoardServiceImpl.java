@@ -2,14 +2,15 @@ package com.ssafy.enjoytrip.board.service;
 
 import java.sql.SQLException;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.enjoytrip.board.model.dto.FileInfoDto;
 import com.ssafy.enjoytrip.board.model.dao.BoardDao;
 import com.ssafy.enjoytrip.board.model.dto.BoardDto;
 import com.ssafy.enjoytrip.exception.MyException;
@@ -28,11 +29,16 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	@Transactional
 	public void writeArticle(BoardDto boardDto) {
 		try {
 			boardDto.setStartDate(boardDto.getStartDate().substring(0, 10));
 			boardDto.setEndDate(boardDto.getEndDate().substring(0, 10));
 			boardDao.writeArticle(boardDto);
+//			List<FileInfoDto> fileInfos = boardDto.getFileInfos();
+//			if (fileInfos != null && !fileInfos.isEmpty()) {
+//				boardDao.registerFile(boardDto);
+//			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -45,7 +51,6 @@ public class BoardServiceImpl implements BoardService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new MyException("listArticle 처리 중 오류 발생!");
-
 		}
 	}
 

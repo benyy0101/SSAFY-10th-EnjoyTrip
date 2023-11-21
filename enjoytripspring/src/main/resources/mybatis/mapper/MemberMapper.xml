@@ -4,10 +4,10 @@
 
 <mapper
 	namespace="com.ssafy.enjoytrip.member.model.dao.MemberDao">
-	<select id="idCheck" parameterType="String" resultType="MemberDto">
+	<select id="idCheck" parameterType="String" resultType="int">
 		select count(*)
 		from member
-		where userId=#{id}
+		where userId=#{userId}
 	</select>
 	
 	<insert id="joinMember" parameterType="MemberDto">
@@ -32,7 +32,7 @@
 		where userId = #{userId} and userPwd = #{userPwd}
 	</select>
 	
-	<select id="userInfo" parameterType="string" resultType="MemberDto">
+	<select id="userInfo" parameterType="String" resultType="MemberDto">
 		select userName, userId, emailId, emailDomain, joinDate
 		from member
 		where userId = #{userId}
@@ -44,7 +44,7 @@
 		where userId = #{userId}
 	</update>
 	
-	<select id="getRefreshToken" parameterType="string" resultType="string">
+	<select id="getRefreshToken" parameterType="String" resultType="String">
 		select token
 		from member
 		where userId = #{userId}

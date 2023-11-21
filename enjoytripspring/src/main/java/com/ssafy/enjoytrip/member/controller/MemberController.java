@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.enjoytrip.member.model.dto.MemberDto;
 import com.ssafy.enjoytrip.member.service.MemberService;
+import com.ssafy.enjoytrip.member.service.ProfileService;
 import com.ssafy.enjoytrip.util.JWTUtil;
 
 import io.swagger.annotations.Api;
@@ -74,25 +75,31 @@ public class MemberController {
 	
 	@ApiOperation(value="회원가입", notes="회원 정보를 등록")
 	@ApiResponse(code = 200, message="success")
-	//@PostMapping(value="/register", consumes=MediaType.MULTIPART_FORM_DATA_VALUE)
 	@PostMapping(value="/register")
-//	public ResponseEntity<?> registMember(@RequestPart MemberDto memberDto,  @RequestPart(value="profileImg", required = false) MultipartFile profileImg) {
-//		logger.debug("받아?{}", profileImg.getOriginalFilename());
-//		logger.debug("dto는?{}", memberDto);
-////		logger.debug("member.regist......................... Member:{}", member.getUserId());
-//		logger.debug("member.regist......................... service:{}", memberService);
-//		//int num = service.idCheck(member.getUserId());
-////		memberService.joinMember(member, profileImg);
-//		return new ResponseEntity<Void>(HttpStatus.OK);	
-//	}
 	public ResponseEntity<?> registMember(@RequestBody MemberDto memberDto) {
-//		logger.debug("받아?{}", profileImg.getOriginalFilename());
 		logger.debug("dto는?{}", memberDto);
-//		logger.debug("member.regist......................... Member:{}", member.getUserId());
 		logger.debug("member.regist......................... service:{}", memberService);
-		//int num = service.idCheck(member.getUserId());
+		// int num = memberService.idCheck(memberDto.getUserId());
 		memberService.joinMember(memberDto);
+		
 		return new ResponseEntity<Void>(HttpStatus.OK);	
+	}
+	
+	@ApiOperation(value="아이디 체크", notes="아이디 존재 여부 체크")
+	@ApiResponse(code = 200, message="success")
+	@GetMapping
+	public ResponseEntity<?> idCheck(@RequestParam String userId) {
+		logger.debug("userId는?{}", userId);
+		int num = memberService.idCheck(userId);
+		
+		
+		logger.debug("이거 나오나??: {}", num);
+		if(num == 0) {
+			return new ResponseEntity<Integer>(0, HttpStatus.OK);	
+		}
+		else {
+			return new ResponseEntity<Integer>(1, HttpStatus.NO_CONTENT);	
+		}
 	}
 	
 	// JWT 추가
@@ -178,7 +185,6 @@ public class MemberController {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-
 	}
 
 	@ApiOperation(value = "Access Token 재발급", notes = "만료된 access token을 재발급", response = Map.class)
