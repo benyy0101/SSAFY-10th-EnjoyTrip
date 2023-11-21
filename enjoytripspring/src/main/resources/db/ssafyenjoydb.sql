@@ -76,10 +76,35 @@ CREATE TABLE IF NOT EXISTS `ssafyenjoy`.`board` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
--- 11/16 이거 추가했습니다!!! 확인 부탁드립니다.
+-- 11/16 이거 추가했습니다!
 alter table board add column location varchar(45) null default null after content;
 alter table board add column startDate varchar(100) null default null after location;
 alter table board add column endDate varchar(100) null default null after startDate;
+
+-- 11/21 BoardDto에 이미지 추가했습니다.
+alter table board add column mainImg varchar(500) null default "https://i.ibb.co/c6GdLvZ/noImg.png" after endDate;
+select *
+    	from board
+    	where userId = "hey"
+    	order by articleNo
+-- -----------------------------------------
+-- Table `ssafyenjoy`.`img`
+-- -----------------------------------------
+
+-- 11/21 추가
+CREATE TABLE IF NOT EXISTS `ssafyenjoy`.`img` (
+  `userId` VARCHAR(45) NOT NULL,
+  `profileImg` VARCHAR(500) NOT NULL default "https://i.ibb.co/hZPRfz0/dog.jpg",
+  PRIMARY KEY (`userId`),
+  INDEX `userId_idx` (`userId` ASC) VISIBLE,
+  FOREIGN KEY (`userId`)
+  REFERENCES `ssafyenjoy`.`member` (`userId`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+select * from img;
+
 -- -----------------------------------------
 -- Table `ssafyenjoy`.`plan`
 -- -----------------------------------------

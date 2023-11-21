@@ -9,4 +9,10 @@
 		insert into img(userId, profileImg)
 		values(#{userId}, #{profileImg})
 	</insert>
+	
+	<select id="getImg" parameterType="String" resultType="String">
+    	select profileImg
+    	from img
+    	where userId = #{userId}
+    </select>
 </mapper>

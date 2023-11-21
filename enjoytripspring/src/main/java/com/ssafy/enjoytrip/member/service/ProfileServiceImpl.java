@@ -37,4 +37,15 @@ public class ProfileServiceImpl implements ProfileService {
 			throw new MyException("프로필 이미지 추가 중 오류 발생!");
 		}
 	}
+	
+	@Override
+	public String getImg(String userId){
+		try {
+			logger.debug("getImg..................................:{}", userId);
+			return profileDao.getImg(userId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new MyException("프로필 이미지 조회 중 오류 발생!");
+		}
+	}
 }

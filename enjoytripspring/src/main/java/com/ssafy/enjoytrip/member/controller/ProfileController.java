@@ -64,4 +64,14 @@ public class ProfileController {
 		profileService.insertImg(profileImgDto);
 		return new ResponseEntity<Void>(HttpStatus.OK);	
 	}
+	
+	@ApiOperation(value="프로필 이미지", notes="프로필 이미지를 조회")
+	@ApiResponse(code = 200, message="success")
+	@GetMapping(value="/{userId}")
+	public ResponseEntity<?> getImg(@PathVariable String userId) {
+		logger.debug("userId는?{}", userId);
+		logger.debug("profile.getImg......................... service:{}", profileService);
+		String url = profileService.getImg(userId);
+		return new ResponseEntity<String>(url, HttpStatus.OK);	
+	}
 }

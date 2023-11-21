@@ -1,11 +1,6 @@
 package com.ssafy.enjoytrip.board.controller;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -44,7 +39,7 @@ public class BoardController {
 	 */
 	
 	// ${root}/board/insertReview
-    @ApiOperation(value="정보 공유 등록", notes = "여행 정보 리뷰를 등록한다.")
+    @ApiOperation(value="여행 후기 글 등록", notes = "여행 후기 글을 등록한다.")
 	@ApiResponse(code = 200, message="success")
     @PostMapping
     public ResponseEntity<String> insertReviewBoard(@RequestBody BoardDto bDto, @ApiIgnore HttpSession session) {
@@ -53,7 +48,7 @@ public class BoardController {
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
     
-    @ApiOperation(value="정보 공유 글 조회", notes = "여행 정보 리뷰를 조회한다.")
+    @ApiOperation(value="여행 후기 글 조회", notes = "여행 후기 글을 조회한다.")
    	@ApiResponse(code = 200, message="success")
     @GetMapping("/{articleNo}")
     public ResponseEntity<?> getReviewBoard(@PathVariable int articleNo) {
@@ -69,7 +64,7 @@ public class BoardController {
         }
     }
     
-    @ApiOperation(value="정보 공유 수정", notes = "여행 정보 리뷰를 수정한다.")
+    @ApiOperation(value="여행 후기 글 수정", notes = "여행 후기 글을 수정한다.")
    	@ApiResponse(code = 200, message="success")
     @PutMapping
     public ResponseEntity<String> updateReviewBoard(@RequestBody BoardDto bDto, @ApiIgnore HttpSession session) {
@@ -83,7 +78,7 @@ public class BoardController {
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
     
-    @ApiOperation(value="정보 공유 글 삭제", notes = "여행 정보 리뷰를 삭제한다.")
+    @ApiOperation(value="여행 후기 글 삭제", notes = "여행 후기 글을 삭제한다.")
    	@ApiResponse(code = 200, message="success")
     @DeleteMapping("/{articleNo}")
     public ResponseEntity<String> deleteReviewBoard(@PathVariable int articleNo) {
@@ -93,7 +88,7 @@ public class BoardController {
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
 
-    @ApiOperation(value="여행 정보 리뷰 리스트", notes = "여행 정보 리뷰를 보여준다.")
+    @ApiOperation(value="여행 후기 리스트", notes = "여행 후기 리스트를 보여준다.")
     @ApiResponse(code = 200, message="success")
     @GetMapping
     public ResponseEntity<?> listReviewsBoard() {
@@ -105,5 +100,17 @@ public class BoardController {
             return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
         }
     }
-
+    
+    @ApiOperation(value="나의 여행 후기 리스트", notes = "나의 여행 후기 리스트를 보여준다.")
+    @ApiResponse(code = 200, message="success")
+    @GetMapping("/list/{userId}")
+    public ResponseEntity<?> listMyReviewsBoard(@PathVariable String userId) {
+        List<BoardDto> boardDto = boardService.listMyArticle(userId);
+        logger.debug("boardDto......................{}: ", boardDto);
+        if(boardDto!=null) {
+            return new ResponseEntity<List<BoardDto>>(boardDto, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+        }
+    }
 }

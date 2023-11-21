@@ -21,6 +21,13 @@
     	order by articleNo
     </select>
     
+    <select id="listMyArticle" parameterType="String"  resultType="BoardDto">
+    	select *
+    	from board
+    	where userId = #{userId}
+    	order by articleNo
+    </select>
+    
     <update id="modifyArticle" parameterType="BoardDto">
     	update board set subject=#{subject}, content=#{content}, registerTime=now()
     	where articleNo=#{articleNo}
