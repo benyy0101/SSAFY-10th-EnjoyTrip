@@ -2,6 +2,7 @@ import axios from "axios";
 import { httpStatusCode } from "./http-status";
 
 const { VITE_VUE_API_URL } = import.meta.env;
+const { VITE_IMGBB_API } = import.meta.env;
 
 // local vue api axios instance
 function localAxios() {
@@ -77,4 +78,15 @@ function localAxios() {
   return instance;
 }
 
-export { localAxios };
+function imgbbAxios() {
+  const instance = axios.create({
+    baseURL: VITE_IMGBB_API,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+  
+  return instance;
+}
+
+export { localAxios, imgbbAxios };
