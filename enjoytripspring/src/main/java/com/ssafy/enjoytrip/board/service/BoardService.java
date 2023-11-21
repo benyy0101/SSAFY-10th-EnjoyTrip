@@ -15,5 +15,6 @@ public interface BoardService {
 	
 	void modifyArticle(BoardDto boardDto);
 	void deleteArticle(int articleNo);
-	void writeArticle(BoardDto boardDto);	
+	void writeArticle(BoardDto boardDto);
+	List<BoardDto> listMyArticle(String userId);
 }

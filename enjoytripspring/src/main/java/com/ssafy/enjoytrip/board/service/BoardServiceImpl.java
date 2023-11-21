@@ -115,4 +115,14 @@ public class BoardServiceImpl implements BoardService {
 			throw new MyException("deleteArticle 처리 중 오류 발생!");
 		}
 	}
+	
+	@Override
+	public List<BoardDto> listMyArticle(String userId) {
+		try {
+			return boardDao.listMyArticle(userId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new MyException("listMyArticle 처리 중 오류 발생!");
+		}
+	}
 }
