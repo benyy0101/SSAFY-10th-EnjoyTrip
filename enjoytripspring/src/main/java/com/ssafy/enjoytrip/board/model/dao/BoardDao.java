@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafy.enjoytrip.board.model.dto.FileInfoDto;
 import com.ssafy.enjoytrip.board.model.dto.BoardDto;
 
 @Mapper
@@ -18,4 +19,8 @@ public interface BoardDao {
 	void updateHit(int articleNo) throws SQLException;
 	void modifyArticle(BoardDto boardDto) throws SQLException;
 	void deleteArticle(int articleNo) throws SQLException;
+	
+//	void registerFile(BoardDto boardDto) throws SQLException;
+//	void deleteFile(int articleNo) throws SQLException;
+//	List<FileInfoDto> fileInfoList(int articleNo) throws Exception;
 }
