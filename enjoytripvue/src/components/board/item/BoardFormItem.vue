@@ -3,6 +3,7 @@ import { registArticle, modifyArticle, detailArticle } from '@/api/board';
 import { uploadImage } from '@/api/user';
 import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { Modal } from 'ant-design-vue';
 import ToastEditor from '@/components/board/item/ToastUIEditor.vue';
 import { useMemberStore } from '@/stores/member';
 import { storeToRefs } from 'pinia';
@@ -16,21 +17,26 @@ const { VITE_IMGBB_KEY } = import.meta.env;
 
 // 이미지 파일 업로드
 const selectedFile = ref([]);
-const imgURL = ref();
+// 초기 이미지 넣기
+const imgURL = ref('https://i.ibb.co/c6GdLvZ/noImg.png');
+
 const handleFileChange = (e) => {
-  selectedFile.value = e.target.files
-}
+  selectedFile.value = e.target.files;
+};
 
 const upload = async () => {
-  const formData = new FormData()
+  const formData = new FormData();
   // form에서 선택된 데이터 가져오기
-  formData.append('key', VITE_IMGBB_KEY)
-  formData.append('image', selectedFile.value[0])
+  formData.append('key', VITE_IMGBB_KEY);
+  formData.append('image', selectedFile.value[0]);
   // 프로필 이미지를 위한 코드
   uploadImage(
     formData,
     ({ data }) => {
-      console.log('uploadImage.....................success, data: ', data.data.url);
+      console.log(
+        'uploadImage.....................success, data: ',
+        data.data.url
+      );
       article.value.mainImg = data.data.url;
       imgURL.value = data.data.url;
     },
@@ -38,7 +44,8 @@ const upload = async () => {
       console.log(err);
     }
   );
-}
+};
+
 // 여행 시작 날짜, 끝나는 날짜
 const dates = ref();
 const value = ref();
@@ -132,7 +139,8 @@ watch(
   (value) => {
     let len = value.length;
     if (len == 0) {
-      mainImgErrMsg.value = '프로필 이미지를 추가하고 사진 업로드 버튼을 눌러주세요!';
+      mainImgErrMsg.value =
+        '프로필 이미지를 추가하고 사진 업로드 버튼을 눌러주세요!';
     } else mainImgErrMsg.value = '';
   },
   { immediate: true }
@@ -140,11 +148,17 @@ watch(
 
 function onSubmit() {
   if (subjectErrMsg.value) {
-    alert(subjectErrMsg.value);
+    Modal.warning({
+      title: '제목을 작성해주세요.',
+    });
   } else if (contentErrMsg.value) {
-    alert(contentErrMsg.value);
+    Modal.warning({
+      title: '내용을 작성해주세요.',
+    });
   } else if (mainImgErrMsg.value) {
-    alert(mainImgErrMsg.value);
+    Modal.warning({
+      title: '프로필 이미지를 추가하고 사진 업로드 버튼을 눌러주세요!',
+    });
   } else {
     props.type === 'regist' ? writeArticle() : updateArticle();
     moveList();
@@ -229,40 +243,81 @@ function moveList() {
           }"
         >
           <a-form @submit.prevent="onSubmit">
-            <a-form-item label="제목 " :style="{ width: '30%' }">
-              <a-input v-model:value="article.subject" :disabled="isUseId" />
-            </a-form-item>
-            <a-form-item label="장소 " :style="{ width: '30%' }">
-              <a-input v-model:value="article.location" />
-            </a-form-item>
+            <div
+              :style="{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+              }"
+            >
+              <div :style="{ display: 'flex', flexDirection: 'column' }">
+                <a-form-item label="제목" :style="{ width: '100%' }">
+                  <a-input
+                    v-model:value="article.subject"
+                    :disabled="isUseId"
+                  />
+                </a-form-item>
+                <a-form-item label="장소" :style="{ width: '100%' }">
+                  <a-input v-model:value="article.location" />
+                </a-form-item>
+                <a-space>
+                  <span>여행 날짜: </span>
+                  <a-range-picker
+                    :style="{ width: '100%' }"
+                    :value="hackValue || value"
+                    @change="onChange"
+                    @openChange="onOpenChange"
+                    @calendarChange="onCalendarChange"
+                  />
+                </a-space>
 
-            <a-space>
-              <span>여행 날짜: </span>
-              <a-range-picker
-                :value="hackValue || value"
-                @change="onChange"
-                @openChange="onOpenChange"
-                @calendarChange="onCalendarChange"
+                <!-- 이미지 파일 업로드 -->
+                <form
+                  name="form"
+                  method="post"
+                  enctype="multipart/form-data"
+                  @submit.prevent="upload"
+                >
+                  <h4 :style="{ marginTop: '30px' }">여행 후기 메인 이미지</h4>
+                  <div
+                    :style="{
+                      display: 'flex',
+                      marginTop: '30px',
+                      marginBottom: '20px',
+                    }"
+                  >
+                    <input
+                      type="file"
+                      name="files"
+                      ref="fileInput"
+                      @change="handleFileChange"
+                      multiple="multiple"
+                    />
+                    <a-button
+                      :style="{
+                        color: '#ABC9FF',
+                        borderColor: '#ABC9FF',
+                        border: '2px solid',
+                        fontSize: '14px',
+                        fontWeight: 'Bold',
+                      }"
+                      @click="upload"
+                    >
+                      사진 업로드
+                    </a-button>
+                  </div>
+                </form>
+              </div>
+              <img
+                :src="imgURL"
+                :style="{
+                  display: 'flex',
+                  width: '120px',
+                  height: '120px',
+                  alignContent: 'center',
+                }"
               />
-            </a-space>
-
-            <!-- 이미지 파일 업로드 -->
-            <form name="form" method="post" enctype="multipart/form-data" @submit.prevent="upload">
-              <h4>여행 후기 메인 이미지</h4>
-            <div :style="{display:'flex', marginBottom:'20px' }">
-              <input
-            type="file"
-            name="files"
-            ref="fileInput"
-            @change="handleFileChange"
-            multiple="multiple"
-          />
-          <a-button :style="{color: '#ABC9FF', borderColor: '#ABC9FF', border: '2px solid', fontSize: '15px', fontWeight: 'Bold', margin: '6px'}" @click="upload">
-            사진 업로드
-          </a-button>
             </div>
-            
-        </form>
 
             <div :style="{ marginTop: '60px' }">
               <!-- 내용 입력 필드 -->

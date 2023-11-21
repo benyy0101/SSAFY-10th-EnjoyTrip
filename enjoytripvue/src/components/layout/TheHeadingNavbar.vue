@@ -33,13 +33,8 @@ const logoutMember = async () => {
 </script>
 
 <template>
-  
-  <div class="navbar-container"
-    :style="{
-      
-    }"
-  >
-    <img src="@/assets/mainLogo.png" id="logo"/>
+  <div class="navbar-container" :style="{}">
+    <img src="@/assets/mainLogo.png" id="logo" />
     <a-menu
       mode="horizontal"
       v-model:selectedKeys="selectedKeys"
@@ -108,26 +103,6 @@ const logoutMember = async () => {
       </a-menu-item>
     </a-menu>
   </div>
-  <!-- <a-layout-header class="header">
-  <div class="leftMenuWrapper">
-    <div class="logo">임시 로고</div>
-  <a-menu
-        theme="dark"
-        mode="horizontal"
-        :style="{ lineHeight: '64px'}"
-      >
-        <a-menu-item key="1" class="menuItem">핫플 찾기!</a-menu-item>
-        <a-menu-item key="2" class="menuItem">여행계획</a-menu-item>
-  </a-menu>
-  </div>
-  
-  <a-menu class="loginSection">
-      <div @click="toggleModal">
-        로그인
-      </div>
-      <a-menu-item key="3" class="menuItem">여행계획</a-menu-item>
-  </a-menu>
-</a-layout-header> -->
 </template>
 
 <style scoped>
@@ -153,18 +128,18 @@ const logoutMember = async () => {
   background: #abc9ff;
 }
 
-.navbar-container{
+.navbar-container {
   position: relative;
   display: flex;
   justify-content: space-between;
   background-color: white;
 }
 
-#logo{
+#logo {
   position: absolute;
   left: 50%;
   transform: translate(-50%);
-  height:150px;
+  height: 150px;
 }
 
 * {
