@@ -20,7 +20,7 @@ const props = defineProps({
   savedInfo: Array,
 });
 //attInfo: 검색한 정보 어레이, curPage:현재 페이지, savedInfo: 저장된 찜한 여행지
-const emit = defineEmits(["addDayInfo", "nextPage", "prevPage", "savePlan"]);
+const emit = defineEmits(["addDayInfo", "nextPage", "prevPage", "savePlan", 'saveCurLoc']);
 const chosenOption = ref([]);
 const activeKey = ref("1");
 const curDate = ref();
@@ -44,6 +44,14 @@ watch(
   },
   { deep: true }
 );
+
+watch(
+  chosenOption,
+  ()=>{
+    emit('saveCurLoc', chosenOption.value)
+  },
+  {deep: true}
+)
 
 const initSavedOption = () => {
   console.log(props.savedInfo);
