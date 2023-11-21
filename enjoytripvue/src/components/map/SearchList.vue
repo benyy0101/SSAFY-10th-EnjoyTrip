@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons-vue";
 
 const planStore = usePlanStore();
-const { planTitle, totalDays } = storeToRefs(planStore);
+const { planTitle, totalDays, startDate } = storeToRefs(planStore);
 
 const props = defineProps({
   attInfo: Array,
@@ -20,26 +20,38 @@ const props = defineProps({
   savedInfo: Array,
 });
 //attInfo: 검색한 정보 어레이, curPage:현재 페이지, savedInfo: 저장된 찜한 여행지
-const emit = defineEmits(["addDayInfo", "nextPage", "prevPage", "savePlan"]);
+const emit = defineEmits(["addDayInfo", "nextPage", "prevPage", "savePlan", 'saveCurLoc']);
 const chosenOption = ref([]);
 const activeKey = ref("1");
-//console.log(planTitle);
-//console.log(totalDays);
+const curDate = ref();
 
 watch(
   () => props.attInfo.value,
   () => {
-    console.log(props.attInfo);
+    if(props.curPage.value - 1 == 0) curDate.value = startDate.value.format('YYYY.MM.DD');
+    else{
+      curDate.value = startDate.value.add(props.curPage - 1, 'day').format('YYYY.MM.DD');
+    }
   },
   { deep: true }
 );
 watch(
   () => props.curPage.value,
   () => {
+    
+    
     initSavedOption();
   },
   { deep: true }
 );
+
+watch(
+  chosenOption,
+  ()=>{
+    emit('saveCurLoc', chosenOption.value)
+  },
+  {deep: true}
+)
 
 const initSavedOption = () => {
   console.log(props.savedInfo);
@@ -65,13 +77,10 @@ const selectAtt = (att) => {
 };
 
 const removeAtt = (att) => {
-  //console.log(att.title)
   chosenOption.value = chosenOption.value.filter((item) => {
-    //console.log(item.title);
     return att.title != item.title;
   });
   toggleButton(att);
-  //console.log(chosenOption.value);
 };
 
 </script>
@@ -79,7 +88,7 @@ const removeAtt = (att) => {
   <a-flex vertical>
     <div class="main-info-container">
       <h1 class="plan-title-section">{{ planTitle }}</h1>
-      <h3 class="date-section">{{ curPage }}일차</h3>
+      <h3 class="date-section">{{ curPage }}일차 ({{ curDate}})</h3>
     </div>
     <a-tabs v-model:activeKey="activeKey" class="tabContainer">
       <a-tab-pane key="1" tab="검색한 장소">
@@ -142,7 +151,7 @@ const removeAtt = (att) => {
     </template>
   </a-float-button>
 
-  <div v-if="curPage <= totalDays">
+  <div v-if="curPage < totalDays">
     <a-float-button
       type="primary"
       @click="$emit('nextPage', chosenOption)"
@@ -164,7 +173,7 @@ const removeAtt = (att) => {
           <p>저장 됩니다!</p>
         </div>
     </template>
-      <a-float-button class="next-button" @click="$emit('savePlan')">
+      <a-float-button class="next-button" @click="$emit('savePlan', chosenOption)">
         <template #icon>
           <CheckOutlined />
         </template>
