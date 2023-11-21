@@ -29,7 +29,6 @@ public class MarkerDto {
 	int sidoCode;
 	@ApiModelProperty(value="구군 번호", example="0")
 	int gugunCode;
-
 	
 	public MarkerDto(int contentId, int contentTypeId, String title, String addr1, String addr2, String firstImage, int readCount,
 			double latitude, double longitude, int sidoCode, int gugunCode) {

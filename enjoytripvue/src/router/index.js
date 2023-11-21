@@ -28,6 +28,11 @@ const router = createRouter({
           name: 'plan-setup',
           component: () => import('@/components/map/MapDefault.vue'),
         },
+        {
+          path: 'result',
+          name: 'plan-result',
+          component: () => import('@/components/map/MapResult.vue'),
+        },
       ],
     },
     {
