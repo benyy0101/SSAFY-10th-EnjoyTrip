@@ -43,11 +43,11 @@ watch(
       ) + 1;
 
     if (totalDays.value == 1) {
-      startDate.value = totalDate.value[0].format("YYYY-MM-DD").toString();
-      endDate.value = totalDate.value[0].format("YYYY-MM-DD").toString();
+      startDate.value = totalDate.value[0];
+      endDate.value = totalDate.value[0];
     } else {
-      startDate.value = totalDate.value[0].format("YYYY-MM-DD").toString();
-      endDate.value = totalDate.value[1].format("YYYY-MM-DD").toString();
+      startDate.value = totalDate.value[0];
+      endDate.value = totalDate.value[1];
     }
   },
   { deep: true }

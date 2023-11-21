@@ -24,9 +24,10 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
-	public int writePlan(PlanDto planDto) {
+	public void writePlan(PlanDto planDto) {
 		try {
-			return planDao.writePlan(planDto);
+			planDao.writePlan(planDto);
+			System.out.println(planDto.toString());
 		} catch (SQLException e) {
 			throw new PlanException("계획 등록 중 오류 발생");
 		}
