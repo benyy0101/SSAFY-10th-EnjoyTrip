@@ -80,18 +80,18 @@ ENGINE = InnoDB;
 alter table board add column location varchar(45) null default null after content;
 alter table board add column startDate varchar(100) null default null after location;
 alter table board add column endDate varchar(100) null default null after startDate;
+alter table board modify column hit long not null default 0;
 
 -- 11/21 BoardDto에 이미지 추가했습니다.
 alter table board add column mainImg varchar(500) null default "https://i.ibb.co/c6GdLvZ/noImg.png" after endDate;
 select *
     	from board
     	where userId = "hey"
-    	order by articleNo
+    	order by articleNo;
+        
 -- -----------------------------------------
--- Table `ssafyenjoy`.`img`
+-- Table `ssafyenjoy`.`img` 11/21 추가
 -- -----------------------------------------
-
--- 11/21 추가
 CREATE TABLE IF NOT EXISTS `ssafyenjoy`.`img` (
   `userId` VARCHAR(45) NOT NULL,
   `profileImg` VARCHAR(500) NOT NULL default "https://i.ibb.co/hZPRfz0/dog.jpg",
