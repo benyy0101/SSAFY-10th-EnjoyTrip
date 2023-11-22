@@ -65,6 +65,10 @@ function getImg(userId, success, fail) {
   console.log('getImg......{}', userId);
   local.get(`${profileurl}/${userId}`).then(success).catch(fail);
 }
+function updateImg(imgdata, success, fail) {
+  console.log('updateImg......{}', imgdata);
+  local.put(`${profileurl}`, imgdata).then(success).catch(fail);
+}
 
 export {
   userConfirm,
@@ -78,4 +82,5 @@ export {
   uploadImage,
   insertImg,
   getImg,
+  updateImg
 };

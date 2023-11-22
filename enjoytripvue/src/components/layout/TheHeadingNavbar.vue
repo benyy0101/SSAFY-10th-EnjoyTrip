@@ -19,12 +19,6 @@ watch(selectedKeys, (val) => {
   console.log('selectedKeys', val);
 });
 
-// watch(
-//   isLogin.value,
-
-//   { immediate: true }
-// );
-
 const logoutMember = async () => {
   console.log('logout 진행 중!!!');
   console.log(getUser.value);
@@ -33,8 +27,8 @@ const logoutMember = async () => {
 </script>
 
 <template>
-  <div class="navbar-container" :style="{}">
-    <img src="@/assets/mainLogo.png" id="logo" />
+  <div class="navbar-container">
+    <img src="@/assets/mainLogo.png" id="logo" :style="{width:'80px', height:'80px'}" />
     <a-menu
       mode="horizontal"
       v-model:selectedKeys="selectedKeys"

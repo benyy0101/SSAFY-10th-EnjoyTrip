@@ -102,7 +102,7 @@ if (props.type === 'modify') {
     articleno,
     (res) => {
       article.value = res.data;
-      console.log(article.value);
+      console.log("뭐지?", article.value.articleNo);
     },
     (err) => {
       console.log(err);
@@ -149,11 +149,11 @@ watch(
 function onSubmit() {
   if (subjectErrMsg.value) {
     Modal.warning({
-      title: '제목을 작성해주세요.',
+      title: '제목을 입력해주세요.',
     });
   } else if (contentErrMsg.value) {
     Modal.warning({
-      title: '내용을 작성해주세요.',
+      title: '내용을 입력해주세요.',
     });
   } else if (mainImgErrMsg.value) {
     Modal.warning({
