@@ -3,6 +3,7 @@ import TheMainView from '../views/TheMainView.vue';
 // import TheMemberView from '@/views/TheMemberView.vue';
 import TheMapView from '@/views/TheMapView.vue';
 import TheMyPageView from '@/views/TheMyPageView.vue';
+import ThePlanViewVue from '@/views/ThePlanView.vue';
 // import MemberModify from '@/components/member/MemberModify.vue';
 
 const router = createRouter({
@@ -89,6 +90,19 @@ const router = createRouter({
       path: '/mypage',
       name: 'mypage',
       component: TheMyPageView,
+    },
+    {
+      path: '/plan',
+      name: 'plan',
+      component: ThePlanViewVue,
+      children:[
+        {
+          path:'list',
+          name:'plan-list',
+          component: () =>import('@/components/plan/PlanList.vue')
+          
+        }
+      ]
     },
   ],
 });
