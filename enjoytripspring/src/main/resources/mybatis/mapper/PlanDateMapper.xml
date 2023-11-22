@@ -7,4 +7,9 @@
 		insert into plandate(date, planNo)
 		values(#{date}, #{planNo})
 	</insert>
+
+	<select id="getDateList" parameterType="int" resultType="PlanDateDetailDto">
+		select dateNo, planNo, date, dateMemo from plandate
+		where planNo=#{planNo}
+	</select>
 </mapper>

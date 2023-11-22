@@ -14,4 +14,5 @@ public interface MapDao {
 	List<SidoDto> getSido() throws SQLException;
 	List<GugunDto> getGugun(int sidoCode) throws SQLException;
 	List<MarkerDto> getMarker(int contentTypeId, int sidoCode, int gugunCode) throws SQLException;
+	MarkerDto getMarkerById(int contentId) throws SQLException;
 }
