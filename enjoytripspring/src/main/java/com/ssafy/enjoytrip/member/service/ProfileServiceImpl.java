@@ -25,7 +25,6 @@ public class ProfileServiceImpl implements ProfileService {
 		super();
 		this.profileDao = profileDao;
 	}
-	
 
 	@Override
 	public void insertImg(ProfileImgDto profileImgDto){
@@ -46,6 +45,17 @@ public class ProfileServiceImpl implements ProfileService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new MyException("프로필 이미지 조회 중 오류 발생!");
+		}
+	}
+	
+	@Override
+	public void updateImg(ProfileImgDto profileImgDto){
+		try {
+			logger.debug("updateImg..................................:{}", profileImgDto);
+			profileDao.updateImg(profileImgDto);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new MyException("프로필 이미지 수정 중 오류 발생!");
 		}
 	}
 }

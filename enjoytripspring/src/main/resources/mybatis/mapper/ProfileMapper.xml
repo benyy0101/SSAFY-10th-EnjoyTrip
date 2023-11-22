@@ -15,4 +15,9 @@
     	from img
     	where userId = #{userId}
     </select>
+    
+    <update id="updateImg" parameterType="ProfileImgDto">
+    	update img set profileImg=#{profileImg}
+    	where userId=#{userId}
+    </update>
 </mapper>
