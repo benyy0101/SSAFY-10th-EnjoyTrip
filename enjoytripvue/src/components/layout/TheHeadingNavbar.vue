@@ -41,6 +41,7 @@ function moveHome() {
         display: 'flex',
         flexDirection: 'row',
       }"
+      class="menu"
     >
       <a-menu-item key="board">
         <template #icon>
@@ -85,6 +86,7 @@ function moveHome() {
       v-model:selectedKeys="selectedKeys"
       mode="horizontal"
       :style="{ width: '260px' }"
+      class="menu"
     >
       <a-menu-item key="mypage">
         <template #icon>
@@ -138,10 +140,15 @@ function moveHome() {
   position: absolute;
   left: 50%;
   transform: translate(-50%);
+  margin:13px 0 0 0;
   height: 150px;
 }
 
 * {
   font-family: NPSfontBold;
+}
+
+.menu{
+  margin:3rem 0 0
 }
 </style>

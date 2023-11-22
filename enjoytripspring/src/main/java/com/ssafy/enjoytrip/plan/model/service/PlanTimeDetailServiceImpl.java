@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 @Repository
@@ -24,6 +25,16 @@ public class PlanTimeDetailServiceImpl implements PlanTimeDetailService {
         try{
             planTimeDetailDao.insertPlanTime(dto);
         } catch (SQLException e) {
+            throw new PlanException("계획 등록 중 오류 발생");
+        }
+    }
+
+    @Override
+    public List<PlanTimeDetailDto> getTimeList(int dateNo) {
+        try{
+            return planTimeDetailDao.getTimeList(dateNo);
+        }
+        catch (SQLException e){
             throw new PlanException("계획 등록 중 오류 발생");
         }
     }

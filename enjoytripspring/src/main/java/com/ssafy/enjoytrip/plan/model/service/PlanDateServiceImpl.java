@@ -9,10 +9,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 @Repository
-public class PlanDateServiceImpl implements  PlanDateService{
+public class PlanDateServiceImpl implements PlanDateService{
     @Autowired
     private PlanDateDetailDao planDateDao;
     public PlanDateServiceImpl(PlanDateDetailDao dto) {this.planDateDao = dto;}
@@ -23,6 +24,15 @@ public class PlanDateServiceImpl implements  PlanDateService{
             planDateDao.insertPlanDate(dto);
         }
         catch (SQLException e){
+            throw new PlanException("계획 등록 중 오류 발생");
+        }
+    }
+
+    @Override
+    public List<PlanDateDetailDto> getDateList(int planNo) {
+        try{
+            return planDateDao.getDateList(planNo);
+        } catch (SQLException e) {
             throw new PlanException("계획 등록 중 오류 발생");
         }
     }

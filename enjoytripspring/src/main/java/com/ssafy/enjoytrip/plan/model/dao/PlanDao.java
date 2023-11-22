@@ -16,4 +16,5 @@ public interface PlanDao {
 	void modifyPlan(PlanDto planDto) throws SQLException;
 	void deletePlan(int plan_no) throws SQLException;
 	int getTotalPlanCount(Map<String, String> param) throws SQLException;
+	List<PlanDto> getPlanList(String userId) throws SQLException;
 }
