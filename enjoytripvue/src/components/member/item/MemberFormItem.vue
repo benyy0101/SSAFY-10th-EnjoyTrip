@@ -88,7 +88,6 @@ if (props.type === "modify") {
     userId,
     (res) => {
       member.value = res.data.userInfo;
-      console.log("으잉?", member.value);
     },
     (err) => {
       console.log(err);
@@ -96,7 +95,6 @@ if (props.type === "modify") {
   );
   isUseId.value = true;
   getProfileImg();
-  console.log("무슨 ? ", member.value);
 }
 
 const userIdErrMsg = ref("");

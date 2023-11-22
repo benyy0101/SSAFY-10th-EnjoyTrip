@@ -102,7 +102,7 @@ if (props.type === 'modify') {
     articleno,
     (res) => {
       article.value = res.data;
-      console.log("뭐지?", article.value.articleNo);
+      imgURL.value = article.value.mainImg
     },
     (err) => {
       console.log(err);
@@ -167,7 +167,7 @@ function onSubmit() {
 
 function writeArticle() {
   article.value.userId = userInfo.value.userId;
-  console.log('글등록하자!!', article.value);
+  console.log('글등록하자!', article.value);
 
   registArticle(
     article.value,
@@ -182,7 +182,7 @@ function writeArticle() {
 }
 
 function updateArticle() {
-  console.log(article.value.articleNo + '번글 수정하자!!', article.value);
+  console.log(article.value.articleNo + '번글 수정하자!', article.value);
   article.value.userId = userInfo.value.userId;
   modifyArticle(
     article.value,
@@ -222,7 +222,7 @@ function moveList() {
       }"
     >
       <div class="wholeDiv" :style="{ width: '100%' }">
-        <div :style="{ display: 'flex', alignItems: 'flex-start' }">
+        <div v-if="props.type === 'regist'" :style="{ display: 'flex', alignItems: 'flex-start' }">
           <img src="@/assets/write.gif" />
           <div
             :style="{
@@ -233,6 +233,20 @@ function moveList() {
             }"
           >
             <h1>여행 후기 작성</h1>
+            <h3>여행 이야기를 들려주세요!</h3>
+          </div>
+        </div>
+        <div v-else :style="{ display: 'flex', alignItems: 'flex-start' }">
+          <img src="@/assets/write.gif" />
+          <div
+            :style="{
+              display: 'flex',
+              flexDirection: 'column',
+              marginTop: '5px',
+              paddingLeft: '10px',
+            }"
+          >
+            <h1>여행 후기 수정</h1>
             <h3>여행 이야기를 들려주세요!</h3>
           </div>
         </div>
@@ -257,7 +271,7 @@ function moveList() {
                     :disabled="isUseId"
                   />
                 </a-form-item>
-                <a-form-item label="장소" :style="{ width: '100%' }">
+                <a-form-item label="장소" :style="{ width: '100%'}">
                   <a-input v-model:value="article.location" />
                 </a-form-item>
                 <a-space>
@@ -312,9 +326,9 @@ function moveList() {
                 :src="imgURL"
                 :style="{
                   display: 'flex',
-                  width: '140px',
-                  height: '140px',
-                  alignContent: 'center',
+                  width: '180px',
+                  height: '180px',
+                  marginTop: '40px'
                 }"
               />
             </div>
