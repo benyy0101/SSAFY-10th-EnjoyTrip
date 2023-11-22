@@ -12,6 +12,7 @@ import {
   updateImg,
 } from "@/api/user";
 import { Modal } from "ant-design-vue";
+import { message } from "ant-design-vue";
 
 const { VITE_IMGBB_KEY } = import.meta.env;
 
@@ -205,24 +206,28 @@ function update() {
 
 function check() {
   console.log("아이디 체크", member.value.userId);
-  idCheck(
-    member.value.userId,
-    ({ data }) => {
-      console.log("idCheck...................success, data: ", data);
-      if (data === 0) {
-        Modal.success({
-          title: "사용 가능한 아이디입니다.",
-        });
-      } else {
-        Modal.warning({
-          title: "사용할 수 없는 아이디입니다.",
-        });
-      }
-    },
-    (err) => {
-      console.log(err);
+  if (props.type === "regist") {
+    if (member.value.userId.length === 0) {
+      message.error("아이디를 입력해주세요.");
+    } else {
+      idCheck(
+        member.value.userId,
+        ({ data }) => {
+          console.log("idCheck...................success, data: ", data);
+          if (data === 0) {
+            message.success("사용 가능한 아이디입니다.");
+          } else {
+            message.warning("사용할 수 없는 아이디입니다.");
+          }
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
     }
-  );
+  } else {
+    message.error("아이디는 수정하실 수 없습니다.");
+  }
 }
 </script>
 
@@ -341,14 +346,14 @@ function check() {
                 placeholder="아이디"
               />
               <a-button
-              :style="{
-                    backgroundColor: '#ff7f50',
-                    color: 'aliceblue',
-                    borderRadius: '3rem',
-                    fontSize: '16px',
-                    fontWeight: 'Bold',
-                    marginLeft: '10px'
-                  }"
+                :style="{
+                  backgroundColor: '#ff7f50',
+                  color: 'aliceblue',
+                  borderRadius: '3rem',
+                  fontSize: '16px',
+                  fontWeight: 'Bold',
+                  marginLeft: '10px',
+                }"
                 @click="check"
                 >아이디 체크</a-button
               >
@@ -393,7 +398,7 @@ function check() {
               :style="{
                 display: 'flex',
                 justifyContent: 'center',
-                marginTop:'80px'
+                marginTop: '80px',
               }"
             >
               <a-button
@@ -413,18 +418,19 @@ function check() {
               :style="{
                 display: 'flex',
                 justifyContent: 'center',
-                marginTop:'80px'
+                marginTop: '80px',
               }"
             >
-              <a-button 
-              :style="{
+              <a-button
+                :style="{
                   backgroundColor: '#ff7f50',
                   color: 'aliceblue',
                   borderRadius: '3rem',
                   fontSize: '18px',
                   fontWeight: 'Bold',
                 }"
-                html-type="submit">
+                html-type="submit"
+              >
                 회원 정보 수정
               </a-button>
             </div>

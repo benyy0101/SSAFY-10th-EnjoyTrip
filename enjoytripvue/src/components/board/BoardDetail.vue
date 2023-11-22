@@ -6,8 +6,9 @@ import { detailArticle, deleteArticle } from '@/api/board';
 import { listComment, writeComment } from '@/api/comment';
 import CommentListItem from '@/components/board/item/CommentListItem.vue';
 import { useMemberStore } from '@/stores/member';
+import { storeToRefs } from "pinia";
 const memberStore = useMemberStore();
-const { userInfo } = memberStore;
+const { getUser: userInfo } = storeToRefs(memberStore);
 
 const route = useRoute();
 const router = useRouter();
@@ -17,6 +18,7 @@ const { articleno } = route.params;
 const article = ref({});
 const comments = ref({});
 const num = ref(0);
+
 const sendComment = ref({
   articleNo: articleno,
   userId: '',
@@ -49,8 +51,6 @@ const getArticle = () => {
       console.log(err);
     }
   );
-  // const cookie = this.$cookies.get('boardView');
-  // console.log("쿠키당", cookie);
 };
 
 const getComment = () => {
@@ -112,7 +112,8 @@ function onSubmit() {
 }
 
 function onSendComment() {
-  console.log(userInfo);
+  console.log("보내줘?", userInfo.value.userId);
+  sendComment.value.userId = userInfo.value.userId;
   writeComment(
     sendComment.value,
     ({ data }) => {
@@ -205,7 +206,7 @@ function onSendComment() {
             <div
               :style="{
                 border: '1px solid',
-                borderColor: '#ABC9FF',
+                borderColor: '#ff7f50',
                 opacity: '80%',
                 padding: '36px',
                 marginTop: '20px',
@@ -226,13 +227,12 @@ function onSendComment() {
               }"
             >
               <a-button
-                :style="{
-                  color: '#ABC9FF',
-                  borderColor: '#ABC9FF',
-                  border: '2px solid',
-                  fontSize: '15px',
+              :style="{
+                  backgroundColor: '#ff7f50',
+                  color: 'aliceblue',
+                  borderRadius: '3rem',
+                  fontSize: '17px',
                   fontWeight: 'Bold',
-                  margin: '6px',
                 }"
                 type="button"
                 @click="moveList"
@@ -240,13 +240,13 @@ function onSendComment() {
                 글목록
               </a-button>
               <a-button
-                :style="{
-                  color: '#ABC9FF',
-                  borderColor: '#ABC9FF',
-                  border: '2px solid',
-                  fontSize: '15px',
+              :style="{
+                  backgroundColor: '#ff7f50',
+                  color: 'aliceblue',
+                  borderRadius: '3rem',
+                  fontSize: '17px',
                   fontWeight: 'Bold',
-                  margin: '6px',
+                  marginLeft: '20px'
                 }"
                 type="button"
                 @click="moveModify"
@@ -254,13 +254,13 @@ function onSendComment() {
                 글수정
               </a-button>
               <a-button
-                :style="{
-                  color: '#ABC9FF',
-                  borderColor: '#ABC9FF',
-                  border: '2px solid',
-                  fontSize: '15px',
+              :style="{
+                  backgroundColor: '#ff7f50',
+                  color: 'aliceblue',
+                  borderRadius: '3rem',
+                  fontSize: '17px',
                   fontWeight: 'Bold',
-                  margin: '6px',
+                  marginLeft: '20px'
                 }"
                 type="button"
                 @click="onDeleteArticle"
@@ -268,7 +268,7 @@ function onSendComment() {
                 글삭제
               </a-button>
             </div>
-            <a-divider />
+            <a-divider :style="{marginTop:'60px'}"/>
             <div :style="{ paddingTop: '20px', paddingBottom: '20px' }">
               댓글 {{ num }}
             </div>
@@ -289,13 +289,13 @@ function onSendComment() {
                 }"
               >
                 <a-button
-                  :style="{
-                    color: '#ABC9FF',
-                    borderColor: '#ABC9FF',
-                    border: '2px solid',
-                    fontSize: '15px',
-                    fontWeight: 'Bold',
-                  }"
+                :style="{
+                  backgroundColor: '#ff7f50',
+                  color: 'aliceblue',
+                  borderRadius: '3rem',
+                  fontSize: '16px',
+                  fontWeight: 'Bold',
+                }"
                   html-type="submit"
                 >
                   댓글 작성

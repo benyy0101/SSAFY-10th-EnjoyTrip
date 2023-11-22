@@ -8,10 +8,8 @@ import ToastEditor from '@/components/board/item/ToastUIEditor.vue';
 import { useMemberStore } from '@/stores/member';
 import { storeToRefs } from 'pinia';
 const memberStore = useMemberStore();
-const { userInfo } = storeToRefs(memberStore);
-const { getUserInfo } = memberStore;
-let token = sessionStorage.getItem('accessToken');
-getUserInfo(token);
+const { getUser: userInfo } = storeToRefs(memberStore);
+
 
 const { VITE_IMGBB_KEY } = import.meta.env;
 
