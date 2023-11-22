@@ -393,6 +393,7 @@ function check() {
               :style="{
                 display: 'flex',
                 justifyContent: 'center',
+                marginTop:'80px'
               }"
             >
               <a-button
@@ -412,6 +413,7 @@ function check() {
               :style="{
                 display: 'flex',
                 justifyContent: 'center',
+                marginTop:'80px'
               }"
             >
               <a-button 
