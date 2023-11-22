@@ -63,7 +63,10 @@ function moveUserModify() {
 function moveBoardWrite() {
   router.push({ name: "article-write" });
 }
-console.log("articles 출력", articles);
+
+function movePlan() {
+  router.push({ name: "plan-list" });
+}
 </script>
 
 <template>
@@ -156,6 +159,20 @@ console.log("articles 출력", articles);
                   @click="moveBoardWrite"
                 >
                   글쓰기
+                </a-button>
+                <a-button
+                :style="{
+                  backgroundColor: '#ff7f50',
+                  color: 'aliceblue',
+                  borderRadius: '3rem',
+                  fontSize: '17px',
+                  fontWeight: 'Bold',
+                  marginLeft: '20px'
+                }"
+                  type="button"
+                  @click="movePlan"
+                >
+                  나의 여행 계획
                 </a-button>
               </div>
             </div>
