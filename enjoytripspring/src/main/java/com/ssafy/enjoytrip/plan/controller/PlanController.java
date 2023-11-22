@@ -69,4 +69,30 @@ public class PlanController {
         }
         return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     }
+
+    @GetMapping("/list")
+    public ResponseEntity<?> getPlanList(@RequestParam String userId){
+        //logger.debug("EXECUTED..............................");
+        List<PlanDto> planList = planService.getPlanList(userId);
+        List<List<List<PlanTimeDetailDto>>> result = new ArrayList<>();
+        //logger.debug("planList..............................................:{}", planList);
+        for(int i = 0, end = planList.size(); i< end;i++){
+            List<PlanDateDetailDto> dateList = planDateService.getDateList(planList.get(i).getPlanNo());
+            //logger.debug("dateList..............................................:{}", dateList);
+            List<List<PlanTimeDetailDto>> temp = new ArrayList<>();
+            for(int j = 0, end2 = dateList.size(); j < end2;j++){
+                List<PlanTimeDetailDto> timeList = planTimeService.getTimeList(dateList.get(j).getDateNo());
+                for(int k = 0, end3 = timeList.size(); k < end3;k++){
+                    int contentId = Integer.parseInt(timeList.get(i).getLocation());
+
+                }
+                //logger.debug("timeList..............................................:{}", timeList);
+                temp.add(timeList);
+            }
+            result.add(temp);
+        }
+        return new ResponseEntity<List<List<List<PlanTimeDetailDto>>>>(result, HttpStatus.OK);
+        //return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
 }

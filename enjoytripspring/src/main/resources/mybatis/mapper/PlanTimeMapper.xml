@@ -7,4 +7,11 @@
 		insert into plantime(dateNo, location)
 		values(#{dateNo}, #{location})
 	</insert>
+
+	<select id="getTimeList" parameterType="int" resultType="PlanTimeDetailDto">
+		select timeNo, dateNo, location, timeMemo from plantime
+		where dateNo = #{dateNo}
+	</select>
+
+
 </mapper>

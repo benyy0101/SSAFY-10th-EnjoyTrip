@@ -7,4 +7,9 @@
 		insert into plan(title, endDate, startDate,userId)
 		values(#{title},#{endDate},#{startDate},#{userId})
 	</insert>
+
+	<select id="getPlanList" parameterType="String" resultType="PlanDto">
+		select planNo, userId, title, memo,startDate,endDate from plan
+		where userId = #{userId}
+	</select>
 </mapper>

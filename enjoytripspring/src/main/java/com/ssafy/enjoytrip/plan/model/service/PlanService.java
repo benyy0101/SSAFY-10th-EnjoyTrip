@@ -13,4 +13,6 @@ public interface PlanService {
 	void modifyPlan(PlanDto planDto);
 	void deletePlan(int plan_no);
 	PageNavigation makePageNavigation(Map<String, String> map);
+	List<PlanDto> getPlanList(String userId);
+
 }

@@ -46,6 +46,15 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	@Override
+	public List<PlanDto> getPlanList(String userId) {
+		try{
+			return planDao.getPlanList(userId);
+		} catch (SQLException e) {
+			throw new PlanException("계획 등록 중 오류 발생");
+        }
+    }
+
+	@Override
 	public PlanDto getPlan(int plan_no) {
 		try {
 			PlanDto plan = planDao.getPlan(plan_no);
