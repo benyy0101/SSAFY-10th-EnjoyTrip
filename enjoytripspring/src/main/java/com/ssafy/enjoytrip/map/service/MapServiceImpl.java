@@ -11,6 +11,7 @@ import com.ssafy.enjoytrip.map.model.dto.GugunDto;
 import com.ssafy.enjoytrip.map.model.dto.MapException;
 import com.ssafy.enjoytrip.map.model.dto.MarkerDto;
 import com.ssafy.enjoytrip.map.model.dto.SidoDto;
+import org.yaml.snakeyaml.error.Mark;
 
 @Service
 public class MapServiceImpl implements MapService {
@@ -61,4 +62,13 @@ public class MapServiceImpl implements MapService {
 		}
 	}
 
+	@Override
+	public MarkerDto getMarkerById(int contentId) {
+		try {
+			return mapDao.getMarkerById(contentId);
+		}
+		catch (Exception e){
+			throw new MapException("관광지 조회 중 오류 발생");
+		}
+	};
 }
