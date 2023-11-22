@@ -95,13 +95,18 @@ const router = createRouter({
       path: '/plan',
       name: 'plan',
       component: ThePlanViewVue,
-      children:[
+      children: [
         {
-          path:'list',
-          name:'plan-list',
-          component: () =>import('@/components/plan/PlanList.vue')
-        }
-      ]
+          path: 'list',
+          name: 'plan-list',
+          component: () => import('@/components/plan/PlanList.vue'),
+        },
+        {
+          path: 'view/:planno',
+          name: 'plan-view',
+          component: () => import('@/components/plan/PlanDetail.vue'),
+        },
+      ],
     },
   ],
 });
