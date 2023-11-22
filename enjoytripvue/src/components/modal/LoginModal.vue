@@ -5,6 +5,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 import { useMemberStore } from '@/stores/member';
+import { message } from 'ant-design-vue';
 const router = useRouter();
 
 const memberStore = useMemberStore();
@@ -44,9 +45,9 @@ watch(
 
 function onSubmit() {
   if (userIdErrMsg.value) {
-    alert(userIdErrMsg.value);
+    message.warning("아이디를 입력해주세요!")
   } else if (userPwdErrMsg.value) {
-    alert(userPwdErrMsg.value);
+    message.warning("비밀번호를 입력해주세요!")
   } else {
     loginMember();
   }
