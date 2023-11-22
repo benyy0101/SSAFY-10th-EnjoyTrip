@@ -38,7 +38,11 @@
         </div>
         <a-divider />
         <h2>계절별 여행지 추천</h2>
-        <a-tabs v-model:activeKey="activeKey" type="card" :style="{marginTop:'40px'}">
+        <a-tabs
+          v-model:activeKey="activeKey"
+          type="card"
+          :style="{ marginTop: '40px' }"
+        >
           <a-tab-pane key="spring">
             <template #tab>
               <span>
@@ -75,12 +79,12 @@
       </div>
     </div>
   </a-layout-content>
-  <a-carousel :after-change="onChange" class="main-page">
+  <!-- <a-carousel :after-change="onChange" class="main-page">
     <video src="@/assets/carousel5.mp4" autoplay controls muted></video>
     <video src="@/assets/carousel2.mp4" autoplay controls muted></video>
     <video src="@/assets/carousel3.mp4" autoplay controls muted></video>
     <video src="@/assets/carousel4.mp4" autoplay controls muted></video>
-  </a-carousel>
+  </a-carousel> -->
 </template>
 
 <style scoped>
