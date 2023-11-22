@@ -1,11 +1,11 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { getImg } from '@/api/user';
-import { listMyArticle } from '@/api/board';
-import { useMemberStore } from '@/stores/member';
-import { storeToRefs } from 'pinia';
-import MyPageItem from '@/components/member/item/MyPageItem.vue';
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { getImg } from "@/api/user";
+import { listMyArticle } from "@/api/board";
+import { useMemberStore } from "@/stores/member";
+import { storeToRefs } from "pinia";
+import MyPageItem from "@/components/member/item/MyPageItem.vue";
 const memberStore = useMemberStore();
 const { getUser: userInfo } = storeToRefs(memberStore);
 const router = useRouter();
@@ -14,20 +14,22 @@ const articles = ref({});
 
 const profile = ref({
   userId: userInfo.value.userId,
-  profileImg: '',
+  profileImg: "",
 });
 
 // 필요한 데이터를 위해 API 미리 호출
-getProfileImg();
-getMyArticle();
+onMounted(() => {
+  getProfileImg();
+  getMyArticle();
+});
 
 function getProfileImg() {
-  console.log('프로필 이미지 가져오자!');
+  console.log("프로필 이미지 가져오자!");
   // API 호출
   getImg(
     profile.value.userId,
     (res) => {
-      console.log('이거 프로필?', res.data);
+      console.log("이거 프로필?", res.data);
       profile.value.profileImg = res.data;
       url.value = profile.value.profileImg;
     },
@@ -38,13 +40,14 @@ function getProfileImg() {
 }
 
 function getMyArticle() {
-  console.log('나의 여행 후기 글 리스트 가져오자!');
+  console.log("나의 여행 후기 글 리스트 가져오자!");
   // API 호출
   listMyArticle(
     profile.value.userId,
     (res) => {
-      console.log('나의 여행 후기 글 리스트?', res.data);
+      console.log("나의 여행 후기 글 리스트?", res.data);
       articles.value = res.data;
+      console.log("articles 출력", articles.value[0]);
     },
     (error) => {
       console.log(error);
@@ -54,12 +57,13 @@ function getMyArticle() {
 
 function moveUserModify() {
   const userId = userInfo.value.userId;
-  router.push({ name: 'member-modify', params: { userId } });
+  router.push({ name: "member-modify", params: { userId } });
 }
 
 function moveBoardWrite() {
-  router.push({ name: 'article-write' });
+  router.push({ name: "article-write" });
 }
+console.log("articles 출력", articles);
 </script>
 
 <template>
@@ -159,21 +163,14 @@ function moveBoardWrite() {
           </div>
         </div>
         <a-divider />
-        <div :style="{ display: 'flex', flexDirection: 'row' }">
+        <h3>나의 여행 후기</h3>
+        <a-row :gutter="[16, 16]">     
           <MyPageItem
             v-for="article in articles"
             :key="article.articleNo"
             :article="article"
           ></MyPageItem>
-          <a-card hoverable :style="{ width: '250px', margin: '20px' }">
-            <template #cover>
-              <img src="@/assets/dog.jpg" />
-            </template>
-            <a-card-meta title="Europe Street beat">
-              <template #description>안녕</template>
-            </a-card-meta>
-          </a-card>
-        </div>
+        </a-row>
       </div>
     </div>
   </a-layout-content>

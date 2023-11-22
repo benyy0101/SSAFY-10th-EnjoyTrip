@@ -44,13 +44,13 @@ const getArticle = () => {
         timeInfo[1].split(':').slice(0, 2).join(':');
       article.value.startDate = article.value.startDate.replaceAll('-', '.');
       article.value.endDate = article.value.endDate.replaceAll('-', '.');
-      //console.log(time.value);
-      //console.log(date.value);
     },
     (err) => {
       console.log(err);
     }
   );
+  // const cookie = this.$cookies.get('boardView');
+  // console.log("쿠키당", cookie);
 };
 
 const getComment = () => {
