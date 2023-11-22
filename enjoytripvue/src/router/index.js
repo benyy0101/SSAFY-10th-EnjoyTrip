@@ -100,7 +100,6 @@ const router = createRouter({
           path:'list',
           name:'plan-list',
           component: () =>import('@/components/plan/PlanList.vue')
-          
         }
       ]
     },
