@@ -33,7 +33,7 @@
 	</select>
 	
 	<select id="userInfo" parameterType="String" resultType="MemberDto">
-		select userName, userId, emailId, emailDomain, joinDate
+		select userName, userId, userPwd, emailId, emailDomain, joinDate
 		from member
 		where userId = #{userId}
 	</select>
