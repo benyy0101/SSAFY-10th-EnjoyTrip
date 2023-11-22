@@ -8,6 +8,7 @@ import { usePlanStore } from "@/stores/plan";
 import { useMemberStore } from "@/stores/member";
 import {insertPlan} from "@/api/plan";
 import { useRouter} from 'vue-router'
+import dayjs from "dayjs";
 
 const router = useRouter();
 const option = ref([]); //지역 검색을 위한 옵션
@@ -58,6 +59,8 @@ watch(totalInfo, () => {
 , { deep: true });
 
 const addDayInfo = (data) => {
+  //console.log("startDate..........",startDate.value);
+  //console.log("curPage.value...............", curPage.value)
   const curDate = startDate.value.add(curPage.value - 1, 'day').format('YYYY-MM-DD').toString();
   totalInfo.value[curDate] = data;
 };
@@ -122,8 +125,11 @@ const saveCurLoc = (data)=>{
 .mapWrapper {
   position: relative;
   display: flex;
+  overflow: hidden;
 }
 .progress-bar {
   position: fixed;
 }
+
+
 </style>
