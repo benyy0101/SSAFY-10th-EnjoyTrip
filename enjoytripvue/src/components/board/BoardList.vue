@@ -140,11 +140,11 @@ const columns = [
           >
             <div class="menu-bar">
               <a-button
-                :style="{
-                  color: '#ABC9FF',
-                  borderColor: '#ABC9FF',
-                  border: '2px solid',
-                  fontSize: '15px',
+              :style="{
+                  backgroundColor: '#ff7f50',
+                  color: 'aliceblue',
+                  borderRadius: '3rem',
+                  fontSize: '16px',
                   fontWeight: 'Bold',
                 }"
                 @click="moveWrite"
@@ -165,13 +165,13 @@ const columns = [
                   placeholder="검색어"
                 />
                 <a-button
-                  :style="{
-                    color: '#ABC9FF',
-                    borderColor: '#ABC9FF',
-                    border: '2px solid',
-                    fontSize: '15px',
-                    fontWeight: 'Bold',
-                  }"
+                :style="{
+                  backgroundColor: '#ff7f50',
+                  color: 'aliceblue',
+                  borderRadius: '3rem',
+                  fontSize: '16px',
+                  fontWeight: 'Bold',
+                }"
                   @click="getArticleList"
                 >
                   검색하기

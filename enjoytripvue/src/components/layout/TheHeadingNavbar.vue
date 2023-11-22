@@ -2,7 +2,8 @@
 import { inject, watch, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useMemberStore } from '@/stores/member';
-
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const memberStore = useMemberStore();
 const { isLogin } = storeToRefs(memberStore);
 const { userLogout } = memberStore;
@@ -24,11 +25,15 @@ const logoutMember = async () => {
   console.log(getUser.value);
   await userLogout(getUser.value.userId);
 };
+
+function moveHome() {
+  router.push({ name: 'main' });
+}
 </script>
 
 <template>
   <div class="navbar-container">
-    <img src="@/assets/mainLogo.png" id="logo" :style="{width:'80px', height:'80px'}" />
+    <img src="@/assets/mainLogo.png" id="logo" :style="{width:'80px', height:'80px'}"  @click="moveHome"/>
     <a-menu
       mode="horizontal"
       v-model:selectedKeys="selectedKeys"

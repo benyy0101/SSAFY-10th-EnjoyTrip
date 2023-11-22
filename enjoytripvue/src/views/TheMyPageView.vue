@@ -131,28 +131,27 @@ console.log("articles 출력", articles);
                 }"
               >
                 <a-button
-                  :style="{
-                    color: '#ABC9FF',
-                    borderColor: '#ABC9FF',
-                    border: '2px solid',
-                    fontSize: '15px',
-                    fontWeight: 'Bold',
-                    marginRight: '8px',
-                  }"
+                :style="{
+                  backgroundColor: '#ff7f50',
+                  color: 'aliceblue',
+                  borderRadius: '3rem',
+                  fontSize: '17px',
+                  fontWeight: 'Bold',
+                }"
                   type="button"
                   @click="moveUserModify"
                 >
                   회원 정보 수정
                 </a-button>
                 <a-button
-                  :style="{
-                    color: '#ABC9FF',
-                    borderColor: '#ABC9FF',
-                    border: '2px solid',
-                    fontSize: '15px',
-                    fontWeight: 'Bold',
-                    marginLeft: '8px',
-                  }"
+                :style="{
+                  backgroundColor: '#ff7f50',
+                  color: 'aliceblue',
+                  borderRadius: '3rem',
+                  fontSize: '17px',
+                  fontWeight: 'Bold',
+                  marginLeft: '20px'
+                }"
                   type="button"
                   @click="moveBoardWrite"
                 >
@@ -163,7 +162,7 @@ console.log("articles 출력", articles);
           </div>
         </div>
         <a-divider />
-        <h3>나의 여행 후기</h3>
+        <h2 :style="{marginLeft:'30px', marginTop:'50px'}">나의 여행 후기</h2>
         <a-row :gutter="[16, 16]">     
           <MyPageItem
             v-for="article in articles"
