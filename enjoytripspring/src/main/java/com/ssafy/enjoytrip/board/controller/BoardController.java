@@ -2,6 +2,9 @@ package com.ssafy.enjoytrip.board.controller;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -51,12 +54,39 @@ public class BoardController {
     @ApiOperation(value="여행 후기 글 조회", notes = "여행 후기 글을 조회한다.")
    	@ApiResponse(code = 200, message="success")
     @GetMapping("/{articleNo}")
-    public ResponseEntity<?> getReviewBoard(@PathVariable int articleNo) {
+    public ResponseEntity<?> getReviewBoard(@PathVariable int articleNo, HttpServletRequest request, HttpServletResponse response) {
     	logger.debug("get.....articleNo:{}", articleNo);
-        BoardDto board = boardService.getArticle(articleNo);
-        System.out.println(board);
-        
-        if(board != null) {
+    	
+        // 조회수 로직
+		Cookie[] cookies = request.getCookies();
+		Cookie oldCookie = null;
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("boardView")) {
+					oldCookie = cookie;
+				}
+			}
+		}
+		if (oldCookie != null) {
+			if (!oldCookie.getValue().contains("["+ Integer.toString(articleNo) +"]")) {
+				boardService.updateHit(articleNo);
+				oldCookie.setValue(oldCookie.getValue() + "_[" + articleNo + "]");
+				oldCookie.setPath("/");
+				oldCookie.setMaxAge(60 * 60 * 24); 							// 쿠키 시간
+				response.addCookie(oldCookie);
+			}
+		} else {
+			boardService.updateHit(articleNo);
+			Cookie newCookie = new Cookie("boardView", "[" + articleNo + "]");
+			newCookie.setPath("/");
+			newCookie.setMaxAge(60 * 60 * 24); 								// 쿠키 시간
+			response.addCookie(newCookie);
+		}
+		
+		BoardDto board = boardService.getArticle(articleNo);
+    	System.out.println(board);
+    	
+		if(board != null) {
         	return new ResponseEntity<BoardDto>(board, HttpStatus.OK);
         }
         else {
