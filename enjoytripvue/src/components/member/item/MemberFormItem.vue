@@ -9,7 +9,7 @@ import {
   insertImg,
   idCheck,
   getImg,
-  updateImg
+  updateImg,
 } from "@/api/user";
 import { Modal } from "ant-design-vue";
 
@@ -248,7 +248,10 @@ function check() {
       }"
     >
       <div class="wholeDiv" :style="{ width: '100%' }">
-        <div v-if="props.type === 'regist'" :style="{ display: 'flex', alignItems: 'flex-start' }">
+        <div
+          v-if="props.type === 'regist'"
+          :style="{ display: 'flex', alignItems: 'flex-start' }"
+        >
           <img src="@/assets/signup.gif" :style="{ width: '80px' }" />
           <div
             :style="{
@@ -281,6 +284,7 @@ function check() {
           :style="{
             padding: '30px',
             marginTop: '30px',
+            height: '80vh',
             display: 'flex',
             justifyContent: 'center',
           }"
@@ -316,12 +320,11 @@ function check() {
                 />
                 <a-button
                   :style="{
-                    color: '#ABC9FF',
-                    borderColor: '#ABC9FF',
-                    border: '2px solid',
-                    fontSize: '15px',
+                    backgroundColor: '#ff7f50',
+                    color: 'aliceblue',
+                    borderRadius: '3rem',
+                    fontSize: '16px',
                     fontWeight: 'Bold',
-                    margin: '6px',
                   }"
                   @click="upload"
                 >
@@ -332,19 +335,20 @@ function check() {
 
             <a-form-item :style="{ width: '100%', display: 'flex' }">
               <a-input
-                :style="{ width: '70%' }"
+                :style="{ width: '66%' }"
                 v-model:value="member.userId"
                 :disabled="isUseId"
                 placeholder="아이디"
               />
               <a-button
-                :style="{
-                  color: '#ABC9FF',
-                  borderColor: '#ABC9FF',
-                  border: '2px solid',
-                  fontWeight: 'Bold',
-                  marginLeft: '5px',
-                }"
+              :style="{
+                    backgroundColor: '#ff7f50',
+                    color: 'aliceblue',
+                    borderRadius: '3rem',
+                    fontSize: '16px',
+                    fontWeight: 'Bold',
+                    marginLeft: '10px'
+                  }"
                 @click="check"
                 >아이디 체크</a-button
               >
@@ -384,51 +388,41 @@ function check() {
                 </template>
               </a-input>
             </a-form-item>
-            <div v-if="props.type === 'regist'"
+            <div
+              v-if="props.type === 'regist'"
               :style="{
                 display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: '20px',
                 justifyContent: 'center',
-                marginTop: '20px',
               }"
             >
               <a-button
                 :style="{
-                  color: '#ABC9FF',
-                  borderColor: '#ABC9FF',
-                  border: '2px solid',
-                  fontSize: '15px',
+                  backgroundColor: '#ff7f50',
+                  color: 'aliceblue',
+                  borderRadius: '3rem',
+                  fontSize: '18px',
                   fontWeight: 'Bold',
-                  margin: '6px',
                 }"
                 html-type="submit"
-              >
-                회원가입
+                >회원가입
               </a-button>
             </div>
-            <div v-else
+            <div
+              v-else
               :style="{
                 display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: '20px',
                 justifyContent: 'center',
-                marginTop: '20px',
               }"
             >
-              <a-button
-                :style="{
-                  color: '#ABC9FF',
-                  borderColor: '#ABC9FF',
-                  border: '2px solid',
-                  fontSize: '15px',
+              <a-button 
+              :style="{
+                  backgroundColor: '#ff7f50',
+                  color: 'aliceblue',
+                  borderRadius: '3rem',
+                  fontSize: '18px',
                   fontWeight: 'Bold',
-                  margin: '6px',
                 }"
-                html-type="submit"
-              >
+                html-type="submit">
                 회원 정보 수정
               </a-button>
             </div>
@@ -439,4 +433,13 @@ function check() {
   </a-layout-content>
 </template>
 
-<style scoped></style>
+<style scoped>
+.btn {
+  background-color: #ff7f50;
+  border: none;
+  font-weight: 800;
+  border-radius: 3rem;
+  font-size: 18px;
+  color: aliceblue;
+}
+</style>
